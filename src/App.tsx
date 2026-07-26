@@ -36,7 +36,7 @@ export function App() {
     addBet,
   } = useCornerFlagStore();
 
-  const { user, isLoading: isAuthLoading, signIn, signUp, signOut } = useAuthStore();
+  const { user, isLoading: isAuthLoading, initializeAuth, signIn, signUp, signOut } = useAuthStore();
 
   // Auth Form State for Landing Page
   const [authMode, setAuthMode] = useState<'signIn' | 'signUp'>('signIn');
@@ -59,8 +59,9 @@ export function App() {
   const [calcOdd, setCalcOdd] = useState<number>(1.95);
 
   useEffect(() => {
+    initializeAuth();
     loadInitialData();
-  }, [loadInitialData]);
+  }, [initializeAuth, loadInitialData]);
 
   const handleLandingAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
