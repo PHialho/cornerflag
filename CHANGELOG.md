@@ -26,6 +26,8 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ---
 
+## [v0.003] - 2026-07-26 *(Branch originária: `authentication` ➔ `develop`)*
+
 ### Added
 - Sistema completo de **Autenticação (Sign Up / Sign In / Sign Out)** com **Supabase Auth**.
 - Store global reativa de autenticação em [src/store/useAuthStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useAuthStore.ts).
@@ -34,6 +36,8 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 - Controlo de sessão e avatar de utilizador na Top Navbar em [src/App.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/App.tsx).
 
 ---
+
+## [v0.002] - 2026-07-26 *(Branch originária: `project_init` ➔ `develop`)*
 
 ### Added
 - Inicialização da aplicação Web (React 19 + TypeScript + Vite 6) na branch `project_init`.
