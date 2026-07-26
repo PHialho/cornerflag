@@ -12,6 +12,17 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ## [Unreleased]
 
+## [v0.004] - 2026-07-26 *(Branch originária: `dashboard` ➔ `develop`)*
+
+### Added
+- **Menu Lateral (Sidebar Navigation)** em [src/components/layout/Sidebar.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/layout/Sidebar.tsx) com alternância de bancas ativas, navegação modular e perfil do utilizador.
+- **Filtro de Período de Análise** em [src/components/dashboard/PeriodFilter.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/dashboard/PeriodFilter.tsx) com opções em linha única: *Hoje*, *Ontem*, *Mês Corrente* (padrão), *Mês Anterior*, *Últimos 30 Dias*, *Este Ano*, *Todo o Histórico* e *Personalizado*.
+- **Popover Flutuante em Hover/Clique** para seleção de intervalo de datas (De / Até) com suporte a ponte contínua de cursor.
+- **Métricas Chave Recalculadas por Período**: Resultado do Período, Lucro Médio por aposta, ROI % e Saldo Final acumulado.
+- Botão **"+ Nova Aposta"** no topo da página e Modal interativo de registo em [src/components/dashboard/Dashboard.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/dashboard/Dashboard.tsx).
+
+---
+
 ## [v0.003] - 2026-07-26 *(Branch originária: `authentication` ➔ `develop`)*
 
 ### Added
@@ -22,6 +33,8 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 - Controlo de sessão e avatar de utilizador na Top Navbar em [src/App.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/App.tsx).
 
 ---
+
+## [v0.002] - 2026-07-26 *(Branch originária: `project_init` ➔ `develop`)*
 
 ### Added
 - Inicialização da aplicação Web (React 19 + TypeScript + Vite 6) na branch `project_init`.
