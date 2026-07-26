@@ -9,9 +9,14 @@ import {
   CornerDownRight,
   ShieldAlert,
   Activity,
+  LogIn,
+  LogOut,
+  UserCheck,
 } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
 import { useCornerFlagStore } from './store/useCornerFlagStore';
+import { useAuthStore } from './store/useAuthStore';
+import { AuthModal } from './components/auth/AuthModal';
 import { calculateROI, calculateEV, calculateKellyStake, type BetResult } from './lib/math/calculator';
 
 export function App() {
@@ -23,6 +28,12 @@ export function App() {
     loadInitialData,
     addBet,
   } = useCornerFlagStore();
+
+  const { user, initializeAuth, signOut } = useAuthStore();
+
+  // Modal Auth State
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<'signIn' | 'signUp'>('signIn');
 
   // Form State
   const [match, setMatch] = useState('');
@@ -37,8 +48,9 @@ export function App() {
   const [calcOdd, setCalcOdd] = useState<number>(1.95);
 
   useEffect(() => {
+    initializeAuth();
     loadInitialData();
-  }, [loadInitialData]);
+  }, [loadInitialData, initializeAuth]);
 
   const activeBankroll = bankrolls.find((b) => b.id === activeBankrollId);
 
@@ -112,13 +124,48 @@ export function App() {
           </div>
         </div>
 
-        {/* Bankroll Selector */}
+        {/* Bankroll & Auth Actions */}
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-2 bg-[#0B0E14] border border-[#1E2638] px-3 py-1.5 rounded-lg text-sm">
             <Wallet className="w-4 h-4 text-emerald-400" />
             <span className="text-gray-400 text-xs">Banca:</span>
             <span className="font-semibold text-white">{activeBankroll?.name}</span>
           </div>
+
+          {user ? (
+            <div className="flex items-center gap-3 bg-[#0B0E14] border border-[#1E2638] pl-3 pr-2 py-1 rounded-xl text-xs">
+              <UserCheck className="w-4 h-4 text-emerald-400" />
+              <span className="text-gray-300 font-medium">{user.user_metadata?.full_name || user.email}</span>
+              <button
+                onClick={() => signOut()}
+                title="Terminar Sessão"
+                className="p-1.5 hover:bg-[#1E2638] text-gray-400 hover:text-rose-400 rounded-lg transition-colors"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  setAuthModalMode('signIn');
+                  setIsAuthModalOpen(true);
+                }}
+                className="px-3 py-1.5 bg-[#0B0E14] border border-[#1E2638] hover:border-emerald-500/50 text-gray-200 hover:text-white rounded-lg text-xs font-semibold transition-colors flex items-center gap-1.5"
+              >
+                <LogIn className="w-3.5 h-3.5 text-emerald-400" /> Entrar
+              </button>
+              <button
+                onClick={() => {
+                  setAuthModalMode('signUp');
+                  setIsAuthModalOpen(true);
+                }}
+                className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-600 text-gray-950 rounded-lg text-xs font-semibold transition-colors"
+              >
+                Criar Conta
+              </button>
+            </div>
+          )}
         </div>
       </header>
 
@@ -429,6 +476,12 @@ export function App() {
           </div>
         </div>
       </main>
+
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        defaultMode={authModalMode}
+      />
     </div>
   );
 }
