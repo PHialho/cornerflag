@@ -10,7 +10,6 @@ export const DEFAULT_SPORTS = [
   'Esports',
   'Futsal',
   'Voleibol',
-  'Outro',
 ];
 
 export const DEFAULT_STRATEGIES = [
