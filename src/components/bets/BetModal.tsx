@@ -9,6 +9,7 @@ import {
   Trophy,
   Wallet,
   Plus,
+  Check,
 } from 'lucide-react';
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
 import type { BetResult } from '../../lib/math/calculator';
@@ -19,35 +20,28 @@ interface BetModalProps {
   onClose: () => void;
 }
 
-export const SPORTS = [
-  'Futebol',
-  'Basquetebol',
-  'Ténis',
-  'Esports',
-  'Futsal',
-  'Voleibol',
-  'Outro',
-];
-
-export const STRATEGIES = [
-  'Over/Under Gols',
-  'Cantos (Corners)',
-  'Match Odds (1X2)',
-  'Lay ao Empate',
-  'Handicap Asiático',
-  'Ambas Marcam (BTTS)',
-  'Precificação +EV',
-  'Estratégia Personalizada',
-];
-
 export const BetModal: React.FC<BetModalProps> = ({ isOpen, onClose }) => {
-  const { bankrolls, activeBankrollId, addBet } = useCornerFlagStore();
+  const {
+    bankrolls,
+    activeBankrollId,
+    sports,
+    strategies,
+    addBet,
+    addSport,
+    addStrategy,
+  } = useCornerFlagStore();
 
   const [bankrollId, setBankrollId] = useState(activeBankrollId || bankrolls[0]?.id || '');
   const [betType, setBetType] = useState<BetType>('SIMPLE');
-  const [sport, setSport] = useState('Futebol');
-  const [strategy, setStrategy] = useState('Over/Under Gols');
-  const [customStrategy, setCustomStrategy] = useState('');
+  const [sport, setSport] = useState(sports[0] || 'Futebol');
+  const [strategy, setStrategy] = useState(strategies[0] || 'Over/Under Gols');
+
+  // Inline Add New Sport / Strategy States
+  const [isAddingSport, setIsAddingSport] = useState(false);
+  const [newSportName, setNewSportName] = useState('');
+
+  const [isAddingStrategy, setIsAddingStrategy] = useState(false);
+  const [newStrategyName, setNewStrategyName] = useState('');
 
   // Simple Bet State
   const [match, setMatch] = useState('');
@@ -74,6 +68,26 @@ export const BetModal: React.FC<BetModalProps> = ({ isOpen, onClose }) => {
   const finalOdd = betType === 'SIMPLE' ? odd : Math.round(computedMultipleOdd * 100) / 100;
   const estimatedPayout = Math.round(stake * finalOdd * 100) / 100;
 
+  const handleConfirmAddSport = () => {
+    const trimmed = newSportName.trim();
+    if (trimmed) {
+      addSport(trimmed);
+      setSport(trimmed);
+      setNewSportName('');
+    }
+    setIsAddingSport(false);
+  };
+
+  const handleConfirmAddStrategy = () => {
+    const trimmed = newStrategyName.trim();
+    if (trimmed) {
+      addStrategy(trimmed);
+      setStrategy(trimmed);
+      setNewStrategyName('');
+    }
+    setIsAddingStrategy(false);
+  };
+
   const handleAddLeg = () => {
     setLegs([
       ...legs,
@@ -96,15 +110,13 @@ export const BetModal: React.FC<BetModalProps> = ({ isOpen, onClose }) => {
     e.preventDefault();
     if (!bankrollId || stake <= 0) return;
 
-    const chosenStrategy = strategy === 'Estratégia Personalizada' ? customStrategy || 'Geral' : strategy;
-
     if (betType === 'SIMPLE') {
       if (!match || odd <= 1.0) return;
       await addBet({
         bankroll_id: bankrollId,
         bet_type: 'SIMPLE',
         sport,
-        strategy: chosenStrategy,
+        strategy,
         match,
         league: league || 'Geral',
         market: market || 'OVER_UNDER',
@@ -126,7 +138,7 @@ export const BetModal: React.FC<BetModalProps> = ({ isOpen, onClose }) => {
         bankroll_id: bankrollId,
         bet_type: 'MULTIPLE',
         sport,
-        strategy: chosenStrategy,
+        strategy,
         match: summaryMatch,
         league: 'Múltiplas',
         market: 'MULTIPLE',
@@ -196,6 +208,7 @@ export const BetModal: React.FC<BetModalProps> = ({ isOpen, onClose }) => {
 
           {/* Top Row: Bankroll, Sport, Strategy */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {/* Bankroll Dropdown */}
             <div>
               <label className="text-gray-400 block mb-1 font-medium flex items-center gap-1.5">
                 <Wallet className="w-3.5 h-3.5 text-emerald-400" /> Banca:
@@ -213,53 +226,134 @@ export const BetModal: React.FC<BetModalProps> = ({ isOpen, onClose }) => {
               </select>
             </div>
 
+            {/* Sport Dropdown with Add New Option */}
             <div>
-              <label className="text-gray-400 block mb-1 font-medium flex items-center gap-1.5">
-                <Trophy className="w-3.5 h-3.5 text-amber-400" /> Desporto:
-              </label>
-              <select
-                value={sport}
-                onChange={(e) => setSport(e.target.value)}
-                className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3 py-2.5 text-white font-medium focus:outline-none focus:border-emerald-500"
-              >
-                {SPORTS.map((s) => (
-                  <option key={s} value={s}>
-                    {s}
-                  </option>
-                ))}
-              </select>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-gray-400 font-medium flex items-center gap-1.5">
+                  <Trophy className="w-3.5 h-3.5 text-amber-400" /> Desporto:
+                </label>
+                {!isAddingSport && (
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingSport(true)}
+                    className="text-emerald-400 hover:text-emerald-300 text-[11px] flex items-center gap-0.5 font-semibold"
+                  >
+                    <Plus className="w-3 h-3" /> Novo
+                  </button>
+                )}
+              </div>
+
+              {isAddingSport ? (
+                <div className="flex items-center gap-1">
+                  <input
+                    type="text"
+                    placeholder="Nome do desporto..."
+                    value={newSportName}
+                    onChange={(e) => setNewSportName(e.target.value)}
+                    className="w-full bg-[#0B0E14] border border-emerald-500 rounded-xl px-2.5 py-2 text-white"
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={handleConfirmAddSport}
+                    className="p-2 bg-emerald-500 text-gray-950 rounded-xl hover:bg-emerald-600 transition-colors"
+                  >
+                    <Check className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingSport(false)}
+                    className="p-2 bg-[#0B0E14] text-gray-400 rounded-xl hover:text-white"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <select
+                  value={sport}
+                  onChange={(e) => {
+                    if (e.target.value === '__NEW__') {
+                      setIsAddingSport(true);
+                    } else {
+                      setSport(e.target.value);
+                    }
+                  }}
+                  className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3 py-2.5 text-white font-medium focus:outline-none focus:border-emerald-500"
+                >
+                  {sports.map((s) => (
+                    <option key={s} value={s}>
+                      {s}
+                    </option>
+                  ))}
+                  <option value="__NEW__">+ Adicionar Novo Desporto...</option>
+                </select>
+              )}
             </div>
 
+            {/* Strategy Dropdown with Add New Option */}
             <div>
-              <label className="text-gray-400 block mb-1 font-medium flex items-center gap-1.5">
-                <FileText className="w-3.5 h-3.5 text-purple-400" /> Estratégia:
-              </label>
-              <select
-                value={strategy}
-                onChange={(e) => setStrategy(e.target.value)}
-                className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3 py-2.5 text-white font-medium focus:outline-none focus:border-emerald-500"
-              >
-                {STRATEGIES.map((st) => (
-                  <option key={st} value={st}>
-                    {st}
-                  </option>
-                ))}
-              </select>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-gray-400 font-medium flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5 text-purple-400" /> Estratégia:
+                </label>
+                {!isAddingStrategy && (
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingStrategy(true)}
+                    className="text-emerald-400 hover:text-emerald-300 text-[11px] flex items-center gap-0.5 font-semibold"
+                  >
+                    <Plus className="w-3 h-3" /> Nova
+                  </button>
+                )}
+              </div>
+
+              {isAddingStrategy ? (
+                <div className="flex items-center gap-1">
+                  <input
+                    type="text"
+                    placeholder="Nome da estratégia..."
+                    value={newStrategyName}
+                    onChange={(e) => setNewStrategyName(e.target.value)}
+                    className="w-full bg-[#0B0E14] border border-purple-500 rounded-xl px-2.5 py-2 text-white"
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    onClick={handleConfirmAddStrategy}
+                    className="p-2 bg-purple-500 text-white rounded-xl hover:bg-purple-600 transition-colors"
+                  >
+                    <Check className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingStrategy(false)}
+                    className="p-2 bg-[#0B0E14] text-gray-400 rounded-xl hover:text-white"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <select
+                  value={strategy}
+                  onChange={(e) => {
+                    if (e.target.value === '__NEW__') {
+                      setIsAddingStrategy(true);
+                    } else {
+                      setStrategy(e.target.value);
+                    }
+                  }}
+                  className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3 py-2.5 text-white font-medium focus:outline-none focus:border-emerald-500"
+                >
+                  {strategies.map((st) => (
+                    <option key={st} value={st}>
+                      {st}
+                    </option>
+                  ))}
+                  <option value="__NEW__">+ Adicionar Nova Estratégia...</option>
+                </select>
+              )}
             </div>
           </div>
-
-          {strategy === 'Estratégia Personalizada' && (
-            <div>
-              <label className="text-gray-400 block mb-1 font-medium">Nome da Estratégia:</label>
-              <input
-                type="text"
-                placeholder="Ex: Método Cantos aos 80m"
-                value={customStrategy}
-                onChange={(e) => setCustomStrategy(e.target.value)}
-                className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3 py-2.5 text-white"
-              />
-            </div>
-          )}
 
           {/* Simple Bet Form Fields */}
           {betType === 'SIMPLE' && (
