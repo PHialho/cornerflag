@@ -12,6 +12,7 @@ import {
   XCircle,
   Clock,
   RotateCcw,
+  Trash2,
 } from 'lucide-react';
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
 import { calculateROI } from '../../lib/math/calculator';
@@ -19,7 +20,7 @@ import { BetModal } from './BetModal';
 import { MetricCard } from '../dashboard/MetricCard';
 
 export const BetsView: React.FC = () => {
-  const { bets, bankrolls, activeBankrollId, settleBetResult } = useCornerFlagStore();
+  const { bets, bankrolls, activeBankrollId, settleBetResult, deleteBet } = useCornerFlagStore();
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -260,6 +261,20 @@ export const BetsView: React.FC = () => {
                               }`}
                             >
                               <RotateCcw className="w-4 h-4" />
+                            </button>
+
+                            <div className="w-px h-4 bg-[#1E2638] mx-1" />
+
+                            <button
+                              onClick={() => {
+                                if (window.confirm(`Tem a certeza que deseja eliminar a aposta "${bet.match}"?`)) {
+                                  deleteBet(bet.id);
+                                }
+                              }}
+                              title="Eliminar Aposta"
+                              className="p-1.5 rounded text-gray-500 hover:text-rose-500 hover:bg-rose-500/10 transition-colors"
+                            >
+                              <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
                         </td>

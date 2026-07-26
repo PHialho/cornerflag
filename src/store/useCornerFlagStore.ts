@@ -36,6 +36,7 @@ interface CornerFlagState {
   createBankroll: (name: string, initialBalance: number, currency?: string) => Promise<void>;
   addBet: (betData: Omit<Bet, 'id' | 'created_at' | 'profit' | 'payout'>) => Promise<void>;
   settleBetResult: (betId: string, result: BetResult, cashoutAmount?: number) => Promise<void>;
+  deleteBet: (betId: string) => Promise<void>;
   addSport: (sportName: string) => void;
   addStrategy: (strategyName: string) => void;
 }
@@ -253,6 +254,37 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
           return {
             ...b,
             current_balance: b.current_balance + settlement.profit,
+          };
+        }
+        return b;
+      });
+
+      return {
+        bets: updatedBets,
+        bankrolls: updatedBankrolls,
+      };
+    });
+  },
+
+  deleteBet: async (betId: string) => {
+    const bet = get().bets.find((b) => b.id === betId);
+    if (!bet) return;
+
+    if (isSupabaseConfigured) {
+      try {
+        await supabase.from('bets').delete().eq('id', betId);
+      } catch {
+        // Fallback
+      }
+    }
+
+    set((state) => {
+      const updatedBets = state.bets.filter((b) => b.id !== betId);
+      const updatedBankrolls = state.bankrolls.map((b) => {
+        if (b.id === bet.bankroll_id && bet.result !== 'PENDING') {
+          return {
+            ...b,
+            current_balance: b.current_balance - bet.profit,
           };
         }
         return b;
