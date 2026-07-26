@@ -521,11 +521,11 @@ export const BetModal: React.FC<BetModalProps> = ({ isOpen, onClose }) => {
                 onChange={(e) => setResult(e.target.value as BetResult | 'PENDING')}
                 className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3.5 py-2.5 text-white font-medium"
               >
-                <option value="WIN">Ganha (Win)</option>
-                <option value="HALF_WIN">Meio Ganha (Half Win)</option>
-                <option value="VOID">Anulada (Void / Push)</option>
-                <option value="HALF_LOSS">Meio Perdida (Half Loss)</option>
-                <option value="LOSS">Perdida (Loss)</option>
+                <option value="WIN">Ganha</option>
+                <option value="HALF_WIN">Meio Ganha</option>
+                <option value="VOID">Anulada</option>
+                <option value="HALF_LOSS">Meio Perdida</option>
+                <option value="LOSS">Perdida</option>
                 <option value="PENDING">Pendente</option>
               </select>
             </div>
