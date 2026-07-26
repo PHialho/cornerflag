@@ -11,6 +11,13 @@ skills:
   - codebase-map
   - search-strategies
   - writing-style
+  - branch-strategy
+  - release-process
+  - pr-conventions
+  - component-conventions
+  - data-integrity
+  - test-structure
+  - code-quality-standards
 maxTurns: 50
 ---
 
