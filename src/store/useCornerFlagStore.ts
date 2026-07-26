@@ -60,7 +60,7 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
           return;
         }
       } catch {
-        // Fallback to local memory state
+        // Fallback gracefully
       }
     }
 
