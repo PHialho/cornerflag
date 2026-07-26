@@ -202,7 +202,7 @@ export const BetModal: React.FC<BetModalProps> = ({ isOpen, onClose }) => {
                   : 'text-gray-400 hover:text-white'
               }`}
             >
-              <Layers className="w-4 h-4" /> Aposta Múltipla / Acumulada
+              <Layers className="w-4 h-4" /> Aposta Múltipla
             </button>
           </div>
 
