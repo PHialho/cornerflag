@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import {
   Plus,
-  Search,
-  Filter,
-  Trophy,
   Target,
   Layers,
   ChevronDown,
   ChevronUp,
   Receipt,
-  FileText,
   TrendingUp,
   PieChart,
   CheckCircle2,
@@ -19,8 +15,7 @@ import {
 } from 'lucide-react';
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
 import { calculateROI } from '../../lib/math/calculator';
-import type { BetType } from '../../types';
-import { BetModal, SPORTS, STRATEGIES } from './BetModal';
+import { BetModal } from './BetModal';
 import { MetricCard } from '../dashboard/MetricCard';
 
 export const BetsView: React.FC = () => {
@@ -28,13 +23,6 @@ export const BetsView: React.FC = () => {
 
   // Modal State
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Filter States
-  const [searchTerm, setSearchTerm] = useState('');
-  const [typeFilter, setTypeFilter] = useState<'ALL' | BetType>('ALL');
-  const [sportFilter, setSportFilter] = useState<string>('ALL');
-  const [strategyFilter, setStrategyFilter] = useState<string>('ALL');
-  const [statusFilter, setStatusFilter] = useState<string>('ALL');
 
   // Expanded legs state for multiple bets
   const [expandedBetIds, setExpandedBetIds] = useState<Record<string, boolean>>({});
@@ -45,56 +33,16 @@ export const BetsView: React.FC = () => {
 
   const activeBankroll = bankrolls.find((b) => b.id === activeBankrollId);
 
-  // Filter bets list
-  const filteredBets = bets.filter((b) => {
-    // Type filter
-    if (typeFilter !== 'ALL') {
-      const bType = b.bet_type || 'SIMPLE';
-      if (bType !== typeFilter) return false;
-    }
-
-    // Sport filter
-    if (sportFilter !== 'ALL' && b.sport !== sportFilter) return false;
-
-    // Strategy filter
-    if (strategyFilter !== 'ALL' && b.strategy !== strategyFilter) return false;
-
-    // Status filter
-    if (statusFilter !== 'ALL') {
-      if (statusFilter === 'WIN' && (b.result !== 'WIN' && b.result !== 'HALF_WIN')) return false;
-      if (statusFilter === 'LOSS' && (b.result !== 'LOSS' && b.result !== 'HALF_LOSS')) return false;
-      if (statusFilter === 'PENDING' && b.result !== 'PENDING') return false;
-      if (statusFilter === 'VOID' && b.result !== 'VOID') return false;
-    }
-
-    // Search term
-    if (searchTerm.trim()) {
-      const term = searchTerm.toLowerCase();
-      const matchText = (b.match || '').toLowerCase();
-      const selText = (b.selection || '').toLowerCase();
-      const leagueText = (b.league || '').toLowerCase();
-      const strategyText = (b.strategy || '').toLowerCase();
-      return (
-        matchText.includes(term) ||
-        selText.includes(term) ||
-        leagueText.includes(term) ||
-        strategyText.includes(term)
-      );
-    }
-
-    return true;
-  });
-
-  // Calculate Metrics for filtered bets
-  const totalSettled = filteredBets.filter((b) => b.result !== 'PENDING').length;
-  const totalWon = filteredBets.filter((b) => b.result === 'WIN' || b.result === 'HALF_WIN').length;
-  const totalProfit = filteredBets.reduce((acc, b) => acc + b.profit, 0);
-  const totalStaked = filteredBets.reduce((acc, b) => acc + (b.result !== 'PENDING' ? b.stake : 0), 0);
+  // Calculate Metrics across all bets
+  const totalSettled = bets.filter((b) => b.result !== 'PENDING').length;
+  const totalWon = bets.filter((b) => b.result === 'WIN' || b.result === 'HALF_WIN').length;
+  const totalProfit = bets.reduce((acc, b) => acc + b.profit, 0);
+  const totalStaked = bets.reduce((acc, b) => acc + (b.result !== 'PENDING' ? b.stake : 0), 0);
   const winRate = totalSettled > 0 ? ((totalWon / totalSettled) * 100).toFixed(1) : '0.0';
   const roi = calculateROI(totalProfit, totalStaked);
 
-  const simpleBetsCount = filteredBets.filter((b) => !b.bet_type || b.bet_type === 'SIMPLE').length;
-  const multipleBetsCount = filteredBets.filter((b) => b.bet_type === 'MULTIPLE').length;
+  const simpleBetsCount = bets.filter((b) => !b.bet_type || b.bet_type === 'SIMPLE').length;
+  const multipleBetsCount = bets.filter((b) => b.bet_type === 'MULTIPLE').length;
 
   return (
     <div className="space-y-8">
@@ -123,7 +71,7 @@ export const BetsView: React.FC = () => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
           title="Total de Apostas"
-          value={filteredBets.length}
+          value={bets.length}
           subtext={`${simpleBetsCount} Simples | ${multipleBetsCount} Múltiplas`}
           icon={Receipt}
           iconColorClass="text-emerald-400"
@@ -150,7 +98,7 @@ export const BetsView: React.FC = () => {
         />
 
         <MetricCard
-          title="ROI / Yield do Filtro"
+          title="ROI / Yield Geral"
           value={`${roi >= 0 ? '+' : ''}${roi.toFixed(2)}%`}
           subtext="Retorno sobre o total investido"
           icon={Target}
@@ -160,122 +108,15 @@ export const BetsView: React.FC = () => {
         />
       </div>
 
-      {/* Filters Toolbar */}
-      <div className="bg-[#121721] border border-[#1E2638] p-4 rounded-2xl space-y-3">
-        <div className="flex flex-col lg:flex-row gap-3 items-stretch lg:items-center justify-between">
-          {/* Search Input */}
-          <div className="relative flex-1">
-            <Search className="w-4 h-4 text-gray-500 absolute left-3.5 top-3" />
-            <input
-              type="text"
-              placeholder="Pesquisar por jogo, liga, mercado ou estratégia..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl pl-10 pr-4 py-2 text-xs text-white focus:outline-none focus:border-emerald-500"
-            />
-          </div>
-
-          {/* Quick Type Filter Tabs */}
-          <div className="flex items-center gap-1 bg-[#0B0E14] p-1 rounded-xl border border-[#1E2638] text-xs font-semibold">
-            <button
-              onClick={() => setTypeFilter('ALL')}
-              className={`px-3 py-1.5 rounded-lg transition-all ${
-                typeFilter === 'ALL'
-                  ? 'bg-emerald-500 text-gray-950 font-bold'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              Todas
-            </button>
-            <button
-              onClick={() => setTypeFilter('SIMPLE')}
-              className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1 ${
-                typeFilter === 'SIMPLE'
-                  ? 'bg-emerald-500 text-gray-950 font-bold'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              <Target className="w-3.5 h-3.5" /> Simples
-            </button>
-            <button
-              onClick={() => setTypeFilter('MULTIPLE')}
-              className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1 ${
-                typeFilter === 'MULTIPLE'
-                  ? 'bg-emerald-500 text-gray-950 font-bold'
-                  : 'text-gray-400 hover:text-white'
-              }`}
-            >
-              <Layers className="w-3.5 h-3.5" /> Múltiplas
-            </button>
-          </div>
-        </div>
-
-        {/* Dropdown Filters Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1 border-t border-[#1E2638]">
-          <div>
-            <label className="text-gray-400 block mb-1 font-medium text-[11px] flex items-center gap-1">
-              <Trophy className="w-3 h-3 text-amber-400" /> Desporto:
-            </label>
-            <select
-              value={sportFilter}
-              onChange={(e) => setSportFilter(e.target.value)}
-              className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-lg px-2.5 py-1.5 text-white"
-            >
-              <option value="ALL">Todos os Desportos</option>
-              {SPORTS.map((s) => (
-                <option key={s} value={s}>
-                  {s}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="text-gray-400 block mb-1 font-medium text-[11px] flex items-center gap-1">
-              <FileText className="w-3 h-3 text-purple-400" /> Estratégia:
-            </label>
-            <select
-              value={strategyFilter}
-              onChange={(e) => setStrategyFilter(e.target.value)}
-              className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-lg px-2.5 py-1.5 text-white"
-            >
-              <option value="ALL">Todas as Estratégias</option>
-              {STRATEGIES.map((st) => (
-                <option key={st} value={st}>
-                  {st}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="text-gray-400 block mb-1 font-medium text-[11px] flex items-center gap-1">
-              <Filter className="w-3 h-3 text-emerald-400" /> Resultado / Estado:
-            </label>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-lg px-2.5 py-1.5 text-white"
-            >
-              <option value="ALL">Todos os Resultados</option>
-              <option value="WIN">Ganhas (Win)</option>
-              <option value="LOSS">Perdidas (Loss)</option>
-              <option value="PENDING">Pendentes</option>
-              <option value="VOID">Anuladas (Void)</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
       {/* Bets Table */}
       <div className="bg-[#121721] border border-[#1E2638] p-6 rounded-2xl">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-md font-bold text-white">
-            Lista de Apostas ({filteredBets.length})
+            Lista de Apostas Registadas ({bets.length})
           </h3>
         </div>
 
-        {filteredBets.length > 0 ? (
+        {bets.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs text-gray-300">
               <thead className="bg-[#0B0E14] text-gray-400 border-b border-[#1E2638]">
@@ -291,7 +132,7 @@ export const BetsView: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#1E2638]">
-                {filteredBets.map((bet) => {
+                {bets.map((bet) => {
                   const isMultiple = bet.bet_type === 'MULTIPLE';
                   const isExpanded = !!expandedBetIds[bet.id];
 
@@ -463,12 +304,12 @@ export const BetsView: React.FC = () => {
         ) : (
           <div className="py-16 text-center text-gray-500 text-sm space-y-2">
             <Receipt className="w-8 h-8 mx-auto text-gray-600" />
-            <p>Nenhuma aposta encontrada com os filtros selecionados.</p>
+            <p>Nenhuma aposta registada ainda.</p>
             <button
               onClick={() => setIsModalOpen(true)}
               className="text-emerald-400 font-semibold underline text-xs hover:text-emerald-300"
             >
-              Registar Nova Aposta
+              Registar Primeira Aposta
             </button>
           </div>
         )}
