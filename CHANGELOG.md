@@ -21,9 +21,6 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 - **Métricas Chave Recalculadas por Período**: Resultado do Período, Lucro Médio por aposta, ROI % e Saldo Final acumulado.
 - Botão **"+ Nova Aposta"** no topo da página e Modal interativo de registo em [src/components/dashboard/Dashboard.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/dashboard/Dashboard.tsx).
 
-### Changed
-- Refatoração do layout principal do Dashboard para exibição em largura total (100%) da Curva de Evolução no Período e da Tabela de Apostas Registadas.
-
 ---
 
 ## [v0.003] - 2026-07-26 *(Branch originária: `authentication` ➔ `develop`)*
