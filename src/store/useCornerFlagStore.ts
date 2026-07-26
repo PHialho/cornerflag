@@ -1,72 +1,121 @@
 import { create } from 'zustand';
-import { db, type Bankroll, type Bet } from '../db/schema';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { settleBet, type BetResult } from '../lib/math/calculator';
+import type { Bankroll, Bet } from '../types';
 
 interface CornerFlagState {
   bankrolls: Bankroll[];
-  activeBankrollId: number | null;
+  activeBankrollId: string | null;
   bets: Bet[];
   isLoading: boolean;
   
   // Actions
   loadInitialData: () => Promise<void>;
-  setActiveBankroll: (id: number) => void;
+  setActiveBankroll: (id: string) => void;
   createBankroll: (name: string, initialBalance: number, currency?: string) => Promise<void>;
-  addBet: (betData: Omit<Bet, 'id' | 'createdAt' | 'profit' | 'payout'>) => Promise<void>;
-  settleBetResult: (betId: number, result: BetResult, cashoutAmount?: number) => Promise<void>;
+  addBet: (betData: Omit<Bet, 'id' | 'created_at' | 'profit' | 'payout'>) => Promise<void>;
+  settleBetResult: (betId: string, result: BetResult, cashoutAmount?: number) => Promise<void>;
 }
 
+const DEFAULT_BANKROLL: Bankroll = {
+  id: 'default-bankroll-1',
+  name: 'Banca Principal',
+  currency: 'EUR',
+  initial_balance: 1000,
+  current_balance: 1000,
+  is_default: true,
+  created_at: new Date().toISOString(),
+};
+
 export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
-  bankrolls: [],
-  activeBankrollId: null,
+  bankrolls: [DEFAULT_BANKROLL],
+  activeBankrollId: DEFAULT_BANKROLL.id,
   bets: [],
-  isLoading: true,
+  isLoading: false,
 
   loadInitialData: async () => {
     set({ isLoading: true });
-    let allBankrolls = await db.bankrolls.toArray();
 
-    // Default Bankroll creation if empty
-    if (allBankrolls.length === 0) {
-      const defaultId = await db.bankrolls.add({
-        name: 'Banca Principal',
-        currency: 'EUR',
-        initialBalance: 1000,
-        currentBalance: 1000,
-        isDefault: true,
-        createdAt: new Date().toISOString(),
-      });
-      allBankrolls = await db.bankrolls.toArray();
-      set({ activeBankrollId: defaultId as number });
-    } else {
-      const defaultB = allBankrolls.find((b) => b.isDefault) || allBankrolls[0];
-      set({ activeBankrollId: defaultB.id! });
+    if (isSupabaseConfigured) {
+      try {
+        const { data: remoteBankrolls, error: bankrollError } = await supabase
+          .from('bankrolls')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (!bankrollError && remoteBankrolls && remoteBankrolls.length > 0) {
+          const activeId = get().activeBankrollId || remoteBankrolls[0].id;
+          const { data: remoteBets } = await supabase
+            .from('bets')
+            .select('*')
+            .eq('bankroll_id', activeId)
+            .order('created_at', { ascending: false });
+
+          set({
+            bankrolls: remoteBankrolls,
+            activeBankrollId: activeId,
+            bets: remoteBets || [],
+            isLoading: false,
+          });
+          return;
+        }
+      } catch {
+        // Fallback to local memory state
+      }
     }
 
-    const activeId = get().activeBankrollId;
-    const bets = activeId
-      ? await db.bets.where('bankrollId').equals(activeId).reverse().toArray()
-      : [];
-
-    set({ bankrolls: allBankrolls, bets, isLoading: false });
+    set({ isLoading: false });
   },
 
-  setActiveBankroll: async (id: number) => {
+  setActiveBankroll: async (id: string) => {
     set({ activeBankrollId: id, isLoading: true });
-    const bets = await db.bets.where('bankrollId').equals(id).reverse().toArray();
-    set({ bets, isLoading: false });
+
+    if (isSupabaseConfigured) {
+      try {
+        const { data: remoteBets } = await supabase
+          .from('bets')
+          .select('*')
+          .eq('bankroll_id', id)
+          .order('created_at', { ascending: false });
+
+        set({ bets: remoteBets || [], isLoading: false });
+        return;
+      } catch {
+        // Fallback
+      }
+    }
+
+    set({ isLoading: false });
   },
 
   createBankroll: async (name: string, initialBalance: number, currency: string = 'EUR') => {
-    const newId = await db.bankrolls.add({
+    const newBankroll: Bankroll = {
+      id: isSupabaseConfigured ? crypto.randomUUID() : `bankroll-${Date.now()}`,
       name,
       currency,
-      initialBalance,
-      currentBalance: initialBalance,
-      createdAt: new Date().toISOString(),
-    });
-    await get().loadInitialData();
-    get().setActiveBankroll(newId as number);
+      initial_balance: initialBalance,
+      current_balance: initialBalance,
+      created_at: new Date().toISOString(),
+    };
+
+    if (isSupabaseConfigured) {
+      try {
+        await supabase.from('bankrolls').insert([{
+          id: newBankroll.id,
+          name: newBankroll.name,
+          currency: newBankroll.currency,
+          initial_balance: newBankroll.initial_balance,
+          current_balance: newBankroll.current_balance,
+        }]);
+      } catch {
+        // Fallback
+      }
+    }
+
+    set((state) => ({
+      bankrolls: [...state.bankrolls, newBankroll],
+      activeBankrollId: newBankroll.id,
+    }));
   },
 
   addBet: async (betData) => {
@@ -83,30 +132,58 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
       payout = settlement.payout;
     }
 
-    await db.bets.add({
+    const newBet: Bet = {
       ...betData,
+      id: isSupabaseConfigured ? crypto.randomUUID() : `bet-${Date.now()}`,
       profit,
       payout,
-      createdAt: new Date().toISOString(),
-      settledAt: betData.result !== 'PENDING' ? new Date().toISOString() : undefined,
-    });
+      created_at: new Date().toISOString(),
+      settled_at: betData.result !== 'PENDING' ? new Date().toISOString() : undefined,
+    };
 
-    // Update active bankroll balance if settled
-    const activeId = get().activeBankrollId;
-    if (activeId && betData.result !== 'PENDING') {
-      const bankroll = await db.bankrolls.get(activeId);
-      if (bankroll) {
-        await db.bankrolls.update(activeId, {
-          currentBalance: bankroll.currentBalance + profit,
-        });
+    if (isSupabaseConfigured) {
+      try {
+        await supabase.from('bets').insert([{
+          id: newBet.id,
+          bankroll_id: newBet.bankroll_id,
+          match: newBet.match,
+          league: newBet.league,
+          market: newBet.market,
+          selection: newBet.selection,
+          odd: newBet.odd,
+          closing_odd: newBet.closing_odd,
+          stake: newBet.stake,
+          estimated_probability: newBet.estimated_probability,
+          result: newBet.result,
+          profit: newBet.profit,
+          payout: newBet.payout,
+        }]);
+      } catch {
+        // Fallback
       }
     }
 
-    await get().loadInitialData();
+    set((state) => {
+      const updatedBets = [newBet, ...state.bets];
+      const updatedBankrolls = state.bankrolls.map((b) => {
+        if (b.id === betData.bankroll_id && betData.result !== 'PENDING') {
+          return {
+            ...b,
+            current_balance: b.current_balance + profit,
+          };
+        }
+        return b;
+      });
+
+      return {
+        bets: updatedBets,
+        bankrolls: updatedBankrolls,
+      };
+    });
   },
 
-  settleBetResult: async (betId: number, result: BetResult, cashoutAmount?: number) => {
-    const bet = await db.bets.get(betId);
+  settleBetResult: async (betId: string, result: BetResult, cashoutAmount?: number) => {
+    const bet = get().bets.find((b) => b.id === betId);
     if (!bet) return;
 
     const settlement = settleBet({
@@ -116,21 +193,50 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
       cashoutAmount,
     });
 
-    await db.bets.update(betId, {
-      result,
-      profit: settlement.profit,
-      payout: settlement.payout,
-      settledAt: new Date().toISOString(),
-    });
-
-    // Update bankroll balance
-    const bankroll = await db.bankrolls.get(bet.bankrollId);
-    if (bankroll) {
-      await db.bankrolls.update(bet.bankrollId, {
-        currentBalance: bankroll.currentBalance + settlement.profit,
-      });
+    if (isSupabaseConfigured) {
+      try {
+        await supabase
+          .from('bets')
+          .update({
+            result,
+            profit: settlement.profit,
+            payout: settlement.payout,
+            settled_at: new Date().toISOString(),
+          })
+          .eq('id', betId);
+      } catch {
+        // Fallback
+      }
     }
 
-    await get().loadInitialData();
+    set((state) => {
+      const updatedBets = state.bets.map((b) => {
+        if (b.id === betId) {
+          return {
+            ...b,
+            result,
+            profit: settlement.profit,
+            payout: settlement.payout,
+            settled_at: new Date().toISOString(),
+          };
+        }
+        return b;
+      });
+
+      const updatedBankrolls = state.bankrolls.map((b) => {
+        if (b.id === bet.bankroll_id) {
+          return {
+            ...b,
+            current_balance: b.current_balance + settlement.profit,
+          };
+        }
+        return b;
+      });
+
+      return {
+        bets: updatedBets,
+        bankrolls: updatedBankrolls,
+      };
+    });
   },
 }));

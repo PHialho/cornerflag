@@ -50,7 +50,7 @@ export function App() {
   const overallROI = calculateROI(totalProfit, totalStaked);
 
   // Growth chart data
-  let cumulative = activeBankroll ? activeBankroll.initialBalance : 1000;
+  let cumulative = activeBankroll ? activeBankroll.initial_balance : 1000;
   const chartData = [...bets]
     .reverse()
     .filter((b) => b.result !== 'PENDING')
@@ -68,7 +68,7 @@ export function App() {
     if (!activeBankrollId || !match || stake <= 0 || odd <= 1.0) return;
 
     await addBet({
-      bankrollId: activeBankrollId,
+      bankroll_id: activeBankrollId,
       match,
       league: league || 'Geral',
       market: 'OVER_UNDER',
@@ -131,7 +131,7 @@ export function App() {
               <div>
                 <p className="text-xs font-medium text-gray-400">Saldo Atual da Banca</p>
                 <h3 className="text-2xl font-bold text-white mt-1">
-                  € {activeBankroll?.currentBalance.toFixed(2)}
+                  € {activeBankroll?.current_balance.toFixed(2)}
                 </h3>
               </div>
               <div className="p-2.5 bg-blue-500/10 rounded-xl border border-blue-500/20">
@@ -139,7 +139,7 @@ export function App() {
               </div>
             </div>
             <p className="text-xs text-gray-500 mt-3">
-              Inicial: € {activeBankroll?.initialBalance.toFixed(2)}
+              Inicial: € {activeBankroll?.initial_balance.toFixed(2)}
             </p>
           </div>
 

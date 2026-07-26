@@ -15,8 +15,7 @@ Plataforma profissional de apoio a apostadores desportivos focada em **Gestão d
   - Liquidação rigorosa de apostas (*Win*, *Half Win*, *Void / Push*, *Half Loss*, *Loss*, *Cashout*).
   - Cálculo automático de **ROI (%)**, **Yield (%)** e **CLV (Closing Line Value %)**.
   - Calculadora em tempo real de **Valor Esperado (+EV %)** e **Critério de Kelly Fracionado (1/4 Kelly)**.
-- **Arquitetura *Local-First***: Base de dados no browser via **Dexie.js (IndexedDB)** com suporte a armazenamento ilimitado, offline-ready e seguro.
-- **Sincronização Cloud Opcional (Supabase)**: Integração com PostgreSQL/Supabase com Row Level Security (RLS) e migrações DDL.
+- **Persistência de Dados**: Sincronização cloud com **Supabase** (PostgreSQL) com Row Level Security (RLS) e migrações DDL.
 - **Gráficos Analytics Interativos**: Curva de crescimento de banca e variação de património com **Recharts**.
 
 ---
@@ -26,7 +25,6 @@ Plataforma profissional de apoio a apostadores desportivos focada em **Gestão d
 - **Core**: React 19, TypeScript (Strict Mode), Vite 6
 - **UI / Styling**: Tailwind CSS v4, Lucide React Icons
 - **Gestão de Estado**: Zustand
-- **Persistência Local**: Dexie.js (IndexedDB)
 - **Persistência Cloud**: Supabase (`@supabase/supabase-js`)
 - **Testes & Qualidade**: Vitest, Oxlint
 
