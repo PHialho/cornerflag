@@ -9,7 +9,9 @@ import {
   TrendingUp,
   PieChart,
   CheckCircle2,
+  CheckSquare,
   XCircle,
+  XSquare,
   Clock,
   RotateCcw,
   Trash2,
@@ -210,9 +212,12 @@ export const BetsView: React.FC = () => {
                                 : 'bg-gray-500/20 text-gray-400'
                             }`}
                           >
-                            {bet.result === 'WIN' && <CheckCircle2 className="w-3 h-3" />}
-                            {bet.result === 'LOSS' && <XCircle className="w-3 h-3" />}
-                            {bet.result === 'PENDING' && <Clock className="w-3 h-3" />}
+                            {bet.result === 'WIN' && <CheckCircle2 className="w-3 h-3 text-emerald-400" />}
+                            {bet.result === 'HALF_WIN' && <CheckSquare className="w-3 h-3 text-emerald-300" />}
+                            {bet.result === 'VOID' && <RotateCcw className="w-3 h-3 text-amber-400" />}
+                            {bet.result === 'HALF_LOSS' && <XSquare className="w-3 h-3 text-rose-300" />}
+                            {bet.result === 'LOSS' && <XCircle className="w-3 h-3 text-rose-400" />}
+                            {bet.result === 'PENDING' && <Clock className="w-3 h-3 text-gray-400" />}
                             {bet.result}
                           </span>
                         </td>
@@ -229,6 +234,7 @@ export const BetsView: React.FC = () => {
                         {/* Actions */}
                         <td className="p-3 text-center">
                           <div className="flex items-center justify-center gap-1">
+                            {/* Win */}
                             <button
                               onClick={() => settleBetResult(bet.id, 'WIN')}
                               title="Marcar como Ganha"
@@ -240,17 +246,21 @@ export const BetsView: React.FC = () => {
                             >
                               <CheckCircle2 className="w-4 h-4" />
                             </button>
+
+                            {/* Half Win */}
                             <button
-                              onClick={() => settleBetResult(bet.id, 'LOSS')}
-                              title="Marcar como Perdida"
+                              onClick={() => settleBetResult(bet.id, 'HALF_WIN')}
+                              title="Marcar como Meio Ganha"
                               className={`p-1.5 rounded transition-colors ${
-                                bet.result === 'LOSS'
-                                  ? 'bg-rose-500 text-white font-bold'
-                                  : 'text-gray-400 hover:text-rose-400 hover:bg-[#0B0E14]'
+                                bet.result === 'HALF_WIN'
+                                  ? 'bg-emerald-600/80 text-white font-bold border border-emerald-500'
+                                  : 'text-gray-400 hover:text-emerald-300 hover:bg-[#0B0E14]'
                               }`}
                             >
-                              <XCircle className="w-4 h-4" />
+                              <CheckSquare className="w-4 h-4" />
                             </button>
+
+                            {/* Void */}
                             <button
                               onClick={() => settleBetResult(bet.id, 'VOID')}
                               title="Marcar como Anulada"
@@ -261,6 +271,32 @@ export const BetsView: React.FC = () => {
                               }`}
                             >
                               <RotateCcw className="w-4 h-4" />
+                            </button>
+
+                            {/* Half Loss */}
+                            <button
+                              onClick={() => settleBetResult(bet.id, 'HALF_LOSS')}
+                              title="Marcar como Meio Perdida"
+                              className={`p-1.5 rounded transition-colors ${
+                                bet.result === 'HALF_LOSS'
+                                  ? 'bg-rose-700/80 text-white font-bold border border-rose-500'
+                                  : 'text-gray-400 hover:text-rose-300 hover:bg-[#0B0E14]'
+                              }`}
+                            >
+                              <XSquare className="w-4 h-4" />
+                            </button>
+
+                            {/* Loss */}
+                            <button
+                              onClick={() => settleBetResult(bet.id, 'LOSS')}
+                              title="Marcar como Perdida"
+                              className={`p-1.5 rounded transition-colors ${
+                                bet.result === 'LOSS'
+                                  ? 'bg-rose-500 text-white font-bold'
+                                  : 'text-gray-400 hover:text-rose-400 hover:bg-[#0B0E14]'
+                              }`}
+                            >
+                              <XCircle className="w-4 h-4" />
                             </button>
 
                             <div className="w-px h-4 bg-[#1E2638] mx-1" />
