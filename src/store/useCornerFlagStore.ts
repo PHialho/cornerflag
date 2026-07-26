@@ -3,18 +3,42 @@ import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { settleBet, type BetResult } from '../lib/math/calculator';
 import type { Bankroll, Bet } from '../types';
 
+export const DEFAULT_SPORTS = [
+  'Futebol',
+  'Basquetebol',
+  'Ténis',
+  'Esports',
+  'Futsal',
+  'Voleibol',
+];
+
+export const DEFAULT_STRATEGIES = [
+  'Over/Under Gols',
+  'Cantos (Corners)',
+  'Match Odds (1X2)',
+  'Lay ao Empate',
+  'Handicap Asiático',
+  'Ambas Marcam (BTTS)',
+  'Precificação +EV',
+];
+
 interface CornerFlagState {
   bankrolls: Bankroll[];
   activeBankrollId: string | null;
   bets: Bet[];
+  sports: string[];
+  strategies: string[];
   isLoading: boolean;
-  
+
   // Actions
   loadInitialData: () => Promise<void>;
   setActiveBankroll: (id: string) => void;
   createBankroll: (name: string, initialBalance: number, currency?: string) => Promise<void>;
   addBet: (betData: Omit<Bet, 'id' | 'created_at' | 'profit' | 'payout'>) => Promise<void>;
   settleBetResult: (betId: string, result: BetResult, cashoutAmount?: number) => Promise<void>;
+  deleteBet: (betId: string) => Promise<void>;
+  addSport: (sportName: string) => void;
+  addStrategy: (strategyName: string) => void;
 }
 
 const DEFAULT_BANKROLL: Bankroll = {
@@ -31,6 +55,8 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
   bankrolls: [DEFAULT_BANKROLL],
   activeBankrollId: DEFAULT_BANKROLL.id,
   bets: [],
+  sports: DEFAULT_SPORTS,
+  strategies: DEFAULT_STRATEGIES,
   isLoading: false,
 
   loadInitialData: async () => {
@@ -237,6 +263,55 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
         bets: updatedBets,
         bankrolls: updatedBankrolls,
       };
+    });
+  },
+
+  deleteBet: async (betId: string) => {
+    const bet = get().bets.find((b) => b.id === betId);
+    if (!bet) return;
+
+    if (isSupabaseConfigured) {
+      try {
+        await supabase.from('bets').delete().eq('id', betId);
+      } catch {
+        // Fallback
+      }
+    }
+
+    set((state) => {
+      const updatedBets = state.bets.filter((b) => b.id !== betId);
+      const updatedBankrolls = state.bankrolls.map((b) => {
+        if (b.id === bet.bankroll_id && bet.result !== 'PENDING') {
+          return {
+            ...b,
+            current_balance: b.current_balance - bet.profit,
+          };
+        }
+        return b;
+      });
+
+      return {
+        bets: updatedBets,
+        bankrolls: updatedBankrolls,
+      };
+    });
+  },
+
+  addSport: (sportName: string) => {
+    const trimmed = sportName.trim();
+    if (!trimmed) return;
+    set((state) => {
+      if (state.sports.includes(trimmed)) return state;
+      return { sports: [...state.sports, trimmed] };
+    });
+  },
+
+  addStrategy: (strategyName: string) => {
+    const trimmed = strategyName.trim();
+    if (!trimmed) return;
+    set((state) => {
+      if (state.strategies.includes(trimmed)) return state;
+      return { strategies: [...state.strategies, trimmed] };
     });
   },
 }));
