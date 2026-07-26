@@ -16,7 +16,7 @@ export interface Bet {
   bankrollId: number;
   match: string;
   league: string;
-  market: 'CORNERS_OVER_UNDER' | 'CORNERS_RACE' | 'CORNERS_HANDICAP' | 'OTHER';
+  market: 'OVER_UNDER' | 'HANDICAP' | 'MONEYLINE' | 'OTHER';
   selection: string;
   odd: number;
   closingOdd?: number;

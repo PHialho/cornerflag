@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS public.bets (
   bankroll_id UUID NOT NULL REFERENCES public.bankrolls(id) ON DELETE CASCADE,
   match TEXT NOT NULL,
   league TEXT NOT NULL DEFAULT 'Geral',
-  market TEXT NOT NULL DEFAULT 'CORNERS_OVER_UNDER',
+  market TEXT NOT NULL DEFAULT 'OVER_UNDER',
   selection TEXT NOT NULL,
   odd NUMERIC(6, 3) NOT NULL,
   closing_odd NUMERIC(6, 3),

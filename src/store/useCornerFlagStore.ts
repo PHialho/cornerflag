@@ -29,7 +29,7 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
     // Default Bankroll creation if empty
     if (allBankrolls.length === 0) {
       const defaultId = await db.bankrolls.add({
-        name: 'Banca Principal (Cantos)',
+        name: 'Banca Principal',
         currency: 'EUR',
         initialBalance: 1000,
         currentBalance: 1000,

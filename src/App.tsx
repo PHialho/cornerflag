@@ -71,8 +71,8 @@ export function App() {
       bankrollId: activeBankrollId,
       match,
       league: league || 'Geral',
-      market: 'CORNERS_OVER_UNDER',
-      selection: selection || 'Over Cantos',
+      market: 'OVER_UNDER',
+      selection: selection || 'Over 2.5 Gols',
       odd,
       stake,
       result,
@@ -106,7 +106,7 @@ export function App() {
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-              CORNER FLAG <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Pro v0.001</span>
+              CORNER FLAG <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Pro v0.002</span>
             </h1>
             <p className="text-xs text-gray-400">Gestão de Banca, Risco & Precificação (+EV)</p>
           </div>
@@ -311,7 +311,7 @@ export function App() {
                   <label className="text-gray-400 block mb-1">Seleção / Mercado:</label>
                   <input
                     type="text"
-                    placeholder="Ex: Over 9.5 Cantos"
+                    placeholder="Ex: Over 2.5 Gols / Handicap"
                     value={selection}
                     onChange={(e) => setSelection(e.target.value)}
                     className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-lg px-3 py-2 text-white"
