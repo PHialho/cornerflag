@@ -93,12 +93,16 @@ Delega para o agente correto conforme a especialidade da tarefa. Não tentes rea
 - **Armazenamento e Segurança de Dados**:
   - Garantir backups e exportações limpas em JSON/CSV.
   - Nunca hardcodear chaves de API nem credenciais em código público.
-- **Padrão de Git, Branches & Commits**:
+- **Padrão de Git, Branches, Versionamento & Commits**:
   - **Branches**: `master` é a branch principal por defeito (código estável de produção) e `develop` é a branch de trabalho.
   - **Fluxo de Merge & Pull Requests**: Todos os merges e Pull Requests (das branches `feat`, `fix`, `refactor`, `docs`, `test` e `chore`) devem ser efetuados para a branch `develop`.
   - **Processo de Release**: A partir da branch `develop` tem obrigatoriamente de ser criada uma branch de release (`release/*`), e apenas e exclusivamente essa branch de release pode dar merge na branch `master` aquando de uma versão estável e final.
+  - **Regras de Versionamento**:
+    - **Merge para `develop`**: Cada merge em `develop` gera uma nova versão minor incremental de 3 dígitos (ex: `v0.001`, `v0.002`, `v0.003`).
+    - **Merge de `fix`**: Cada merge de correção de bug (`fix`) adiciona um sufixo à versão atual de `develop` (ex: `v0.001.1`, `v0.001.2`).
+    - **Merge de Release para `master`**: O merge de uma branch de release para `master` gera uma nova Major version estável e final (ex: `v1.000`, `v2.000`).
   - **Conventional Commits**: Padrão `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`.
-  - Manter o `CHANGELOG.md` atualizado com todas as novidades e correções.
+  - Manter o `CHANGELOG.md` atualizado com todas as novidades, correções e respetivas versões.
 - **Código Limpo**:
   - Manter separação clara entre a camada de apresentação (UI), lógica de negócio (cálculos de banca/risco) e dados.
 
