@@ -12,7 +12,7 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ## [Unreleased]
 
-## [v0.002] - 2026-07-26
+## [v0.002] - 2026-07-26 *(Branch originária: `project_init` ➔ `develop`)*
 
 ### Added
 - Inicialização da aplicação Web (React 19 + TypeScript + Vite 6) na branch `project_init`.
@@ -26,7 +26,7 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ---
 
-## [v0.001] - 2026-07-26
+## [v0.001] - 2026-07-26 *(Branch originária: `agent_setup` ➔ `develop`)*
 
 ### Added
 - Diretrizes gerais do agente principal no [ANTIGRAVITY.md](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/ANTIGRAVITY.md).
