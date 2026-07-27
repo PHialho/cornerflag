@@ -12,7 +12,15 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ## [Unreleased]
 
-## [v0.004] - 2026-07-26 *(Branch originária: `dashboard` ➔ `develop`)*
+### Added
+- **Página de Gestão de Bancas (`BankrollsView`)** em [src/components/bankrolls/BankrollsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bankrolls/BankrollsView.tsx):
+  - Suporte completo a multi-banca com seleção da Banca Ativa como guia de apostas.
+  - Cartões com métricas de Património Total, Saldo Inicial vs. Saldo Atual, Lucro/Prejuízo (€ e %), ROI % e total de apostas associadas.
+  - **Guia de Dimensionamento de Staking & Risco**: Cálculo automático de 1 Unidade Base (% do saldo), escala de stakes (0.25u, 0.50u, 1.00u, 2.00u) e recomendações de Critério de Kelly Fracionado (Half-Kelly).
+  - **Modal Interativo (`BankrollModal`)** em [src/components/bankrolls/BankrollModal.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bankrolls/BankrollModal.tsx) para criação e edição de bancas (Nome, Saldo Inicial, Saldo Recalibrado, Moeda, % de Unidade Alvo e Descrição).
+  - Adicionadas ações `updateBankroll` e `deleteBankroll` ao store [src/store/useCornerFlagStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useCornerFlagStore.ts).
+
+---
 
 ### Added
 - **Menu Lateral (Sidebar Navigation)** em [src/components/layout/Sidebar.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/layout/Sidebar.tsx) com alternância de bancas ativas, navegação modular e perfil do utilizador.

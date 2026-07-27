@@ -21,6 +21,7 @@ import { useCornerFlagStore } from './store/useCornerFlagStore';
 import { useAuthStore } from './store/useAuthStore';
 import { Sidebar, type NavTab } from './components/layout/Sidebar';
 import { Dashboard } from './components/dashboard/Dashboard';
+import { BankrollsView } from './components/bankrolls/BankrollsView';
 
 export function App() {
   const {
@@ -375,8 +376,9 @@ export function App() {
         {/* Page Content */}
         <main className="p-6 md:p-8 flex-1 max-w-7xl w-full mx-auto">
           {activeTab === 'dashboard' && <Dashboard />}
+          {activeTab === 'bankrolls' && <BankrollsView />}
 
-          {activeTab !== 'dashboard' && (
+          {activeTab !== 'dashboard' && activeTab !== 'bankrolls' && (
             <div className="bg-[#121721] border border-[#1E2638] p-12 rounded-2xl text-center space-y-4">
               <div className="inline-flex p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
                 <BarChart3 className="w-8 h-8" />

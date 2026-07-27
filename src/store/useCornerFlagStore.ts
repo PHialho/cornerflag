@@ -12,7 +12,15 @@ interface CornerFlagState {
   // Actions
   loadInitialData: () => Promise<void>;
   setActiveBankroll: (id: string) => void;
-  createBankroll: (name: string, initialBalance: number, currency?: string) => Promise<void>;
+  createBankroll: (
+    name: string,
+    initialBalance: number,
+    currency?: string,
+    targetUnitPercent?: number,
+    description?: string
+  ) => Promise<void>;
+  updateBankroll: (id: string, updates: Partial<Bankroll>) => Promise<void>;
+  deleteBankroll: (id: string) => Promise<void>;
   addBet: (betData: Omit<Bet, 'id' | 'created_at' | 'profit' | 'payout'>) => Promise<void>;
   settleBetResult: (betId: string, result: BetResult, cashoutAmount?: number) => Promise<void>;
 }
@@ -88,13 +96,21 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
     set({ isLoading: false });
   },
 
-  createBankroll: async (name: string, initialBalance: number, currency: string = 'EUR') => {
+  createBankroll: async (
+    name: string,
+    initialBalance: number,
+    currency: string = 'EUR',
+    targetUnitPercent: number = 1,
+    description: string = ''
+  ) => {
     const newBankroll: Bankroll = {
       id: isSupabaseConfigured ? crypto.randomUUID() : `bankroll-${Date.now()}`,
       name,
       currency,
       initial_balance: initialBalance,
       current_balance: initialBalance,
+      target_unit_percent: targetUnitPercent,
+      description: description || undefined,
       created_at: new Date().toISOString(),
     };
 
@@ -106,6 +122,8 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
           currency: newBankroll.currency,
           initial_balance: newBankroll.initial_balance,
           current_balance: newBankroll.current_balance,
+          target_unit_percent: newBankroll.target_unit_percent,
+          description: newBankroll.description,
         }]);
       } catch {
         // Fallback
@@ -116,6 +134,47 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
       bankrolls: [...state.bankrolls, newBankroll],
       activeBankrollId: newBankroll.id,
     }));
+  },
+
+  updateBankroll: async (id: string, updates: Partial<Bankroll>) => {
+    if (isSupabaseConfigured) {
+      try {
+        await supabase
+          .from('bankrolls')
+          .update(updates)
+          .eq('id', id);
+      } catch {
+        // Fallback
+      }
+    }
+
+    set((state) => ({
+      bankrolls: state.bankrolls.map((b) => (b.id === id ? { ...b, ...updates } : b)),
+    }));
+  },
+
+  deleteBankroll: async (id: string) => {
+    const state = get();
+    if (state.bankrolls.length <= 1) {
+      return; // Prevenir remoção da última banca restante
+    }
+
+    if (isSupabaseConfigured) {
+      try {
+        await supabase.from('bankrolls').delete().eq('id', id);
+      } catch {
+        // Fallback
+      }
+    }
+
+    set((prevState) => {
+      const filtered = prevState.bankrolls.filter((b) => b.id !== id);
+      const newActiveId = prevState.activeBankrollId === id ? filtered[0].id : prevState.activeBankrollId;
+      return {
+        bankrolls: filtered,
+        activeBankrollId: newActiveId,
+      };
+    });
   },
 
   addBet: async (betData) => {
