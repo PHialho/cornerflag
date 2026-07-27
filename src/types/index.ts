@@ -1,5 +1,17 @@
 import type { BetResult } from '../lib/math/calculator';
 
+export type BetType = 'SIMPLE' | 'MULTIPLE';
+
+export interface BetLeg {
+  id?: string;
+  match: string;
+  league?: string;
+  sport?: string;
+  market?: string;
+  selection: string;
+  odd: number;
+}
+
 export interface Bankroll {
   id: string;
   user_id?: string;
@@ -16,9 +28,12 @@ export interface Bankroll {
 export interface Bet {
   id: string;
   bankroll_id: string;
+  bet_type?: BetType;
+  sport?: string;
+  strategy?: string;
   match: string;
   league: string;
-  market: 'OVER_UNDER' | 'HANDICAP' | 'MONEYLINE' | 'OTHER';
+  market: string;
   selection: string;
   odd: number;
   closing_odd?: number;
@@ -28,6 +43,7 @@ export interface Bet {
   profit: number;
   payout: number;
   notes?: string;
+  legs?: BetLeg[];
   settled_at?: string;
   created_at: string;
 }

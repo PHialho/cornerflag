@@ -22,6 +22,19 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ---
 
+## [v0.005] - 2026-07-26 *(Branch originária: `bets` ➔ `develop`)*
+
+### Added
+- **Módulo Dedicado de Apostas (`BetsView.tsx`)**: Tabela completa de apostas registadas com indicadores KPI (Total, Win Rate %, Lucro Acumulado € e ROI %), suporte a expansão de pernas de apostas múltiplas e eliminação de apostas.
+- **Suporte a Apostas Simples e Múltiplas (`BetModal.tsx`)**: Formatações para apostas simples e acumuladas múltiplas com cálculo automático da odd combinada.
+- **Adição Dinâmica de Desportos e Estratégias**: Possibilidade de criar novos desportos e novas estratégias em tempo real diretamente na modal de registo.
+- **Ícones de Fecho de Aposta**: Adicionados ícones de liquidação para *Ganha*, *Meio Ganha*, *Anulada*, *Meio Perdida* e *Perdida*.
+- **Ação de Eliminar Aposta**: Possibilidade de eliminar apostas com recálculo automático e imediato do saldo da banca no estado reativo e no Supabase.
+
+---
+
+## [v0.004] - 2026-07-26 *(Branch originária: `dashboard` ➔ `develop`)*
+
 ### Added
 - **Menu Lateral (Sidebar Navigation)** em [src/components/layout/Sidebar.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/layout/Sidebar.tsx) com alternância de bancas ativas, navegação modular e perfil do utilizador.
 - **Filtro de Período de Análise** em [src/components/dashboard/PeriodFilter.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/dashboard/PeriodFilter.tsx) com opções em linha única: *Hoje*, *Ontem*, *Mês Corrente* (padrão), *Mês Anterior*, *Últimos 30 Dias*, *Este Ano*, *Todo o Histórico* e *Personalizado*.

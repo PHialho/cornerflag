@@ -3,11 +3,9 @@ import {
   TrendingUp,
   Wallet,
   Percent,
-  PlusCircle,
   ShieldAlert,
   Coins,
   Plus,
-  X,
 } from 'lucide-react';
 import {
   ResponsiveContainer,
@@ -20,7 +18,6 @@ import {
 } from 'recharts';
 
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
-import type { BetResult } from '../../lib/math/calculator';
 import {
   PERIOD_OPTIONS,
   calculatePeriodMetrics,
@@ -30,9 +27,10 @@ import {
 } from '../../lib/utils/period';
 import { PeriodFilter } from './PeriodFilter';
 import { MetricCard } from './MetricCard';
+import { BetModal } from '../bets/BetModal';
 
 export const Dashboard: React.FC = () => {
-  const { bankrolls, activeBankrollId, bets, addBet } = useCornerFlagStore();
+  const { bankrolls, activeBankrollId, bets } = useCornerFlagStore();
 
   // Date Range Defaults
   const now = new Date();
@@ -50,14 +48,6 @@ export const Dashboard: React.FC = () => {
 
   // Modal State for New Bet Form
   const [isBetModalOpen, setIsBetModalOpen] = useState(false);
-
-  // Form State
-  const [match, setMatch] = useState('');
-  const [league, setLeague] = useState('');
-  const [selection, setSelection] = useState('');
-  const [odd, setOdd] = useState<number>(1.90);
-  const [stake, setStake] = useState<number>(50);
-  const [result, setResult] = useState<BetResult | 'PENDING'>('WIN');
 
   const activeBankroll = bankrolls.find((b) => b.id === activeBankrollId);
   const initialBalance = activeBankroll ? activeBankroll.initial_balance : 1000;
@@ -87,26 +77,6 @@ export const Dashboard: React.FC = () => {
       profit: b.profit,
     };
   });
-
-  const handleCreateBet = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!activeBankrollId || !match || stake <= 0 || odd <= 1.0) return;
-
-    await addBet({
-      bankroll_id: activeBankrollId,
-      match,
-      league: league || 'Geral',
-      market: 'OVER_UNDER',
-      selection: selection || 'Over 2.5 Gols',
-      odd,
-      stake,
-      result,
-    });
-
-    setMatch('');
-    setSelection('');
-    setIsBetModalOpen(false);
-  };
 
   const selectedPeriodLabel =
     selectedPeriod === 'CUSTOM'
@@ -317,120 +287,8 @@ export const Dashboard: React.FC = () => {
         )}
       </div>
 
-      {/* Modal: Nova Aposta */}
-      {isBetModalOpen && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-[#121721] border border-[#1E2638] w-full max-w-lg p-6 rounded-3xl shadow-2xl space-y-6 relative">
-            <div className="flex items-center justify-between border-b border-[#1E2638] pb-4">
-              <div className="flex items-center gap-2.5">
-                <div className="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl border border-emerald-500/30">
-                  <PlusCircle className="w-5 h-5" />
-                </div>
-                <h3 className="text-lg font-bold text-white">Registar Nova Aposta</h3>
-              </div>
-
-              <button
-                onClick={() => setIsBetModalOpen(false)}
-                className="p-1.5 text-gray-400 hover:text-white rounded-lg hover:bg-[#1E2638] transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleCreateBet} className="space-y-4 text-xs">
-              <div>
-                <label className="text-gray-400 block mb-1 font-medium">Jogo / Confronto:</label>
-                <input
-                  type="text"
-                  placeholder="Ex: Real Madrid vs Barcelona"
-                  value={match}
-                  onChange={(e) => setMatch(e.target.value)}
-                  className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3.5 py-3 text-white focus:outline-none focus:border-emerald-500"
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-gray-400 block mb-1 font-medium">Liga:</label>
-                  <input
-                    type="text"
-                    placeholder="Ex: La Liga"
-                    value={league}
-                    onChange={(e) => setLeague(e.target.value)}
-                    className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3.5 py-3 text-white focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-                <div>
-                  <label className="text-gray-400 block mb-1 font-medium">Seleção / Mercado:</label>
-                  <input
-                    type="text"
-                    placeholder="Ex: Over 2.5 Gols"
-                    value={selection}
-                    onChange={(e) => setSelection(e.target.value)}
-                    className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3.5 py-3 text-white focus:outline-none focus:border-emerald-500"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-gray-400 block mb-1 font-medium">Odd:</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    value={odd}
-                    onChange={(e) => setOdd(parseFloat(e.target.value) || 1.0)}
-                    className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3.5 py-3 text-white font-mono focus:outline-none focus:border-emerald-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-gray-400 block mb-1 font-medium">Stake (€):</label>
-                  <input
-                    type="number"
-                    value={stake}
-                    onChange={(e) => setStake(parseFloat(e.target.value) || 0)}
-                    className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3.5 py-3 text-white font-mono focus:outline-none focus:border-emerald-500"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-gray-400 block mb-1 font-medium">Resultado:</label>
-                <select
-                  value={result}
-                  onChange={(e) => setResult(e.target.value as BetResult | 'PENDING')}
-                  className="w-full bg-[#0B0E14] border border-[#1E2638] rounded-xl px-3.5 py-3 text-white focus:outline-none focus:border-emerald-500"
-                >
-                  <option value="WIN">Ganha (Win)</option>
-                  <option value="HALF_WIN">Meio Ganha (Half Win)</option>
-                  <option value="VOID">Anulada (Void / Push)</option>
-                  <option value="HALF_LOSS">Meio Perdida (Half Loss)</option>
-                  <option value="LOSS">Perdida (Loss)</option>
-                  <option value="PENDING">Pendente</option>
-                </select>
-              </div>
-
-              <div className="pt-2 flex items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsBetModalOpen(false)}
-                  className="px-4 py-3 rounded-xl text-xs font-semibold text-gray-400 hover:text-white hover:bg-[#1E2638] transition-colors"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="bg-emerald-500 hover:bg-emerald-600 font-bold text-gray-950 px-6 py-3 rounded-xl transition-all text-xs shadow-lg shadow-emerald-500/20"
-                >
-                  Registar Aposta
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* Shared Bet Registration Modal */}
+      <BetModal isOpen={isBetModalOpen} onClose={() => setIsBetModalOpen(false)} />
     </div>
   );
 };
