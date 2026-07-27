@@ -43,6 +43,33 @@ describe('Financial Math & Settlement Logic', () => {
     expect(result.roiContribution).toBe(-100);
   });
 
+  it('correctly settles a 50€ bet at 1.90 odds across all outcomes', () => {
+    // 50€ @ 1.90: WIN -> Profit: 45€, Payout: 95€
+    const win = settleBet({ stake: 50, odd: 1.90, result: 'WIN' });
+    expect(win.profit).toBe(45.00);
+    expect(win.payout).toBe(95.00);
+
+    // 50€ @ 1.90: HALF_WIN -> Profit: 22.50€, Payout: 72.50€
+    const halfWin = settleBet({ stake: 50, odd: 1.90, result: 'HALF_WIN' });
+    expect(halfWin.profit).toBe(22.50);
+    expect(halfWin.payout).toBe(72.50);
+
+    // 50€ @ 1.90: VOID -> Profit: 0€, Payout: 50€
+    const voidResult = settleBet({ stake: 50, odd: 1.90, result: 'VOID' });
+    expect(voidResult.profit).toBe(0.00);
+    expect(voidResult.payout).toBe(50.00);
+
+    // 50€ @ 1.90: HALF_LOSS -> Profit: -25€, Payout: 25€
+    const halfLoss = settleBet({ stake: 50, odd: 1.90, result: 'HALF_LOSS' });
+    expect(halfLoss.profit).toBe(-25.00);
+    expect(halfLoss.payout).toBe(25.00);
+
+    // 50€ @ 1.90: LOSS -> Profit: -50€, Payout: 0€
+    const loss = settleBet({ stake: 50, odd: 1.90, result: 'LOSS' });
+    expect(loss.profit).toBe(-50.00);
+    expect(loss.payout).toBe(0.00);
+  });
+
   it('calculates overall ROI correctly', () => {
     expect(calculateROI(150, 1000)).toBe(15.0);
     expect(calculateROI(-50, 500)).toBe(-10.0);

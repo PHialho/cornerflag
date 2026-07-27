@@ -104,7 +104,7 @@ export function App() {
             </div>
             <div>
               <h1 className="text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
-                CORNER FLAG <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Pro v0.005</span>
+                CORNER FLAG <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Pro v0.006</span>
               </h1>
               <p className="text-xs text-gray-400">Plataforma Profissional de Gestão de Banca & Precificação (+EV)</p>
             </div>
@@ -333,7 +333,7 @@ export function App() {
 
         {/* Footer */}
         <footer className="border-t border-[#1E2638] text-center text-xs text-gray-500 py-6">
-          Corner Flag Pro v0.005 — Gestão de Banca, Risco & Precificação (+EV) © {new Date().getFullYear()}
+          Corner Flag Pro v0.006 — Gestão de Banca, Risco & Precificação (+EV) © {new Date().getFullYear()}
         </footer>
       </div>
     );

@@ -50,7 +50,7 @@ interface CornerFlagState {
 }
 
 const DEFAULT_BANKROLL: Bankroll = {
-  id: 'default-bankroll-1',
+  id: '00000000-0000-0000-0000-000000000001',
   name: 'Banca Principal',
   currency: 'EUR',
   initial_balance: 1000,
@@ -58,6 +58,25 @@ const DEFAULT_BANKROLL: Bankroll = {
   is_default: true,
   created_at: new Date().toISOString(),
 };
+
+function recalculateBankrollBalances(bankrolls: Bankroll[], bets: Bet[]): Bankroll[] {
+  return bankrolls.map((b) => {
+    const bankrollBets = bets.filter((bet) => bet.bankroll_id === b.id);
+    const totalProfit = bankrollBets.reduce((acc, bet) => {
+      return acc + (bet.result !== 'PENDING' ? bet.profit : 0);
+    }, 0);
+
+    return {
+      ...b,
+      current_balance: settleBetRound(b.initial_balance + totalProfit, 2),
+    };
+  });
+}
+
+function settleBetRound(value: number, decimals: number = 2): number {
+  const factor = Math.pow(10, decimals);
+  return Math.round((value + Number.EPSILON) * factor) / factor;
+}
 
 export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
   bankrolls: [DEFAULT_BANKROLL],
@@ -79,16 +98,19 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
 
         if (!bankrollError && remoteBankrolls && remoteBankrolls.length > 0) {
           const activeId = get().activeBankrollId || remoteBankrolls[0].id;
-          const { data: remoteBets } = await supabase
+          const { data: remoteBets, error: betsError } = await supabase
             .from('bets')
             .select('*')
             .eq('bankroll_id', activeId)
             .order('created_at', { ascending: false });
 
+          const loadedBets = (!betsError && remoteBets) ? remoteBets : get().bets;
+          const updatedBankrolls = recalculateBankrollBalances(remoteBankrolls, loadedBets);
+
           set({
-            bankrolls: remoteBankrolls,
+            bankrolls: updatedBankrolls,
             activeBankrollId: activeId,
-            bets: remoteBets || [],
+            bets: loadedBets,
             isLoading: false,
           });
           return;
@@ -106,14 +128,24 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
 
     if (isSupabaseConfigured) {
       try {
-        const { data: remoteBets } = await supabase
+        const { data: remoteBets, error } = await supabase
           .from('bets')
           .select('*')
           .eq('bankroll_id', id)
           .order('created_at', { ascending: false });
 
-        set({ bets: remoteBets || [], isLoading: false });
-        return;
+        if (!error && remoteBets && remoteBets.length > 0) {
+          set((state) => {
+            const otherBankrollBets = state.bets.filter((b) => b.bankroll_id !== id);
+            const allBets = [...remoteBets, ...otherBankrollBets];
+            return {
+              bets: allBets,
+              bankrolls: recalculateBankrollBalances(state.bankrolls, allBets),
+              isLoading: false,
+            };
+          });
+          return;
+        }
       } catch {
         // Fallback
       }
@@ -130,7 +162,7 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
     description: string = ''
   ) => {
     const newBankroll: Bankroll = {
-      id: isSupabaseConfigured ? crypto.randomUUID() : `bankroll-${Date.now()}`,
+      id: crypto.randomUUID(),
       name,
       currency,
       initial_balance: initialBalance,
@@ -174,9 +206,12 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
       }
     }
 
-    set((state) => ({
-      bankrolls: state.bankrolls.map((b) => (b.id === id ? { ...b, ...updates } : b)),
-    }));
+    set((state) => {
+      const updatedBankrolls = state.bankrolls.map((b) => (b.id === id ? { ...b, ...updates } : b));
+      return {
+        bankrolls: recalculateBankrollBalances(updatedBankrolls, state.bets),
+      };
+    });
   },
 
   deleteBankroll: async (id: string) => {
@@ -219,7 +254,7 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
 
     const newBet: Bet = {
       ...betData,
-      id: isSupabaseConfigured ? crypto.randomUUID() : `bet-${Date.now()}`,
+      id: crypto.randomUUID(),
       profit,
       payout,
       created_at: new Date().toISOString(),
@@ -250,19 +285,9 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
 
     set((state) => {
       const updatedBets = [newBet, ...state.bets];
-      const updatedBankrolls = state.bankrolls.map((b) => {
-        if (b.id === betData.bankroll_id && betData.result !== 'PENDING') {
-          return {
-            ...b,
-            current_balance: b.current_balance + profit,
-          };
-        }
-        return b;
-      });
-
       return {
         bets: updatedBets,
-        bankrolls: updatedBankrolls,
+        bankrolls: recalculateBankrollBalances(state.bankrolls, updatedBets),
       };
     });
   },
@@ -308,19 +333,9 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
         return b;
       });
 
-      const updatedBankrolls = state.bankrolls.map((b) => {
-        if (b.id === bet.bankroll_id) {
-          return {
-            ...b,
-            current_balance: b.current_balance + settlement.profit,
-          };
-        }
-        return b;
-      });
-
       return {
         bets: updatedBets,
-        bankrolls: updatedBankrolls,
+        bankrolls: recalculateBankrollBalances(state.bankrolls, updatedBets),
       };
     });
   },
@@ -339,19 +354,9 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
 
     set((state) => {
       const updatedBets = state.bets.filter((b) => b.id !== betId);
-      const updatedBankrolls = state.bankrolls.map((b) => {
-        if (b.id === bet.bankroll_id && bet.result !== 'PENDING') {
-          return {
-            ...b,
-            current_balance: b.current_balance - bet.profit,
-          };
-        }
-        return b;
-      });
-
       return {
         bets: updatedBets,
-        bankrolls: updatedBankrolls,
+        bankrolls: recalculateBankrollBalances(state.bankrolls, updatedBets),
       };
     });
   },

@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
 import { BankrollModal } from './BankrollModal';
+import { MetricCard } from '../dashboard/MetricCard';
 import type { Bankroll } from '../../types';
 
 export const BankrollsView: React.FC = () => {
@@ -106,132 +107,65 @@ export const BankrollsView: React.FC = () => {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Header Bar */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      {/* Top Banner Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-black text-white tracking-tight">Gestão de Bancas</h2>
-            <span className="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold px-2 py-0.5 rounded-full">
-              Multi-Banca
-            </span>
-          </div>
-          <p className="text-xs text-gray-400 mt-1">
+          <h2 className="text-2xl font-black text-white tracking-tight uppercase flex items-center gap-2.5">
+            <Wallet className="w-6 h-6 text-emerald-400" /> Gestão de Bancas
+          </h2>
+          <p className="text-xs text-gray-400">
             Gerencie múltiplas bancas, estabeleça o dimensionamento de unidades e utilize o guia de risco para as suas apostas.
           </p>
         </div>
 
         <button
           onClick={handleOpenCreateModal}
-          className="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-gray-950 font-extrabold text-xs px-4 py-3 rounded-xl transition-all shadow-lg shadow-emerald-500/20 cursor-pointer self-start md:self-auto"
+          className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 font-bold text-gray-950 px-5 py-2.5 rounded-xl text-xs transition-all shadow-lg shadow-emerald-500/20 cursor-pointer active:scale-95 shrink-0"
         >
           <Plus className="w-4 h-4 stroke-[3]" />
-          <span>Criar Nova Banca</span>
+          <span>Nova Banca</span>
         </button>
       </div>
 
-      {/* Overview Top Stats */}
+      {/* Metric Cards KPI */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Total Portfolio Balance */}
-        <div className="bg-[#121721] border border-[#1E2638] p-5 rounded-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
-              Património Total
-            </span>
-            <div className="p-2 bg-emerald-500/10 text-emerald-400 rounded-xl border border-emerald-500/20">
-              <Wallet className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-3">
-            <span className="text-2xl font-black text-white tracking-tight">
-              € {totalBalance.toFixed(2)}
-            </span>
-            <div className="flex items-center gap-1.5 mt-1 text-[11px]">
-              <span className="text-gray-400">Total Inicial: € {totalInitial.toFixed(2)}</span>
-            </div>
-          </div>
-        </div>
+        <MetricCard
+          title="Património Total"
+          value={`€ ${totalBalance.toFixed(2)}`}
+          subtext={`Total Inicial: € ${totalInitial.toFixed(2)}`}
+          icon={Wallet}
+          iconColorClass="text-emerald-400"
+          iconBgClass="bg-emerald-500/10 border-emerald-500/20"
+        />
 
-        {/* Active Bankroll Highlight */}
-        <div className="bg-[#121721] border border-emerald-500/30 p-5 rounded-2xl relative overflow-hidden bg-gradient-to-b from-[#121721] to-emerald-950/20">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-semibold text-emerald-400 uppercase tracking-wider flex items-center gap-1">
-              <CheckCircle2 className="w-3.5 h-3.5" /> Banca Ativa
-            </span>
-            <span className="text-xs font-bold text-white bg-emerald-500/20 border border-emerald-500/30 px-2 py-0.5 rounded-lg">
-              {activeBankroll?.currency || 'EUR'}
-            </span>
-          </div>
-          <div className="mt-3">
-            <span className="text-2xl font-black text-emerald-400 tracking-tight">
-              {activeCurrencySymbol} {activeBankroll?.current_balance.toFixed(2)}
-            </span>
-            <p className="text-xs font-semibold text-white mt-0.5 truncate">
-              {activeBankroll?.name}
-            </p>
-          </div>
-        </div>
+        <MetricCard
+          title="Banca Ativa"
+          value={`${activeCurrencySymbol} ${activeBankroll?.current_balance.toFixed(2)}`}
+          subtext={activeBankroll?.name}
+          icon={CheckCircle2}
+          iconColorClass="text-emerald-400"
+          iconBgClass="bg-emerald-500/10 border-emerald-500/20"
+          badgeText={activeBankroll?.currency || 'EUR'}
+        />
 
-        {/* Total Profit & Loss */}
-        <div className="bg-[#121721] border border-[#1E2638] p-5 rounded-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
-              Lucro Total Consolidado
-            </span>
-            <div
-              className={`p-2 rounded-xl border ${
-                totalProfit >= 0
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                  : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
-              }`}
-            >
-              {totalProfit >= 0 ? (
-                <TrendingUp className="w-4 h-4" />
-              ) : (
-                <TrendingDown className="w-4 h-4" />
-              )}
-            </div>
-          </div>
-          <div className="mt-3">
-            <span
-              className={`text-2xl font-black tracking-tight ${
-                totalProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'
-              }`}
-            >
-              {totalProfit >= 0 ? '+' : ''}€ {totalProfit.toFixed(2)}
-            </span>
-            <div className="flex items-center gap-1 mt-1 text-[11px]">
-              <span
-                className={`font-bold ${
-                  totalProfitPercent >= 0 ? 'text-emerald-400' : 'text-rose-400'
-                }`}
-              >
-                {totalProfitPercent >= 0 ? '+' : ''}
-                {totalProfitPercent.toFixed(2)}%
-              </span>
-              <span className="text-gray-500">sobre investimento total</span>
-            </div>
-          </div>
-        </div>
+        <MetricCard
+          title="Lucro Total Consolidado"
+          value={`${totalProfit >= 0 ? '+' : ''}€ ${totalProfit.toFixed(2)}`}
+          subtext={`${totalProfitPercent >= 0 ? '+' : ''}${totalProfitPercent.toFixed(2)}% sobre investimento`}
+          icon={totalProfit >= 0 ? TrendingUp : TrendingDown}
+          iconColorClass={totalProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'}
+          iconBgClass={totalProfit >= 0 ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-rose-500/10 border-rose-500/20'}
+          valueColorClass={totalProfit >= 0 ? 'text-emerald-400' : 'text-rose-400'}
+        />
 
-        {/* Total Bankrolls Count */}
-        <div className="bg-[#121721] border border-[#1E2638] p-5 rounded-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">
-              Bancas Registadas
-            </span>
-            <div className="p-2 bg-purple-500/10 text-purple-400 rounded-xl border border-purple-500/20">
-              <Award className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-3">
-            <span className="text-2xl font-black text-white tracking-tight">
-              {bankrolls.length} {bankrolls.length === 1 ? 'Banca' : 'Bancas'}
-            </span>
-            <p className="text-[11px] text-gray-400 mt-1">
-              Prontas para operar de forma isolada
-            </p>
-          </div>
-        </div>
+        <MetricCard
+          title="Bancas Registadas"
+          value={bankrolls.length}
+          subtext="Prontas para operação isolada"
+          icon={Award}
+          iconColorClass="text-purple-400"
+          iconBgClass="bg-purple-500/10 border-purple-500/20"
+        />
       </div>
 
       {/* Main Content Grid: Bankrolls Cards List */}

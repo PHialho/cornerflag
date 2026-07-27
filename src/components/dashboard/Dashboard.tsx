@@ -52,9 +52,12 @@ export const Dashboard: React.FC = () => {
   const activeBankroll = bankrolls.find((b) => b.id === activeBankrollId);
   const initialBalance = activeBankroll ? activeBankroll.initial_balance : 1000;
 
+  // Filter bets specifically for the active bankroll
+  const activeBets = bets.filter((b) => b.bankroll_id === activeBankrollId);
+
   // Compute metrics for the selected period & custom date range
   const periodMetrics = calculatePeriodMetrics(
-    bets,
+    activeBets,
     initialBalance,
     selectedPeriod,
     customRange

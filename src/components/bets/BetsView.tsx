@@ -36,16 +36,19 @@ export const BetsView: React.FC = () => {
 
   const activeBankroll = bankrolls.find((b) => b.id === activeBankrollId);
 
-  // Calculate Metrics across all bets
-  const totalSettled = bets.filter((b) => b.result !== 'PENDING').length;
-  const totalWon = bets.filter((b) => b.result === 'WIN' || b.result === 'HALF_WIN').length;
-  const totalProfit = bets.reduce((acc, b) => acc + b.profit, 0);
-  const totalStaked = bets.reduce((acc, b) => acc + (b.result !== 'PENDING' ? b.stake : 0), 0);
+  // Filter bets specifically for the active bankroll
+  const activeBets = bets.filter((b) => b.bankroll_id === activeBankrollId);
+
+  // Calculate Metrics across bets of active bankroll
+  const totalSettled = activeBets.filter((b) => b.result !== 'PENDING').length;
+  const totalWon = activeBets.filter((b) => b.result === 'WIN' || b.result === 'HALF_WIN').length;
+  const totalProfit = activeBets.reduce((acc, b) => acc + b.profit, 0);
+  const totalStaked = activeBets.reduce((acc, b) => acc + (b.result !== 'PENDING' ? b.stake : 0), 0);
   const winRate = totalSettled > 0 ? ((totalWon / totalSettled) * 100).toFixed(1) : '0.0';
   const roi = calculateROI(totalProfit, totalStaked);
 
-  const simpleBetsCount = bets.filter((b) => !b.bet_type || b.bet_type === 'SIMPLE').length;
-  const multipleBetsCount = bets.filter((b) => b.bet_type === 'MULTIPLE').length;
+  const simpleBetsCount = activeBets.filter((b) => !b.bet_type || b.bet_type === 'SIMPLE').length;
+  const multipleBetsCount = activeBets.filter((b) => b.bet_type === 'MULTIPLE').length;
 
   return (
     <div className="space-y-8">
@@ -115,11 +118,11 @@ export const BetsView: React.FC = () => {
       <div className="bg-[#121721] border border-[#1E2638] p-6 rounded-2xl">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-md font-bold text-white">
-            Lista de Apostas Registadas ({bets.length})
+            Lista de Apostas Registadas ({activeBets.length})
           </h3>
         </div>
 
-        {bets.length > 0 ? (
+        {activeBets.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs text-gray-300">
               <thead className="bg-[#0B0E14] text-gray-400 border-b border-[#1E2638]">
@@ -135,7 +138,7 @@ export const BetsView: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#1E2638]">
-                {bets.map((bet) => {
+                {activeBets.map((bet) => {
                   const isMultiple = bet.bet_type === 'MULTIPLE';
                   const isExpanded = !!expandedBetIds[bet.id];
 

@@ -36,6 +36,12 @@ export const BetModal: React.FC<BetModalProps> = ({ isOpen, onClose }) => {
   const [sport, setSport] = useState(sports[0] || 'Futebol');
   const [strategy, setStrategy] = useState(strategies[0] || 'Over/Under Gols');
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setBankrollId(activeBankrollId || bankrolls[0]?.id || '');
+    }
+  }, [isOpen, activeBankrollId, bankrolls]);
+
   // Inline Add New Sport / Strategy States
   const [isAddingSport, setIsAddingSport] = useState(false);
   const [newSportName, setNewSportName] = useState('');

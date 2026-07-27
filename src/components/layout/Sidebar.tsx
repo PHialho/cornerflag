@@ -35,8 +35,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navItems: { id: NavTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'bets', label: 'Apostas', icon: Receipt },
+    { id: 'bankrolls', label: 'Bancas', icon: Wallet },
     { id: 'calculator', label: 'Calculadora +EV', icon: Calculator },
-    { id: 'bankrolls', label: 'Gestão de Bancas', icon: Wallet },
     { id: 'settings', label: 'Configurações', icon: Settings },
   ];
 
