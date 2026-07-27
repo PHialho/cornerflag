@@ -20,6 +20,8 @@ export interface Bankroll {
   initial_balance: number;
   current_balance: number;
   is_default?: boolean;
+  target_unit_percent?: number; // ex: 1 = 1% do saldo por unidade
+  description?: string;
   created_at: string;
 }
 

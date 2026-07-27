@@ -12,6 +12,22 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ## [Unreleased]
 
+## [v0.006] - 2026-07-27 *(Branch originária: `bankrolls` ➔ `develop`)*
+
+### Added
+- **Módulo Dedicado de Bancas (`BankrollsView.tsx`)** em [src/components/bankrolls/BankrollsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bankrolls/BankrollsView.tsx): Tabela e cartões KPI de património (Património Total, Saldo Inicial vs. Saldo Atual, Lucro/Prejuízo € e %, ROI % e Bancas Registadas).
+- **Guia de Staking & Risco em Tempo Real**: Dimensionamento automático de unidades (0.25u, 0.50u, 1.00u, 2.00u) recalculado com base no saldo da banca ativa e recomendações de Critério de Kelly Fracionado (Half-Kelly).
+- **Modal Interativo de Gestão de Bancas (`BankrollModal.tsx`)** em [src/components/bankrolls/BankrollModal.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bankrolls/BankrollModal.tsx): Criação e edição de bancas (Nome, Saldo Inicial, Saldo Recalibrado, Moeda EUR/USD/GBP/BRL, % de Unidade Alvo e Descrição).
+- **Ações de Edição e Eliminação no Store**: Métodos `updateBankroll` e `deleteBankroll` adicionados em [src/store/useCornerFlagStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useCornerFlagStore.ts).
+
+### Fixed
+- **Recálculo Determinístico do Saldo da Banca**: Recálculo exato do saldo de cada banca com base no lucro acumulado de apostas liquidadas em [src/store/useCornerFlagStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useCornerFlagStore.ts), corrigindo acumulações ao alternar resultados (*Ganha*, *Meio Ganha*, *Anulada*, *Meio Perdida*, *Perdida*).
+- **Garantia de Identificadores UUID Válidos**: Atualização do ID da banca inicial para formato UUID e geração de IDs de bancas e apostas com `crypto.randomUUID()`, prevenindo erros de chave externa no PostgreSQL/Supabase.
+- **Isolamento de Apostas por Banca Ativa**: Filtragem estrita por `activeBankrollId` nas métricas do [src/components/dashboard/Dashboard.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/dashboard/Dashboard.tsx) e na tabela de [src/components/bets/BetsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bets/BetsView.tsx).
+- **Reordenação e Padronização Visual do Menu Lateral**: Item *"Bancas"* posicionado acima da *"Calculadora +EV"* em [src/components/layout/Sidebar.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/layout/Sidebar.tsx) e cabeçalho padronizado em [src/components/bankrolls/BankrollsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bankrolls/BankrollsView.tsx).
+
+---
+
 ## [v0.005] - 2026-07-26 *(Branch originária: `bets` ➔ `develop`)*
 
 ### Added

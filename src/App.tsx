@@ -21,6 +21,7 @@ import { useCornerFlagStore } from './store/useCornerFlagStore';
 import { useAuthStore } from './store/useAuthStore';
 import { Sidebar, type NavTab } from './components/layout/Sidebar';
 import { Dashboard } from './components/dashboard/Dashboard';
+import { BankrollsView } from './components/bankrolls/BankrollsView';
 import { BetsView } from './components/bets/BetsView';
 
 export function App() {
@@ -103,7 +104,7 @@ export function App() {
             </div>
             <div>
               <h1 className="text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
-                CORNER FLAG <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Pro v0.005</span>
+                CORNER FLAG <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Pro v0.006</span>
               </h1>
               <p className="text-xs text-gray-400">Plataforma Profissional de Gestão de Banca & Precificação (+EV)</p>
             </div>
@@ -332,7 +333,7 @@ export function App() {
 
         {/* Footer */}
         <footer className="border-t border-[#1E2638] text-center text-xs text-gray-500 py-6">
-          Corner Flag Pro v0.005 — Gestão de Banca, Risco & Precificação (+EV) © {new Date().getFullYear()}
+          Corner Flag Pro v0.006 — Gestão de Banca, Risco & Precificação (+EV) © {new Date().getFullYear()}
         </footer>
       </div>
     );
@@ -377,8 +378,9 @@ export function App() {
         <main className="p-6 md:p-8 flex-1 max-w-7xl w-full mx-auto">
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'bets' && <BetsView />}
+          {activeTab === 'bankrolls' && <BankrollsView />}
 
-          {activeTab !== 'dashboard' && activeTab !== 'bets' && (
+          {activeTab !== 'dashboard' && activeTab !== 'bets' && activeTab !== 'bankrolls' && (
             <div className="bg-[#121721] border border-[#1E2638] p-12 rounded-2xl text-center space-y-4">
               <div className="inline-flex p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
                 <BarChart3 className="w-8 h-8" />
