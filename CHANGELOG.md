@@ -15,10 +15,11 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 ## [v0.006] - 2026-07-27 *(Branch originária: `bankrolls` ➔ `develop`)*
 
 ### Added
-- **Módulo Dedicado de Bancas (`BankrollsView.tsx`)** em [src/components/bankrolls/BankrollsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bankrolls/BankrollsView.tsx): Tabela e cartões KPI de património (Património Total, Saldo Inicial vs. Saldo Atual, Lucro/Prejuízo € e %, ROI % e Bancas Registadas).
-- **Guia de Staking & Risco em Tempo Real**: Dimensionamento automático de unidades (0.25u, 0.50u, 1.00u, 2.00u) recalculado com base no saldo da banca ativa e recomendações de Critério de Kelly Fracionado (Half-Kelly).
+- **Módulo Dedicado de Gestão de Bancas (`BankrollsView.tsx`)** em [src/components/bankrolls/BankrollsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bankrolls/BankrollsView.tsx): Tabela interativa e cartões KPI de património (Património Total, Saldo Inicial vs. Saldo Atual, Lucro/Prejuízo € e %, ROI % e Bancas Registadas).
+- **Guia de Staking & Risco em Tempo Real**: Dimensionamento automático de unidades (0.25u, 0.50u, 1.00u, 2.00u) recalculado com base no saldo da banca ativa e recomendações do Critério de Kelly Fracionado (Half-Kelly).
 - **Modal Interativo de Gestão de Bancas (`BankrollModal.tsx`)** em [src/components/bankrolls/BankrollModal.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bankrolls/BankrollModal.tsx): Criação e edição de bancas (Nome, Saldo Inicial, Saldo Recalibrado, Moeda EUR/USD/GBP/BRL, % de Unidade Alvo e Descrição).
-- **Ações de Edição e Eliminação no Store**: Métodos `updateBankroll` e `deleteBankroll` adicionados em [src/store/useCornerFlagStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useCornerFlagStore.ts).
+- **Ações de Edição e Eliminação no Store**: Métodos `updateBankroll` e `deleteBankroll` adicionados em [src/store/useCornerFlagStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useCornerFlagStore.ts) com suporte a persistência no Supabase.
+- **Suite de Testes Unitários de Staking & Gestão de Risco**: Suite de testes automatizados para verificação do dimensionamento de stakes e recálculos em [src/lib/math/calculator.test.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/calculator.test.ts) utilizando Vitest.
 
 ### Fixed
 - **Recálculo Determinístico do Saldo da Banca**: Recálculo exato do saldo de cada banca com base no lucro acumulado de apostas liquidadas em [src/store/useCornerFlagStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useCornerFlagStore.ts), corrigindo acumulações ao alternar resultados (*Ganha*, *Meio Ganha*, *Anulada*, *Meio Perdida*, *Perdida*).
@@ -31,11 +32,11 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 ## [v0.005] - 2026-07-26 *(Branch originária: `bets` ➔ `develop`)*
 
 ### Added
-- **Módulo Dedicado de Apostas (`BetsView.tsx`)**: Tabela completa de apostas registadas com indicadores KPI (Total, Win Rate %, Lucro Acumulado € e ROI %), suporte a expansão de pernas de apostas múltiplas e eliminação de apostas.
-- **Suporte a Apostas Simples e Múltiplas (`BetModal.tsx`)**: Formatações para apostas simples e acumuladas múltiplas com cálculo automático da odd combinada.
+- **Módulo Dedicado de Apostas (`BetsView.tsx`)** em [src/components/bets/BetsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bets/BetsView.tsx): Tabela completa de apostas registadas com indicadores KPI (Total, Win Rate %, Lucro Acumulado € e ROI %), suporte a expansão de pernas de apostas múltiplas e eliminação de apostas.
+- **Suporte a Apostas Simples e Múltiplas (`BetModal.tsx`)** em [src/components/bets/BetModal.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bets/BetModal.tsx): Formatações para apostas simples e acumuladas múltiplas com cálculo automático da odd combinada.
 - **Adição Dinâmica de Desportos e Estratégias**: Possibilidade de criar novos desportos e novas estratégias em tempo real diretamente na modal de registo.
 - **Ícones de Fecho de Aposta**: Adicionados ícones de liquidação para *Ganha*, *Meio Ganha*, *Anulada*, *Meio Perdida* e *Perdida*.
-- **Ação de Eliminar Aposta**: Possibilidade de eliminar apostas com recálculo automático e imediato do saldo da banca no estado reativo e no Supabase.
+- **Ação de Eliminar Aposta**: Possibilidade de eliminar apostas com recálculo automático e imediato do saldo da banca no estado reativo em [src/store/useCornerFlagStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useCornerFlagStore.ts) e no Supabase.
 
 ---
 
