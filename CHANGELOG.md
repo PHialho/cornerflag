@@ -22,6 +22,8 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ---
 
+## [v0.007] - 2026-07-28 *(Branch originária: `reports` ➔ `develop`)*
+
 ### Added
 - **Módulo Dedicado de Relatórios & Analíticas (`ReportsView.tsx`)** em [src/components/reports/ReportsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/reports/ReportsView.tsx): Analíticas avançadas baseadas nas plataformas StakeToys e BetDiary, com indicadores KPI de Lucro Líquido, ROI/Yield %, Win Rate %, Profit Factor, Max Drawdown e Odds/Stakes Médias.
 - **Motor de Cálculo e Agrupamento Estatístico (`reportsCalculator.ts`)** em [src/lib/math/reportsCalculator.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/reportsCalculator.ts): Algoritmos para apuração de Peak-to-Trough Drawdown, agrupamentos por desporto, estratégia, faixas de odds (`< 1.50`, `1.50-1.80`, `1.81-2.20`, `2.21-3.00`, `> 3.00`), dia da semana, mês e tipo de aposta (Simples vs Múltiplas).
