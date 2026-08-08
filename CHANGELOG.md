@@ -23,6 +23,8 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ---
 
+## [v0.006] - 2026-07-27 *(Branch originária: `bankrolls` ➔ `develop`)*
+
 ### Added
 - **Módulo Dedicado de Gestão de Bancas (`BankrollsView.tsx`)** em [src/components/bankrolls/BankrollsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/bankrolls/BankrollsView.tsx): Tabela interativa e cartões KPI de património (Património Total, Saldo Inicial vs. Saldo Atual, Lucro/Prejuízo € e %, ROI % e Bancas Registadas).
 - **Guia de Staking & Risco em Tempo Real**: Dimensionamento automático de unidades (0.25u, 0.50u, 1.00u, 2.00u) recalculado com base no saldo da banca ativa e recomendações do Critério de Kelly Fracionado (Half-Kelly).
