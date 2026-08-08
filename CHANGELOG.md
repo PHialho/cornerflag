@@ -12,7 +12,15 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ## [Unreleased]
 
-## [v0.007] - 2026-07-28 *(Branch originária: `reports` ➔ `develop`)*
+## [v0.008] - 2026-07-29 *(Branch originária: `calculator` ➔ `develop`)*
+
+### Added
+- **Suite Profissional de 10 Calculadoras de Apostas (`CalculatorView.tsx`)** em [src/components/calculator/CalculatorView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/calculator/CalculatorView.tsx): Módulo completo integrando 10 ferramentas quantitativas para apostadores profissionais (+EV Expected Value, Critério de Kelly & Stake Sizing, Conversor de Odds & Probabilidade Implícita, Surebet / Arbitragem 2 e 3 saídas, Dutching, Hedging / Cash Out, Matched Betting SNR/SR, Handicaps Asiáticos, Múltiplas / Parlay e Modelo Poisson xG).
+- **Motor de Algoritmos Financeiros & Matemáticos (`bettingCalculators.ts`)** em [src/lib/math/bettingCalculators.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/bettingCalculators.ts): Algoritmos para precificação, arbitragem sem risco, retenção de bónus, resolução das 14 linhas de Handicap Asiático e matrizes de Poisson.
+- **Suite de 10 Testes Unitários de Calculadoras**: Testes automatizados para todas as 10 calculadoras adicionados em [src/lib/math/bettingCalculators.test.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/bettingCalculators.test.ts) utilizando Vitest (total de 26 testes a passar).
+- **Conexão com a Banca Ativa**: As calculadoras de Kelly e Stake Sizing carregam automaticamente o saldo da banca ativa em tempo real.
+
+---
 
 ### Added
 - **Módulo Dedicado de Relatórios & Analíticas (`ReportsView.tsx`)** em [src/components/reports/ReportsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/reports/ReportsView.tsx): Analíticas avançadas baseadas nas plataformas StakeToys e BetDiary, com indicadores KPI de Lucro Líquido, ROI/Yield %, Win Rate %, Profit Factor, Max Drawdown e Odds/Stakes Médias.
