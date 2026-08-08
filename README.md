@@ -3,7 +3,7 @@
 Plataforma profissional de apoio a apostadores desportivos focada em **Gestão de Banca**, **Controlo de Risco** e **Precificação de Valor Esperado (+EV)**.
 
 [![Continuous Integration](https://github.com/PHialho/cornerflag/actions/workflows/ci.yml/badge.svg)](https://github.com/PHialho/cornerflag/actions/workflows/ci.yml)
-![Versão](https://img.shields.io/badge/vers%C3%A3o-v0.002-emerald)
+![Versão](https://img.shields.io/badge/vers%C3%A3o-v0.007-emerald)
 ![License](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)
 
 ---
@@ -11,6 +11,12 @@ Plataforma profissional de apoio a apostadores desportivos focada em **Gestão d
 ## 🌟 Funcionalidades Principais
 
 - **Estética *Trading Dark Mode***: Interface inspirada em software quantitativo e financeiro de alto desempenho.
+- **Relatórios & Analíticas Avançadas (`ReportsView.tsx`)**:
+  - Analíticas inspiradas no **StakeToys** e **BetDiary** com métricas de **Profit Factor**, **Max Drawdown (€/%)**, **Win Rate %**, **ROI / Yield %** e **Odds/Stakes Médias**.
+  - Agrupamentos por **Desporto**, **Estratégia/Mercado**, **Faixas de Odds** (`< 1.50`, `1.50-1.80`, `1.81-2.20`, `2.21-3.00`, `> 3.00`), **Dia da Semana** e **Mensal**.
+  - Comparativo de rentabilidade entre apostas **Simples vs. Múltiplas**.
+- **Gestão de Bancas & Risco (`BankrollsView.tsx`)**:
+  - Suporte a múltiplas bancas, calibragem de saldo e dimensionamento automático de unidades (0.25u, 0.50u, 1.00u, 2.00u) pelo Critério de Kelly Fracionado.
 - **Motor Financeiro de Precisão**:
   - Liquidação rigorosa de apostas (*Win*, *Half Win*, *Void / Push*, *Half Loss*, *Loss*, *Cashout*).
   - Cálculo automático de **ROI (%)**, **Yield (%)** e **CLV (Closing Line Value %)**.

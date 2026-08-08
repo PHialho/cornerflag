@@ -23,6 +23,7 @@ import { Sidebar, type NavTab } from './components/layout/Sidebar';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { BankrollsView } from './components/bankrolls/BankrollsView';
 import { BetsView } from './components/bets/BetsView';
+import { ReportsView } from './components/reports/ReportsView';
 
 export function App() {
   const {
@@ -379,8 +380,9 @@ export function App() {
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'bets' && <BetsView />}
           {activeTab === 'bankrolls' && <BankrollsView />}
+          {activeTab === 'reports' && <ReportsView />}
 
-          {activeTab !== 'dashboard' && activeTab !== 'bets' && activeTab !== 'bankrolls' && (
+          {activeTab !== 'dashboard' && activeTab !== 'bets' && activeTab !== 'bankrolls' && activeTab !== 'reports' && (
             <div className="bg-[#121721] border border-[#1E2638] p-12 rounded-2xl text-center space-y-4">
               <div className="inline-flex p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
                 <BarChart3 className="w-8 h-8" />
