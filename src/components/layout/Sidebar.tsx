@@ -11,6 +11,7 @@ import {
   ChevronDown,
   X,
   BarChart3,
+  ArrowDownUp,
 } from 'lucide-react';
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -19,7 +20,14 @@ import type { Currency } from '../../store/useSettingsStore';
 import { getTranslation } from '../../lib/i18n';
 import { formatCurrency } from '../../lib/formatters';
 
-export type NavTab = 'dashboard' | 'bets' | 'bankrolls' | 'reports' | 'calculator' | 'settings';
+export type NavTab =
+  | 'dashboard'
+  | 'bets'
+  | 'bankrolls'
+  | 'movements'
+  | 'reports'
+  | 'calculator'
+  | 'settings';
 
 interface SidebarProps {
   activeTab: NavTab;
@@ -43,10 +51,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'dashboard', label: t.dashboard, icon: LayoutDashboard },
     { id: 'bets', label: t.bets, icon: Receipt },
     { id: 'bankrolls', label: t.bankrolls, icon: Wallet },
+    { id: 'movements', label: t.movements, icon: ArrowDownUp },
     { id: 'reports', label: t.reports, icon: BarChart3 },
     { id: 'calculator', label: t.calculator, icon: Calculator },
     { id: 'settings', label: t.settings, icon: Settings },
   ];
+
 
   return (
     <>

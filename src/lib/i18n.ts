@@ -6,12 +6,14 @@ export const translations = {
     dashboard: 'Dashboard',
     bets: 'Apostas',
     bankrolls: 'Bancas',
+    movements: 'Movimentos & Cashflow',
     reports: 'Relatórios',
     calculator: 'Calculadora +EV',
     settings: 'Configurações',
     activeBankroll: 'Banca Ativa',
     signOut: 'Terminar Sessão',
     navigation: 'Navegação',
+
 
     // Settings General
     settingsTitle: 'Configurações',
@@ -72,12 +74,14 @@ export const translations = {
     dashboard: 'Dashboard',
     bets: 'Bets',
     bankrolls: 'Bankrolls',
+    movements: 'Movements & Cashflow',
     reports: 'Reports',
     calculator: 'EV+ Calculator',
     settings: 'Settings',
     activeBankroll: 'Active Bankroll',
     signOut: 'Sign Out',
     navigation: 'Navigation',
+
 
     // Settings General
     settingsTitle: 'System Settings',

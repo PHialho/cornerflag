@@ -47,3 +47,16 @@ export interface Bet {
   settled_at?: string;
   created_at: string;
 }
+
+export type MovementType = 'DEPOSIT' | 'WITHDRAWAL' | 'BONUS' | 'ADJUSTMENT';
+
+export interface BankrollMovement {
+  id: string;
+  bankroll_id: string;
+  type: MovementType;
+  amount: number;
+  payment_method?: string;
+  notes?: string;
+  created_at: string;
+}
+
