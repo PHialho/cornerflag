@@ -13,13 +13,21 @@ Plataforma profissional de apoio a apostadores desportivos focada em **Gestão d
 ## 🌟 Funcionalidades Principais
 
 - **Estética *Trading Dark Mode***: Interface inspirada em software quantitativo e financeiro de alto desempenho.
+- **Movimentos & Cashflow de Bancas (`MovementsView.tsx`)**:
+  - Registo e acompanhamento de **Depósitos**, **Levantamentos**, **Bónus** e **Ajustes Manuais**.
+  - Indicadores KPI de **Total Depositado**, **Total Levantado**, **Cashflow Líquido** e histórico financeiro.
+  - Suporte a múltiplos métodos de pagamento (MB WAY, Skrill, Neteller, Transferência Bancária, Crypto, Paypal, etc.).
+  - Reconciliação determinística do saldo da banca no estado global e Supabase.
 - **Gestão de Estratégias, Sugestões & Objetivos (`StrategiesView.tsx`)**:
   - Acompanhamento de rendimento por estratégia (Win Rate, ROI, Yield, Odd Média).
   - **Sugestões Automatizadas**: Diagnósticos inteligentes baseados no histórico real (+EV e Alertas de Drawdown).
   - **Recuperação de Investimento**: Gestão de metas de recuperação de capital com estimativas de apostas necessárias.
   - **Desafios / Challenges**: Desafios predefinidos (ex: *100€ ➔ 1000€*, *50 Apostas Flat Stake*) e desafios personalizados com acompanhamento visual de progresso.
+- **Configurações, Temas & Internacionalização (`SettingsView.tsx`)**:
+  - **i18n Multi-idioma**: Suporte completo a Português (`pt`) e Inglês (`en`).
+  - **Separadores Regionais**: Configuração de formatos numéricos (Europeu `1.234,56 €`, Anglo-saxónico `1,234.56 $`, Espaçado `1 234,56 €`).
+  - **Temas Visuais**: Modos Dark, Light (tema Laranja) e Sincronizado com o Sistema.
 - **Suite Completa de 10 Calculadoras de Apostas (`CalculatorView.tsx`)**:
-
   - Ferramentas quantitativas: **Precificação +EV**, **Critério de Kelly & Stake Sizing**, **Conversor de Odds**, **Surebet / Arbitragem (2 e 3 Saídas)**, **Dutching**, **Hedging / Cash Out**, **Matched Betting (Bónus SNR/SR)**, **Handicap Asiático**, **Múltiplas / Parlay** e **Modelo Poisson (xG)**.
 - **Relatórios & Analíticas Avançadas (`ReportsView.tsx`)**:
   - Analíticas inspiradas no **StakeToys** e **BetDiary** com métricas de **Profit Factor**, **Max Drawdown (€/%)**, **Win Rate %**, **ROI / Yield %** e **Odds/Stakes Médias**.
@@ -33,6 +41,7 @@ Plataforma profissional de apoio a apostadores desportivos focada em **Gestão d
   - Calculadora em tempo real de **Valor Esperado (+EV %)** e **Critério de Kelly Fracionado (1/4 Kelly)**.
 - **Persistência de Dados**: Sincronização cloud com **Supabase** (PostgreSQL) com Row Level Security (RLS) e migrações DDL.
 - **Gráficos Analytics Interativos**: Curva de crescimento de banca e variação de património com **Recharts**.
+
 
 ---
 
