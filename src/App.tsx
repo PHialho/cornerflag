@@ -24,9 +24,11 @@ import { Sidebar, type NavTab } from './components/layout/Sidebar';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { BankrollsView } from './components/bankrolls/BankrollsView';
 import { BetsView } from './components/bets/BetsView';
+import { StrategiesView } from './components/strategies/StrategiesView';
 import { ReportsView } from './components/reports/ReportsView';
 import { CalculatorView } from './components/calculator/CalculatorView';
 import { SettingsView } from './components/settings/SettingsView';
+
 
 export function App() {
   const {
@@ -395,9 +397,11 @@ export function App() {
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'bets' && <BetsView />}
           {activeTab === 'bankrolls' && <BankrollsView />}
+          {activeTab === 'strategies' && <StrategiesView />}
           {activeTab === 'reports' && <ReportsView />}
           {activeTab === 'calculator' && <CalculatorView />}
           {activeTab === 'settings' && <SettingsView />}
+
         </main>
       </div>
     </div>
