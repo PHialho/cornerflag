@@ -24,9 +24,9 @@
   }
 }
 
-/* ==========================================
-   LIGHT MODE OVERRIDES (Green -> Orange)
-   ========================================== */
+/* ==========================================================================
+   LIGHT MODE COMPLETE OVERRIDES (Dark -> Crisp Light | Green -> Vivid Orange)
+   ========================================================================== */
 [data-theme='light'] {
   --bg-main: #f8fafc;
   --bg-card: #ffffff;
@@ -47,7 +47,8 @@
 
 /* Dark Backgrounds -> Light Cards & Surfaces */
 [data-theme='light'] .bg-\[\#0B0E14\],
-[data-theme='light'] .bg-\[\#0b0e14\] {
+[data-theme='light'] .bg-\[\#0b0e14\],
+[data-theme='light'] .bg-\[\#080A0F\] {
   background-color: #f1f5f9 !important;
   color: #0f172a !important;
 }
@@ -63,20 +64,20 @@
   background-color: #f8fafc !important;
 }
 
-/* Borders */
+/* Dark Borders -> Light Crisp Borders */
 [data-theme='light'] .border-\[\#1E2638\],
 [data-theme='light'] .border-\[\#1e2638\] {
   border-color: #e2e8f0 !important;
 }
 
-/* Header & Sidebar */
+/* Header & Sidebar Light Theme */
 [data-theme='light'] header,
 [data-theme='light'] aside {
   background-color: #ffffff !important;
   border-color: #e2e8f0 !important;
 }
 
-/* Typography Overrides */
+/* Typography Overrides for Dark Text on Light Surface */
 [data-theme='light'] .text-white {
   color: #0f172a !important;
 }
@@ -95,7 +96,7 @@
   color: #64748b !important;
 }
 
-/* Form Controls */
+/* Form Controls (Inputs, Selects, Textareas) */
 [data-theme='light'] input,
 [data-theme='light'] select,
 [data-theme='light'] textarea {
@@ -104,66 +105,89 @@
   border-color: #cbd5e1 !important;
 }
 
-/* ==========================================
-   GREEN (EMERALD) -> ORANGE ACCENTS IN LIGHT MODE
-   ========================================== */
-[data-theme='light'] .text-emerald-400,
-[data-theme='light'] .text-emerald-500,
-[data-theme='light'] .text-emerald-300 {
+/* ==========================================================================
+   WILDCARD RULES: ALL GREEN (EMERALD) ACCENTS -> ORANGE ACCENTS
+   ========================================================================== */
+
+/* 1. All Emerald Text Variants */
+[data-theme='light'] [class*="text-emerald-"] {
   color: #ea580c !important; /* Orange 600 */
 }
 
-[data-theme='light'] .bg-emerald-500 {
+/* 2. All Emerald Background Variants (Solid) */
+[data-theme='light'] [class*="bg-emerald-500"],
+[data-theme='light'] [class*="bg-emerald-600"],
+[data-theme='light'] [class*="bg-emerald-400"],
+[data-theme='light'] [class*="bg-emerald-700"] {
   background-color: #ea580c !important; /* Orange 600 */
   color: #ffffff !important;
 }
 
-[data-theme='light'] .bg-emerald-400 {
-  background-color: #f97316 !important; /* Orange 500 */
+/* 3. All Emerald Background Opacity Variants (/10, /20, /30, etc.) */
+[data-theme='light'] [class*="bg-emerald-500/"],
+[data-theme='light'] [class*="bg-emerald-400/"],
+[data-theme='light'] [class*="bg-emerald-600/"] {
+  background-color: rgba(249, 115, 22, 0.15) !important;
 }
 
-[data-theme='light'] .bg-emerald-500\/10 {
-  background-color: rgba(249, 115, 22, 0.12) !important;
+/* 4. All Emerald Border Variants (Solid & Opacity) */
+[data-theme='light'] [class*="border-emerald-"] {
+  border-color: #f97316 !important;
 }
-
-[data-theme='light'] .bg-emerald-500\/20 {
-  background-color: rgba(249, 115, 22, 0.22) !important;
-}
-
-[data-theme='light'] .border-emerald-500 {
-  border-color: #ea580c !important;
-}
-
-[data-theme='light'] .border-emerald-500\/20,
-[data-theme='light'] .border-emerald-500\/30 {
+[data-theme='light'] [class*="border-emerald-500/"],
+[data-theme='light'] [class*="border-emerald-400/"] {
   border-color: rgba(249, 115, 22, 0.35) !important;
 }
 
-[data-theme='light'] .shadow-emerald-500\/10,
-[data-theme='light'] .shadow-emerald-500\/20,
-[data-theme='light'] .shadow-emerald-500\/5 {
-  box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.18) !important;
-}
-
-[data-theme='light'] .shadow-emerald-400 {
-  box-shadow: 0 0 10px rgba(249, 115, 22, 0.6) !important;
-}
-
-[data-theme='light'] .hover\:bg-emerald-600:hover {
+/* 5. All Emerald Hover States */
+[data-theme='light'] [class*="hover:bg-emerald-"]:hover {
   background-color: #c2410c !important; /* Orange 700 */
 }
 
-[data-theme='light'] .focus\:border-emerald-500:focus {
-  border-color: #f97316 !important;
+/* 6. All Emerald Shadows & Rings */
+[data-theme='light'] [class*="shadow-emerald-"] {
+  box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.22) !important;
 }
 
-/* Primary Filled Buttons text color in Light Mode */
-[data-theme='light'] button.bg-emerald-500,
-[data-theme='light'] .bg-emerald-500.text-gray-950 {
+[data-theme='light'] [class*="ring-emerald-"] {
+  --tw-ring-color: #ea580c !important;
+}
+
+/* 7. Focus Border States */
+[data-theme='light'] [class*="focus:border-emerald-"]:focus {
+  border-color: #ea580c !important;
+}
+
+/* 8. Primary Filled Buttons Text Color */
+[data-theme='light'] button[class*="bg-emerald-500"],
+[data-theme='light'] .bg-emerald-500.text-gray-950,
+[data-theme='light'] .bg-emerald-500.text-gray-900 {
   color: #ffffff !important;
 }
 
-/* Custom scrollbar for Trading Mode */
+/* 9. SVG Strokes, Fills & Recharts Gradient Stops */
+[data-theme='light'] svg path[stroke="#10B981"],
+[data-theme='light'] svg path[stroke="#10b981"],
+[data-theme='light'] svg [stroke="#10B981"],
+[data-theme='light'] svg [stroke="#10b981"],
+[data-theme='light'] .recharts-curve[stroke="#10B981"],
+[data-theme='light'] .recharts-curve[stroke="#10b981"] {
+  stroke: #ea580c !important;
+}
+
+[data-theme='light'] svg path[fill="#10B981"],
+[data-theme='light'] svg path[fill="#10b981"],
+[data-theme='light'] svg [fill="#10B981"],
+[data-theme='light'] svg [fill="#10b981"] {
+  fill: #ea580c !important;
+}
+
+[data-theme='light'] stop[stop-color="#10B981"],
+[data-theme='light'] stop[stop-color="#10b981"] {
+  stop-color: #ea580c !important;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -176,5 +200,5 @@
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+  background: #94a3b8;
 }
