@@ -12,7 +12,19 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ## [Unreleased]
 
+## [v0.009] - 2026-08-09 *(Branch originária: `strategies_and_goal` ➔ `develop`)*
+
+### Added
+- **Módulo Dedicado de Gestão de Estratégias, Sugestões & Objetivos/Challenges (`StrategiesView.tsx`)** em [src/components/strategies/StrategiesView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/strategies/StrategiesView.tsx): Vista para gestão de estratégias de apostas, sugestões inteligentes automatizadas, acompanhamento de recuperação de investimento e desafios de banca.
+- **Motor de Estatísticas de Estratégia e Progresso de Objetivos (`strategiesCalculator.ts`)** em [src/lib/math/strategiesCalculator.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/strategiesCalculator.ts): Algoritmos para cálculo de rendimento por estratégia (Win Rate, Stake Total, Lucro/Prejuízo, ROI %, Yield %, Odd Média) e percentagem de progresso de metas e desafios.
+- **Sugestões Automatizadas de Apostas (+EV & Risk Alerts)**: Motor automatizado de recomendações que identifica estratégias +EV lucrativas, emite alertas de drawdown e sugere dimensionamentos de risco.
+- **Navegação Lateral no Menu**: Item de menu *"Estratégias & Objetivos"* com o ícone `Target` posicionado entre *"Bancas"* e *"Relatórios"* em [src/components/layout/Sidebar.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/layout/Sidebar.tsx).
+- **Suite de Testes Unitários de Estratégias**: Testes automatizados em [src/lib/math/strategiesCalculator.test.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/strategiesCalculator.test.ts) utilizando Vitest (total de 29 testes a passar).
+
+---
+
 ## [v0.008] - 2026-07-29 *(Branch originária: `calculator` ➔ `develop`)*
+
 
 ### Added
 - **Suite Profissional de 10 Calculadoras de Apostas (`CalculatorView.tsx`)** em [src/components/calculator/CalculatorView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/calculator/CalculatorView.tsx): Módulo completo integrando 10 ferramentas quantitativas para apostadores profissionais (+EV Expected Value, Critério de Kelly & Stake Sizing, Conversor de Odds & Probabilidade Implícita, Surebet / Arbitragem 2 e 3 saídas, Dutching, Hedging / Cash Out, Matched Betting SNR/SR, Handicaps Asiáticos, Múltiplas / Parlay e Modelo Poisson xG).

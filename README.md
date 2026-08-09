@@ -3,7 +3,7 @@
 Plataforma profissional de apoio a apostadores desportivos focada em **Gestão de Banca**, **Controlo de Risco** e **Precificação de Valor Esperado (+EV)**.
 
 [![Continuous Integration](https://github.com/PHialho/cornerflag/actions/workflows/ci.yml/badge.svg)](https://github.com/PHialho/cornerflag/actions/workflows/ci.yml)
-![Versão](https://img.shields.io/badge/vers%C3%A3o-v0.008-emerald)
+![Versão](https://img.shields.io/badge/vers%C3%A3o-v0.009-emerald)
 ![License](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)
 
 ---
@@ -11,7 +11,13 @@ Plataforma profissional de apoio a apostadores desportivos focada em **Gestão d
 ## 🌟 Funcionalidades Principais
 
 - **Estética *Trading Dark Mode***: Interface inspirada em software quantitativo e financeiro de alto desempenho.
+- **Gestão de Estratégias, Sugestões & Objetivos (`StrategiesView.tsx`)**:
+  - Acompanhamento de rendimento por estratégia (Win Rate, ROI, Yield, Odd Média).
+  - **Sugestões Automatizadas**: Diagnósticos inteligentes baseados no histórico real (+EV e Alertas de Drawdown).
+  - **Recuperação de Investimento**: Gestão de metas de recuperação de capital com estimativas de apostas necessárias.
+  - **Desafios / Challenges**: Desafios predefinidos (ex: *100€ ➔ 1000€*, *50 Apostas Flat Stake*) e desafios personalizados com acompanhamento visual de progresso.
 - **Suite Completa de 10 Calculadoras de Apostas (`CalculatorView.tsx`)**:
+
   - Ferramentas quantitativas: **Precificação +EV**, **Critério de Kelly & Stake Sizing**, **Conversor de Odds**, **Surebet / Arbitragem (2 e 3 Saídas)**, **Dutching**, **Hedging / Cash Out**, **Matched Betting (Bónus SNR/SR)**, **Handicap Asiático**, **Múltiplas / Parlay** e **Modelo Poisson (xG)**.
 - **Relatórios & Analíticas Avançadas (`ReportsView.tsx`)**:
   - Analíticas inspiradas no **StakeToys** e **BetDiary** com métricas de **Profit Factor**, **Max Drawdown (€/%)**, **Win Rate %**, **ROI / Yield %** e **Odds/Stakes Médias**.
