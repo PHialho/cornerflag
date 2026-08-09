@@ -421,30 +421,30 @@ export const SettingsView: React.FC = () => {
                 setTheme('system');
                 showNotification(t.savedNotification);
               }}
-              className={`p-5 rounded-2xl border text-left transition-all space-y-4 relative ${
+              className={`p-5 rounded-2xl border text-left transition-all space-y-4 relative theme-preview-system ${
                 theme === 'system'
                   ? 'ring-2 ring-blue-500 border-blue-500 shadow-xl'
-                  : 'bg-[#121721] border-[#1E2638] hover:border-slate-500'
+                  : 'hover:border-slate-500 opacity-90 hover:opacity-100'
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-blue-400">
                   <Laptop className="w-5 h-5" />
-                  <span className="font-bold text-sm text-white">{t.themeSystem}</span>
+                  <span className="font-bold text-sm system-title">{t.themeSystem}</span>
                 </div>
                 {theme === 'system' && <Check className="w-5 h-5 text-blue-400" />}
               </div>
-              <p className="text-xs text-gray-400 leading-relaxed">{t.themeSystemDesc}</p>
+              <p className="text-xs system-desc leading-relaxed">{t.themeSystemDesc}</p>
 
               {/* Split Dual Visual */}
               <div className="h-20 rounded-xl border border-slate-600 overflow-hidden flex">
-                <div className="w-1/2 bg-[#0B0E14] p-2 flex flex-col justify-between border-r border-slate-700">
-                  <div className="w-8 h-1.5 bg-emerald-500 rounded" />
-                  <div className="w-full h-5 bg-[#121721] rounded" />
+                <div className="w-1/2 p-2 flex flex-col justify-between border-r border-slate-700 split-dark-half">
+                  <div className="w-8 h-1.5 rounded split-dark-accent" />
+                  <div className="w-full h-5 rounded border split-dark-box" />
                 </div>
-                <div className="w-1/2 bg-slate-100 p-2 flex flex-col justify-between">
-                  <div className="w-8 h-1.5 bg-orange-500 rounded" />
-                  <div className="w-full h-5 bg-white rounded border border-slate-300" />
+                <div className="w-1/2 p-2 flex flex-col justify-between split-light-half">
+                  <div className="w-8 h-1.5 rounded split-light-accent" />
+                  <div className="w-full h-5 rounded border split-light-box" />
                 </div>
               </div>
             </button>
