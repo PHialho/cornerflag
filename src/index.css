@@ -25,6 +25,65 @@
 }
 
 /* ==========================================================================
+   THEME PREVIEW CARDS INSULATION (Authentic Real Dark & Light Cards)
+   ========================================================================== */
+.theme-preview-dark,
+[data-theme='light'] .theme-preview-dark {
+  background-color: #0B0E14 !important;
+  border-color: #1E2638 !important;
+  color: #F3F4F6 !important;
+}
+
+.theme-preview-dark .preview-title,
+[data-theme='light'] .theme-preview-dark .preview-title {
+  color: #FFFFFF !important;
+}
+
+.theme-preview-dark .preview-desc,
+[data-theme='light'] .theme-preview-dark .preview-desc {
+  color: #9CA3AF !important;
+}
+
+.theme-preview-dark .preview-emerald-text,
+[data-theme='light'] .theme-preview-dark .preview-emerald-text {
+  color: #10B981 !important;
+}
+
+.theme-preview-dark .preview-inner-box,
+[data-theme='light'] .theme-preview-dark .preview-inner-box {
+  background-color: #121721 !important;
+  border-color: #1E2638 !important;
+}
+
+.theme-preview-light,
+[data-theme='dark'] .theme-preview-light {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+.theme-preview-light .preview-title,
+[data-theme='dark'] .theme-preview-light .preview-title {
+  color: #0F172A !important;
+}
+
+.theme-preview-light .preview-desc,
+[data-theme='dark'] .theme-preview-light .preview-desc {
+  color: #64748B !important;
+}
+
+.theme-preview-light .preview-orange-text,
+[data-theme='dark'] .theme-preview-light .preview-orange-text {
+  color: #EA580C !important;
+}
+
+.theme-preview-light .preview-inner-box,
+[data-theme='dark'] .theme-preview-light .preview-inner-box {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+/* ==========================================================================
    LIGHT MODE: ULTRA-LIGHT, AIRY & HIGH-CONTRAST THEME (Orange Accents)
    ========================================================================== */
 [data-theme='light'] {
@@ -46,32 +105,32 @@
 }
 
 /* 1. All Dark Container Backgrounds -> Light Insets & Clean White Surfaces */
-[data-theme='light'] .bg-\[\#0B0E14\],
-[data-theme='light'] .bg-\[\#0b0e14\],
-[data-theme='light'] .bg-\[\#080A0F\],
-[data-theme='light'] .bg-\[\#07090D\] {
+[data-theme='light'] .bg-\[\#0B0E14\]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .bg-\[\#0b0e14\]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .bg-\[\#080A0F\]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .bg-\[\#07090D\]:not(.theme-preview-dark):not(.theme-preview-dark *) {
   background-color: #f1f5f9 !important; /* Soft light gray inset */
   color: #0f172a !important;
 }
 
-[data-theme='light'] .bg-\[\#121721\],
-[data-theme='light'] .bg-\[\#121720\] {
+[data-theme='light'] .bg-\[\#121721\]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .bg-\[\#121720\]:not(.theme-preview-dark):not(.theme-preview-dark *) {
   background-color: #ffffff !important; /* Pure white cards */
   color: #0f172a !important;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
 }
 
-[data-theme='light'] .bg-\[\#19202e\],
-[data-theme='light'] .bg-\[\#1A212E\],
-[data-theme='light'] .hover\:bg-\[\#19202e\]:hover,
-[data-theme='light'] .hover\:bg-\[\#1A212E\]:hover {
-  background-color: #f8fafc !important; /* Light hover */
+[data-theme='light'] .bg-\[\#19202e\]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .bg-\[\#1A212E\]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .hover\:bg-\[\#19202e\]:hover:not(.theme-preview-dark),
+[data-theme='light'] .hover\:bg-\[\#1A212E\]:hover:not(.theme-preview-dark) {
+  background-color: #f8fafc !important;
 }
 
 /* 2. All Dark Borders & Dividers -> Subtle Light Borders */
-[data-theme='light'] .border-\[\#1E2638\],
-[data-theme='light'] .border-\[\#1e2638\],
-[data-theme='light'] .border-\[\#2A344B\] {
+[data-theme='light'] .border-\[\#1E2638\]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .border-\[\#1e2638\]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .border-\[\#2A344B\]:not(.theme-preview-dark):not(.theme-preview-dark *) {
   border-color: #e2e8f0 !important;
 }
 
@@ -89,29 +148,29 @@
 }
 
 /* 4. Typography Overrides for High Contrast & Crisp Readability */
-[data-theme='light'] .text-white {
+[data-theme='light'] .text-white:not(.theme-preview-dark):not(.theme-preview-dark *) {
   color: #0f172a !important;
 }
 
-[data-theme='light'] .text-gray-100,
-[data-theme='light'] .text-gray-200 {
+[data-theme='light'] .text-gray-100:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .text-gray-200:not(.theme-preview-dark):not(.theme-preview-dark *) {
   color: #1e293b !important;
 }
 
-[data-theme='light'] .text-gray-300,
-[data-theme='light'] .text-gray-400 {
-  color: #334155 !important; /* Slate 700 - crisp legibility */
+[data-theme='light'] .text-gray-300:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .text-gray-400:not(.theme-preview-dark):not(.theme-preview-dark *) {
+  color: #334155 !important;
 }
 
-[data-theme='light'] .text-gray-500,
-[data-theme='light'] .text-gray-600 {
-  color: #64748b !important; /* Slate 500 */
+[data-theme='light'] .text-gray-500:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] .text-gray-600:not(.theme-preview-dark):not(.theme-preview-dark *) {
+  color: #64748b !important;
 }
 
 /* 5. Form Controls (Inputs, Selects, Textareas) */
-[data-theme='light'] input,
-[data-theme='light'] select,
-[data-theme='light'] textarea {
+[data-theme='light'] input:not(.theme-preview-dark *),
+[data-theme='light'] select:not(.theme-preview-dark *),
+[data-theme='light'] textarea:not(.theme-preview-dark *) {
   background-color: #ffffff !important;
   color: #0f172a !important;
   border-color: #cbd5e1 !important;
@@ -176,46 +235,46 @@
    ========================================================================== */
 
 /* 1. All Emerald Text Variants */
-[data-theme='light'] [class*="text-emerald-"] {
-  color: #ea580c !important; /* Orange 600 */
+[data-theme='light'] [class*="text-emerald-"]:not(.theme-preview-dark):not(.theme-preview-dark *) {
+  color: #ea580c !important;
 }
 
 /* 2. All Emerald Background Variants (Solid) */
-[data-theme='light'] [class*="bg-emerald-500"],
-[data-theme='light'] [class*="bg-emerald-600"],
-[data-theme='light'] [class*="bg-emerald-400"],
-[data-theme='light'] [class*="bg-emerald-700"] {
-  background-color: #ea580c !important; /* Orange 600 */
+[data-theme='light'] [class*="bg-emerald-500"]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] [class*="bg-emerald-600"]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] [class*="bg-emerald-400"]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] [class*="bg-emerald-700"]:not(.theme-preview-dark):not(.theme-preview-dark *) {
+  background-color: #ea580c !important;
   color: #ffffff !important;
 }
 
 /* 3. All Emerald Background Opacity Variants (/10, /20, /30, etc.) */
-[data-theme='light'] [class*="bg-emerald-500/"],
-[data-theme='light'] [class*="bg-emerald-400/"],
-[data-theme='light'] [class*="bg-emerald-600/"] {
+[data-theme='light'] [class*="bg-emerald-500/"]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] [class*="bg-emerald-400/"]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] [class*="bg-emerald-600/"]:not(.theme-preview-dark):not(.theme-preview-dark *) {
   background-color: rgba(249, 115, 22, 0.12) !important;
 }
 
 /* 4. All Emerald Border Variants (Solid & Opacity) */
-[data-theme='light'] [class*="border-emerald-"] {
+[data-theme='light'] [class*="border-emerald-"]:not(.theme-preview-dark):not(.theme-preview-dark *) {
   border-color: #f97316 !important;
 }
-[data-theme='light'] [class*="border-emerald-500/"],
-[data-theme='light'] [class*="border-emerald-400/"] {
+[data-theme='light'] [class*="border-emerald-500/"]:not(.theme-preview-dark):not(.theme-preview-dark *),
+[data-theme='light'] [class*="border-emerald-400/"]:not(.theme-preview-dark):not(.theme-preview-dark *) {
   border-color: rgba(249, 115, 22, 0.35) !important;
 }
 
 /* 5. All Emerald Hover States */
-[data-theme='light'] [class*="hover:bg-emerald-"]:hover {
-  background-color: #c2410c !important; /* Orange 700 */
+[data-theme='light'] [class*="hover:bg-emerald-"]:hover:not(.theme-preview-dark) {
+  background-color: #c2410c !important;
 }
 
 /* 6. All Emerald Shadows & Rings */
-[data-theme='light'] [class*="shadow-emerald-"] {
+[data-theme='light'] [class*="shadow-emerald-"]:not(.theme-preview-dark):not(.theme-preview-dark *) {
   box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.18) !important;
 }
 
-[data-theme='light'] [class*="ring-emerald-"] {
+[data-theme='light'] [class*="ring-emerald-"]:not(.theme-preview-dark):not(.theme-preview-dark *) {
   --tw-ring-color: #ea580c !important;
 }
 
@@ -225,26 +284,26 @@
 }
 
 /* 8. Primary Filled Buttons Text Color */
-[data-theme='light'] button[class*="bg-emerald-500"],
-[data-theme='light'] .bg-emerald-500.text-gray-950,
-[data-theme='light'] .bg-emerald-500.text-gray-900 {
+[data-theme='light'] button[class*="bg-emerald-500"]:not(.theme-preview-dark),
+[data-theme='light'] .bg-emerald-500.text-gray-950:not(.theme-preview-dark),
+[data-theme='light'] .bg-emerald-500.text-gray-900:not(.theme-preview-dark) {
   color: #ffffff !important;
 }
 
 /* 9. SVG Strokes, Fills & Recharts Gradient Stops */
-[data-theme='light'] svg path[stroke="#10B981"],
-[data-theme='light'] svg path[stroke="#10b981"],
-[data-theme='light'] svg [stroke="#10B981"],
-[data-theme='light'] svg [stroke="#10b981"],
+[data-theme='light'] svg path[stroke="#10B981"]:not(.theme-preview-dark *),
+[data-theme='light'] svg path[stroke="#10b981"]:not(.theme-preview-dark *),
+[data-theme='light'] svg [stroke="#10B981"]:not(.theme-preview-dark *),
+[data-theme='light'] svg [stroke="#10b981"]:not(.theme-preview-dark *),
 [data-theme='light'] .recharts-curve[stroke="#10B981"],
 [data-theme='light'] .recharts-curve[stroke="#10b981"] {
   stroke: #ea580c !important;
 }
 
-[data-theme='light'] svg path[fill="#10B981"],
-[data-theme='light'] svg path[fill="#10b981"],
-[data-theme='light'] svg [fill="#10B981"],
-[data-theme='light'] svg [fill="#10b981"] {
+[data-theme='light'] svg path[fill="#10B981"]:not(.theme-preview-dark *),
+[data-theme='light'] svg path[fill="#10b981"]:not(.theme-preview-dark *),
+[data-theme='light'] svg [fill="#10B981"]:not(.theme-preview-dark *),
+[data-theme='light'] svg [fill="#10b981"]:not(.theme-preview-dark *) {
   fill: #ea580c !important;
 }
 

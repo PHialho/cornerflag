@@ -352,76 +352,79 @@ export const SettingsView: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Dark Theme Card */}
             <button
+              type="button"
               onClick={() => {
                 setTheme('dark');
                 showNotification(t.savedNotification);
               }}
-              className={`p-5 rounded-2xl border text-left transition-all space-y-4 relative ${
+              className={`p-5 rounded-2xl border text-left transition-all space-y-4 relative theme-preview-dark ${
                 theme === 'dark'
-                  ? 'bg-emerald-500/10 border-emerald-500 text-white shadow-xl shadow-emerald-500/5'
-                  : 'bg-[#0B0E14] border-[#1E2638] text-gray-400 hover:border-gray-600'
+                  ? 'ring-2 ring-emerald-500 border-emerald-500 shadow-xl'
+                  : 'hover:border-gray-500 opacity-90 hover:opacity-100'
               }`}
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-emerald-400">
+                <div className="flex items-center gap-2 preview-emerald-text">
                   <Moon className="w-5 h-5" />
-                  <span className="font-bold text-sm text-white">{t.themeDark}</span>
+                  <span className="font-bold text-sm preview-title">{t.themeDark}</span>
                 </div>
-                {theme === 'dark' && <Check className="w-5 h-5 text-emerald-400" />}
+                {theme === 'dark' && <Check className="w-5 h-5 preview-emerald-text" />}
               </div>
-              <p className="text-xs text-gray-400 leading-relaxed">{t.themeDarkDesc}</p>
+              <p className="text-xs preview-desc leading-relaxed">{t.themeDarkDesc}</p>
 
-              {/* Theme Mock Visual */}
-              <div className="h-20 bg-[#0B0E14] border border-[#1E2638] rounded-xl p-3 flex flex-col justify-between">
+              {/* Authentic Dark Mock Visual */}
+              <div className="h-20 preview-inner-box rounded-xl p-3 flex flex-col justify-between border">
                 <div className="flex items-center justify-between">
-                  <div className="w-12 h-2 bg-emerald-500/40 rounded" />
-                  <div className="w-4 h-4 bg-emerald-500/20 rounded-full" />
+                  <div className="w-12 h-2 rounded bg-emerald-500" />
+                  <div className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-500/30" />
                 </div>
-                <div className="w-full h-8 bg-[#121721] rounded-lg border border-[#1E2638]" />
+                <div className="w-full h-8 rounded-lg bg-[#0B0E14] border border-[#1E2638]" />
               </div>
             </button>
 
             {/* Light Theme Card */}
             <button
+              type="button"
               onClick={() => {
                 setTheme('light');
                 showNotification(t.savedNotification);
               }}
-              className={`p-5 rounded-2xl border text-left transition-all space-y-4 relative ${
+              className={`p-5 rounded-2xl border text-left transition-all space-y-4 relative theme-preview-light ${
                 theme === 'light'
-                  ? 'bg-emerald-500/10 border-emerald-500 text-white shadow-xl shadow-emerald-500/5'
-                  : 'bg-[#0B0E14] border-[#1E2638] text-gray-400 hover:border-gray-600'
+                  ? 'ring-2 ring-orange-500 border-orange-500 shadow-xl'
+                  : 'hover:border-slate-400 opacity-90 hover:opacity-100'
               }`}
             >
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-amber-400">
-                  <Sun className="w-5 h-5" />
-                  <span className="font-bold text-sm text-white">{t.themeLight}</span>
+                <div className="flex items-center gap-2 preview-orange-text">
+                  <Sun className="w-5 h-5 text-amber-500" />
+                  <span className="font-bold text-sm preview-title">{t.themeLight}</span>
                 </div>
-                {theme === 'light' && <Check className="w-5 h-5 text-emerald-400" />}
+                {theme === 'light' && <Check className="w-5 h-5 preview-orange-text" />}
               </div>
-              <p className="text-xs text-gray-400 leading-relaxed">{t.themeLightDesc}</p>
+              <p className="text-xs preview-desc leading-relaxed">{t.themeLightDesc}</p>
 
-              {/* Theme Mock Visual */}
-              <div className="h-20 bg-slate-100 border border-slate-300 rounded-xl p-3 flex flex-col justify-between">
+              {/* Authentic Light Mock Visual */}
+              <div className="h-20 preview-inner-box rounded-xl p-3 flex flex-col justify-between border">
                 <div className="flex items-center justify-between">
-                  <div className="w-12 h-2 bg-orange-500 rounded" />
-                  <div className="w-4 h-4 bg-orange-500/30 rounded-full" />
+                  <div className="w-12 h-2 rounded bg-orange-500" />
+                  <div className="w-4 h-4 rounded-full bg-orange-500/20 border border-orange-500/30" />
                 </div>
-                <div className="w-full h-8 bg-white rounded-lg border border-slate-300" />
+                <div className="w-full h-8 rounded-lg bg-white border border-slate-200" />
               </div>
             </button>
 
             {/* System Theme Card */}
             <button
+              type="button"
               onClick={() => {
                 setTheme('system');
                 showNotification(t.savedNotification);
               }}
               className={`p-5 rounded-2xl border text-left transition-all space-y-4 relative ${
                 theme === 'system'
-                  ? 'bg-emerald-500/10 border-emerald-500 text-white shadow-xl shadow-emerald-500/5'
-                  : 'bg-[#0B0E14] border-[#1E2638] text-gray-400 hover:border-gray-600'
+                  ? 'ring-2 ring-blue-500 border-blue-500 shadow-xl'
+                  : 'bg-[#121721] border-[#1E2638] hover:border-slate-500'
               }`}
             >
               <div className="flex items-center justify-between">
@@ -429,13 +432,20 @@ export const SettingsView: React.FC = () => {
                   <Laptop className="w-5 h-5" />
                   <span className="font-bold text-sm text-white">{t.themeSystem}</span>
                 </div>
-                {theme === 'system' && <Check className="w-5 h-5 text-emerald-400" />}
+                {theme === 'system' && <Check className="w-5 h-5 text-blue-400" />}
               </div>
               <p className="text-xs text-gray-400 leading-relaxed">{t.themeSystemDesc}</p>
 
-              {/* Theme Mock Visual */}
-              <div className="h-20 bg-[#0B0E14] border border-[#1E2638] rounded-xl p-3 flex items-center justify-center text-gray-400">
-                <Laptop className="w-8 h-8 opacity-40" />
+              {/* Split Dual Visual */}
+              <div className="h-20 rounded-xl border border-slate-600 overflow-hidden flex">
+                <div className="w-1/2 bg-[#0B0E14] p-2 flex flex-col justify-between border-r border-slate-700">
+                  <div className="w-8 h-1.5 bg-emerald-500 rounded" />
+                  <div className="w-full h-5 bg-[#121721] rounded" />
+                </div>
+                <div className="w-1/2 bg-slate-100 p-2 flex flex-col justify-between">
+                  <div className="w-8 h-1.5 bg-orange-500 rounded" />
+                  <div className="w-full h-5 bg-white rounded border border-slate-300" />
+                </div>
               </div>
             </button>
           </div>
