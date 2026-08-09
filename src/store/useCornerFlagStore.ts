@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { settleBet, type BetResult } from '../lib/math/calculator';
-import type { Bankroll, Bet, BankrollMovement } from '../types';
+import type { Bankroll, Bet, BankrollMovement, BettingGoal } from '../types';
 import { calculateNetMovementsBalance } from '../lib/math/movementsCalculator';
 
 export const DEFAULT_SPORTS = [
@@ -30,6 +30,7 @@ interface CornerFlagState {
   sports: string[];
   strategies: string[];
   movements: BankrollMovement[];
+  goals: BettingGoal[];
   isLoading: boolean;
 
   // Actions
@@ -51,7 +52,12 @@ interface CornerFlagState {
   addStrategy: (strategyName: string) => void;
   addMovement: (movementData: Omit<BankrollMovement, 'id' | 'created_at'>) => Promise<void>;
   deleteMovement: (id: string) => Promise<void>;
+  addGoal: (goalData: Omit<BettingGoal, 'id' | 'created_at'>) => Promise<void>;
+  updateGoal: (id: string, updates: Partial<BettingGoal>) => Promise<void>;
+  deleteGoal: (id: string) => Promise<void>;
+  updateGoalProgress: (id: string, newAmount: number) => Promise<void>;
 }
+
 
 const DEFAULT_BANKROLL: Bankroll = {
   id: '00000000-0000-0000-0000-000000000001',
@@ -84,7 +90,34 @@ const DEFAULT_MOVEMENTS: BankrollMovement[] = [
   },
 ];
 
+const DEFAULT_GOALS: BettingGoal[] = [
+  {
+    id: 'goal-rec-001',
+    title: 'Recuperação de Drawdown Q1',
+    type: 'RECOVERY',
+    initial_amount: 0,
+    target_amount: 250,
+    current_amount: 85,
+    status: 'IN_PROGRESS',
+    notes: 'Meta para recuperar perda pontual acumulada na gestão de cantos.',
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: 'goal-cha-001',
+    title: 'Desafio 100€ ➔ 1000€',
+    type: 'CHALLENGE',
+    initial_amount: 100,
+    target_amount: 1000,
+    current_amount: 340,
+    status: 'IN_PROGRESS',
+    notes: 'Desafio de alavancagem disciplinada com stake fixa de 2.5%.',
+    deadline: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+    created_at: new Date().toISOString(),
+  },
+];
+
 function getSavedMovements(): BankrollMovement[] {
+
   try {
     const saved = localStorage.getItem('corner_flag_movements');
     if (saved) return JSON.parse(saved);
@@ -102,11 +135,30 @@ function saveMovementsToLocalStorage(movements: BankrollMovement[]) {
   }
 }
 
+function getSavedGoals(): BettingGoal[] {
+  try {
+    const saved = localStorage.getItem('corner_flag_goals');
+    if (saved) return JSON.parse(saved);
+  } catch {
+    // Ignore fallback
+  }
+  return DEFAULT_GOALS;
+}
+
+function saveGoalsToLocalStorage(goals: BettingGoal[]) {
+  try {
+    localStorage.setItem('corner_flag_goals', JSON.stringify(goals));
+  } catch {
+    // Ignore fallback
+  }
+}
+
 function recalculateBankrollBalances(
   bankrolls: Bankroll[],
   bets: Bet[],
   movements: BankrollMovement[] = []
 ): Bankroll[] {
+
   return bankrolls.map((b) => {
     const bankrollBets = bets.filter((bet) => bet.bankroll_id === b.id);
     const totalProfit = bankrollBets.reduce((acc, bet) => {
@@ -135,7 +187,9 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
   sports: DEFAULT_SPORTS,
   strategies: DEFAULT_STRATEGIES,
   movements: getSavedMovements(),
+  goals: getSavedGoals(),
   isLoading: false,
+
 
 
   loadInitialData: async () => {
@@ -458,5 +512,64 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
       };
     });
   },
+
+  addGoal: async (goalData) => {
+    const newGoal: BettingGoal = {
+      ...goalData,
+      id: crypto.randomUUID(),
+      created_at: new Date().toISOString(),
+    };
+
+    set((state) => {
+      const updatedGoals = [newGoal, ...state.goals];
+      saveGoalsToLocalStorage(updatedGoals);
+      return { goals: updatedGoals };
+    });
+  },
+
+  updateGoal: async (id: string, updates: Partial<BettingGoal>) => {
+    set((state) => {
+      const updatedGoals = state.goals.map((g) => {
+        if (g.id === id) {
+          const updated = { ...g, ...updates };
+          if (updated.current_amount >= updated.target_amount && updated.status === 'IN_PROGRESS') {
+            updated.status = 'COMPLETED';
+          }
+          return updated;
+        }
+        return g;
+      });
+      saveGoalsToLocalStorage(updatedGoals);
+      return { goals: updatedGoals };
+    });
+  },
+
+  deleteGoal: async (id: string) => {
+    set((state) => {
+      const updatedGoals = state.goals.filter((g) => g.id !== id);
+      saveGoalsToLocalStorage(updatedGoals);
+      return { goals: updatedGoals };
+    });
+  },
+
+  updateGoalProgress: async (id: string, newAmount: number) => {
+    set((state) => {
+      const updatedGoals = state.goals.map((g) => {
+        if (g.id === id) {
+          const isCompleted = newAmount >= g.target_amount;
+          const updated: BettingGoal = {
+            ...g,
+            current_amount: newAmount,
+            status: isCompleted ? 'COMPLETED' : g.status,
+          };
+          return updated;
+        }
+        return g;
+      });
+      saveGoalsToLocalStorage(updatedGoals);
+      return { goals: updatedGoals };
+    });
+  },
 }));
+
 

@@ -7,12 +7,17 @@ export const translations = {
     bets: 'Apostas',
     bankrolls: 'Bancas',
     movements: 'Movimentos & Cashflow',
+    strategies: 'Estratégias & Objetivos',
     reports: 'Relatórios',
     calculator: 'Calculadora +EV',
     settings: 'Configurações',
     activeBankroll: 'Banca Ativa',
     signOut: 'Terminar Sessão',
     navigation: 'Navegação',
+
+    // Strategies & Goals
+    strategiesTitle: 'Estratégias, Sugestões & Objetivos',
+    strategiesSubtitle: 'Gestão de estratégias de apostas, sugestões inteligentes automatizadas, metas de recuperação de investimento e desafios de banca.',
 
 
     // Settings General
@@ -75,12 +80,17 @@ export const translations = {
     bets: 'Bets',
     bankrolls: 'Bankrolls',
     movements: 'Movements & Cashflow',
+    strategies: 'Strategies & Goals',
     reports: 'Reports',
     calculator: 'EV+ Calculator',
     settings: 'Settings',
     activeBankroll: 'Active Bankroll',
     signOut: 'Sign Out',
     navigation: 'Navigation',
+
+    // Strategies & Goals
+    strategiesTitle: 'Strategies, Suggestions & Goals',
+    strategiesSubtitle: 'Manage betting strategies, automated smart suggestions, investment recovery goals, and bankroll challenges.',
 
 
     // Settings General

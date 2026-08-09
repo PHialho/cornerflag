@@ -105,3 +105,12 @@ function decimalToFractional(decimalOdd: number): string {
 
   return `${h1}/${k1}`;
 }
+
+/**
+ * Formats a percentage value (e.g. 12.345 => "12.3%")
+ */
+export function formatPercent(val: number, decimals: number = 1): string {
+  if (isNaN(val) || val === null || val === undefined) return '0%';
+  return `${val.toFixed(decimals)}%`;
+}
+
