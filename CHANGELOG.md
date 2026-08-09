@@ -23,7 +23,18 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ---
 
+## [v0.008.1] - 2026-08-09 *(Branch originária: `feature/settings-menu` ➔ `develop`)*
+
+### Added
+- **Módulo Dedicado de Configurações (`SettingsView.tsx`)** em [src/components/settings/SettingsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/settings/SettingsView.tsx): Módulo de personalização do sistema para gestão de idioma da plataforma, formatos regionais de separadores de vírgulas e pontos, temas visuais, preferências de apostas e gestão de perfil/dados.
+- **Sistema de Internacionalização (i18n)** em [src/lib/i18n.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/i18n.ts): Suporte multi-idioma (Português e Inglês) em toda a interface do Corner Flag Pro.
+- **Formatadores Regionais de Números e Moedas** em [src/lib/formatters.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/formatters.ts): Suporte a separadores numéricos (Europeu `1.234,56 €`, Anglo-saxónico `1,234.56 $`, Espaçado `1 234,56 €` e Personalizado).
+- **Gestão de Temas e Preferências no Zustand** em [src/store/useSettingsStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useSettingsStore.ts): Persistência em local storage para tema visual (Dark, Light, System), formato de odds (Decimal, Fracionário, Americano), moeda padrão e percentual base de unidade.
+
+---
+
 ## [v0.008] - 2026-07-29 *(Branch originária: `calculator` ➔ `develop`)*
+
 
 
 ### Added
