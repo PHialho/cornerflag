@@ -3,7 +3,8 @@
 Plataforma profissional de apoio a apostadores desportivos focada em **Gestão de Banca**, **Controlo de Risco** e **Precificação de Valor Esperado (+EV)**.
 
 [![Continuous Integration](https://github.com/PHialho/cornerflag/actions/workflows/ci.yml/badge.svg)](https://github.com/PHialho/cornerflag/actions/workflows/ci.yml)
-![Versão](https://img.shields.io/badge/vers%C3%A3o-v0.009-emerald)
+![Versão](https://img.shields.io/badge/vers%C3%A3o-v0.010-emerald)
+
 ![License](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)
 
 ---
