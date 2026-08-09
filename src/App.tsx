@@ -19,12 +19,14 @@ import {
 } from 'lucide-react';
 import { useCornerFlagStore } from './store/useCornerFlagStore';
 import { useAuthStore } from './store/useAuthStore';
+import { useSettingsStore } from './store/useSettingsStore';
 import { Sidebar, type NavTab } from './components/layout/Sidebar';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { BankrollsView } from './components/bankrolls/BankrollsView';
 import { BetsView } from './components/bets/BetsView';
 import { ReportsView } from './components/reports/ReportsView';
 import { CalculatorView } from './components/calculator/CalculatorView';
+import { SettingsView } from './components/settings/SettingsView';
 
 export function App() {
   const {
@@ -35,10 +37,22 @@ export function App() {
   } = useCornerFlagStore();
 
   const { user, isLoading: isAuthLoading, initializeAuth, signIn, signUp } = useAuthStore();
+  const { theme } = useSettingsStore();
 
   // Navigation & Layout state
   const [activeTab, setActiveTab] = useState<NavTab>('dashboard');
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  // Apply Theme Effect
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'system') {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    } else {
+      root.setAttribute('data-theme', theme);
+    }
+  }, [theme]);
 
   // Auth Form State for Landing Page
   const [authMode, setAuthMode] = useState<'signIn' | 'signUp'>('signIn');
@@ -383,28 +397,7 @@ export function App() {
           {activeTab === 'bankrolls' && <BankrollsView />}
           {activeTab === 'reports' && <ReportsView />}
           {activeTab === 'calculator' && <CalculatorView />}
-
-          {activeTab !== 'dashboard' &&
-            activeTab !== 'bets' &&
-            activeTab !== 'bankrolls' &&
-            activeTab !== 'reports' &&
-            activeTab !== 'calculator' && (
-            <div className="bg-[#121721] border border-[#1E2638] p-12 rounded-2xl text-center space-y-4">
-              <div className="inline-flex p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-                <BarChart3 className="w-8 h-8" />
-              </div>
-              <h3 className="text-xl font-bold text-white capitalize">
-                Módulo {activeTab}
-              </h3>
-              <p className="text-xs text-gray-400 max-w-md mx-auto">
-                Este módulo está integrado com a sua banca ativa. Selecione a tab{' '}
-                <strong className="text-emerald-400 cursor-pointer" onClick={() => setActiveTab('dashboard')}>
-                  Dashboard
-                </strong>{' '}
-                para analisar o desempenho do período corrente.
-              </p>
-            </div>
-          )}
+          {activeTab === 'settings' && <SettingsView />}
         </main>
       </div>
     </div>
