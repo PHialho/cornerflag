@@ -405,8 +405,8 @@ export const SettingsView: React.FC = () => {
               {/* Theme Mock Visual */}
               <div className="h-20 bg-slate-100 border border-slate-300 rounded-xl p-3 flex flex-col justify-between">
                 <div className="flex items-center justify-between">
-                  <div className="w-12 h-2 bg-emerald-600 rounded" />
-                  <div className="w-4 h-4 bg-emerald-600/30 rounded-full" />
+                  <div className="w-12 h-2 bg-orange-500 rounded" />
+                  <div className="w-4 h-4 bg-orange-500/30 rounded-full" />
                 </div>
                 <div className="w-full h-8 bg-white rounded-lg border border-slate-300" />
               </div>

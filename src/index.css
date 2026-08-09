@@ -13,19 +13,6 @@
     --text-secondary: #9ca3af;
   }
 
-  /* Light Theme Variables Overrides */
-  [data-theme='light'] {
-    --bg-main: #f8fafc;
-    --bg-card: #ffffff;
-    --bg-card-hover: #f1f5f9;
-    --border-card: #e2e8f0;
-    --color-accent: #059669;
-    --color-danger: #dc2626;
-    --color-warning: #d97706;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-  }
-
   body {
     background-color: var(--bg-main);
     color: var(--text-primary);
@@ -35,6 +22,145 @@
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+}
+
+/* ==========================================
+   LIGHT MODE OVERRIDES (Green -> Orange)
+   ========================================== */
+[data-theme='light'] {
+  --bg-main: #f8fafc;
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --border-card: #e2e8f0;
+  --color-accent: #ea580c;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme='light'] body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* Dark Backgrounds -> Light Cards & Surfaces */
+[data-theme='light'] .bg-\[\#0B0E14\],
+[data-theme='light'] .bg-\[\#0b0e14\] {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+[data-theme='light'] .bg-\[\#121721\] {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme='light'] .bg-\[\#19202e\],
+[data-theme='light'] .bg-\[\#1A212E\] {
+  background-color: #f8fafc !important;
+}
+
+/* Borders */
+[data-theme='light'] .border-\[\#1E2638\],
+[data-theme='light'] .border-\[\#1e2638\] {
+  border-color: #e2e8f0 !important;
+}
+
+/* Header & Sidebar */
+[data-theme='light'] header,
+[data-theme='light'] aside {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Typography Overrides */
+[data-theme='light'] .text-white {
+  color: #0f172a !important;
+}
+
+[data-theme='light'] .text-gray-100,
+[data-theme='light'] .text-gray-200 {
+  color: #1e293b !important;
+}
+
+[data-theme='light'] .text-gray-300,
+[data-theme='light'] .text-gray-400 {
+  color: #475569 !important;
+}
+
+[data-theme='light'] .text-gray-500 {
+  color: #64748b !important;
+}
+
+/* Form Controls */
+[data-theme='light'] input,
+[data-theme='light'] select,
+[data-theme='light'] textarea {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+/* ==========================================
+   GREEN (EMERALD) -> ORANGE ACCENTS IN LIGHT MODE
+   ========================================== */
+[data-theme='light'] .text-emerald-400,
+[data-theme='light'] .text-emerald-500,
+[data-theme='light'] .text-emerald-300 {
+  color: #ea580c !important; /* Orange 600 */
+}
+
+[data-theme='light'] .bg-emerald-500 {
+  background-color: #ea580c !important; /* Orange 600 */
+  color: #ffffff !important;
+}
+
+[data-theme='light'] .bg-emerald-400 {
+  background-color: #f97316 !important; /* Orange 500 */
+}
+
+[data-theme='light'] .bg-emerald-500\/10 {
+  background-color: rgba(249, 115, 22, 0.12) !important;
+}
+
+[data-theme='light'] .bg-emerald-500\/20 {
+  background-color: rgba(249, 115, 22, 0.22) !important;
+}
+
+[data-theme='light'] .border-emerald-500 {
+  border-color: #ea580c !important;
+}
+
+[data-theme='light'] .border-emerald-500\/20,
+[data-theme='light'] .border-emerald-500\/30 {
+  border-color: rgba(249, 115, 22, 0.35) !important;
+}
+
+[data-theme='light'] .shadow-emerald-500\/10,
+[data-theme='light'] .shadow-emerald-500\/20,
+[data-theme='light'] .shadow-emerald-500\/5 {
+  box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.18) !important;
+}
+
+[data-theme='light'] .shadow-emerald-400 {
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.6) !important;
+}
+
+[data-theme='light'] .hover\:bg-emerald-600:hover {
+  background-color: #c2410c !important; /* Orange 700 */
+}
+
+[data-theme='light'] .focus\:border-emerald-500:focus {
+  border-color: #f97316 !important;
+}
+
+/* Primary Filled Buttons text color in Light Mode */
+[data-theme='light'] button.bg-emerald-500,
+[data-theme='light'] .bg-emerald-500.text-gray-950 {
+  color: #ffffff !important;
 }
 
 /* Custom scrollbar for Trading Mode */
