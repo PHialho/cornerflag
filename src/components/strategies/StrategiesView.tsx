@@ -19,6 +19,7 @@ import {
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
 import { useSettingsStore } from '../../store/useSettingsStore';
 import { formatCurrency, formatPercent, formatNumber } from '../../lib/formatters';
+import { MetricCard } from '../dashboard/MetricCard';
 import type { GoalType } from '../../types';
 
 export const StrategiesView: React.FC = () => {
@@ -199,18 +200,19 @@ export const StrategiesView: React.FC = () => {
     });
   };
 
+  const globalSettledBets = bets.filter((b) => b.result !== 'PENDING');
+  const globalWonBets = globalSettledBets.filter((b) => b.result === 'WIN' || b.result === 'HALF_WIN').length;
+  const globalWinRatePct = globalSettledBets.length > 0 ? (globalWonBets / globalSettledBets.length) * 100 : 0;
+
   return (
-    <div className="space-y-8">
-      {/* PAGE HEADER */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-[#1E2638] pb-6">
+    <div className="space-y-8 animate-fadeIn">
+      {/* Top Banner Header - Padronizado com Gestão de Bancas / Apostas / Relatórios */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-black text-white tracking-tight flex items-center gap-3">
-            <div className="p-2.5 bg-emerald-500/20 rounded-2xl border border-emerald-500/30 text-emerald-400">
-              <Target className="w-6 h-6" />
-            </div>
-            Estratégias, Sugestões & Objetivos
-          </h1>
-          <p className="text-xs text-gray-400 mt-1">
+          <h2 className="text-2xl font-black text-white tracking-tight uppercase flex items-center gap-2.5">
+            <Target className="w-6 h-6 text-emerald-400" /> Gestão de Estratégias & Objetivos
+          </h2>
+          <p className="text-xs text-gray-400">
             Gerencie estratégias de apostas, receba sugestões inteligentes automatizadas e acompanhe a recuperação de capital e desafios de banca.
           </p>
         </div>
@@ -218,107 +220,60 @@ export const StrategiesView: React.FC = () => {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsAddStrategyModalOpen(true)}
-            className="px-4 py-2.5 bg-[#121721] hover:bg-[#1E2638] border border-[#1E2638] text-gray-200 hover:text-white rounded-xl text-xs font-semibold flex items-center gap-2 transition-all"
+            className="flex items-center gap-2 bg-[#121721] hover:bg-[#1E2638] border border-[#1E2638] text-gray-200 hover:text-white px-4 py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer active:scale-95 shrink-0"
           >
-            <Plus className="w-4 h-4 text-emerald-400" />
-            Nova Estratégia
+            <Plus className="w-4 h-4 text-emerald-400 stroke-[3]" />
+            <span>Nova Estratégia</span>
           </button>
           <button
             onClick={() => setIsAddGoalModalOpen(true)}
-            className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-gray-950 font-bold rounded-xl text-xs flex items-center gap-2 transition-all shadow-lg shadow-emerald-500/10"
+            className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 font-bold text-gray-950 px-5 py-2.5 rounded-xl text-xs transition-all shadow-lg shadow-emerald-500/20 cursor-pointer active:scale-95 shrink-0"
           >
-            <Plus className="w-4 h-4" />
-            Novo Objetivo / Challenge
+            <Plus className="w-4 h-4 stroke-[3]" />
+            <span>Novo Objetivo / Challenge</span>
           </button>
         </div>
       </div>
 
-      {/* TOP KPI CARDS */}
+      {/* TOP KPI CARDS - Padronizado com MetricCard */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Metric 1 */}
-        <div className="bg-[#121721] border border-[#1E2638] p-5 rounded-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
-              Estratégias Ativas
-            </span>
-            <div className="p-2 bg-indigo-500/10 rounded-xl text-indigo-400">
-              <PieChart className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl font-black text-white">{strategies.length}</span>
-            <span className="text-xs text-gray-400">registadas</span>
-          </div>
-          <p className="text-[11px] text-gray-500 mt-2">
-            {bets.length} apostas distribuídas em estratégias
-          </p>
-        </div>
+        <MetricCard
+          title="Estratégias Ativas"
+          value={strategies.length}
+          subtext={`${bets.length} apostas registadas`}
+          icon={PieChart}
+          iconColorClass="text-indigo-400"
+          iconBgClass="bg-indigo-500/10 border-indigo-500/20"
+        />
 
-        {/* Metric 2 */}
-        <div className="bg-[#121721] border border-[#1E2638] p-5 rounded-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
-              Desafios & Metas
-            </span>
-            <div className="p-2 bg-amber-500/10 rounded-xl text-amber-400">
-              <Award className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl font-black text-white">{goals.length}</span>
-            <span className="text-xs text-emerald-400 font-semibold">
-              ({goals.filter((g) => g.status === 'IN_PROGRESS').length} em curso)
-            </span>
-          </div>
-          <p className="text-[11px] text-gray-500 mt-2">
-            {goals.filter((g) => g.status === 'COMPLETED').length} objetivos concluídos com sucesso
-          </p>
-        </div>
+        <MetricCard
+          title="Desafios & Metas"
+          value={goals.length}
+          subtext={`${goals.filter((g) => g.status === 'IN_PROGRESS').length} em curso | ${goals.filter((g) => g.status === 'COMPLETED').length} concluídos`}
+          icon={Award}
+          iconColorClass="text-amber-400"
+          iconBgClass="bg-amber-500/10 border-amber-500/20"
+        />
 
-        {/* Metric 3 */}
-        <div className="bg-[#121721] border border-[#1E2638] p-5 rounded-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
-              Sugestões Inteligentes
-            </span>
-            <div className="p-2 bg-emerald-500/10 rounded-xl text-emerald-400">
-              <Sparkles className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl font-black text-white">{smartSuggestions.length}</span>
-            <span className="text-xs text-emerald-400 font-semibold">insights ativos</span>
-          </div>
-          <p className="text-[11px] text-gray-500 mt-2">Baseado no teu histórico de apostas</p>
-        </div>
+        <MetricCard
+          title="Sugestões Inteligentes"
+          value={smartSuggestions.length}
+          subtext="Insights baseados no teu histórico"
+          icon={Sparkles}
+          iconColorClass="text-emerald-400"
+          iconBgClass="bg-emerald-500/10 border-emerald-500/20"
+        />
 
-        {/* Metric 4 */}
-        <div className="bg-[#121721] border border-[#1E2638] p-5 rounded-2xl relative overflow-hidden">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">
-              Win Rate Global
-            </span>
-            <div className="p-2 bg-purple-500/10 rounded-xl text-purple-400">
-              <TrendingUp className="w-4 h-4" />
-            </div>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-2xl font-black text-white">
-              {formatPercent(
-                bets.filter((b) => b.result !== 'PENDING').length > 0
-                  ? (bets.filter((b) => b.result === 'WIN' || b.result === 'HALF_WIN').length /
-                      bets.filter((b) => b.result !== 'PENDING').length) *
-                      100
-                  : 0,
-                1
-              )}
-            </span>
-          </div>
-          <p className="text-[11px] text-gray-500 mt-2">
-            Taxa de acerto em apostas liquidadas
-          </p>
-        </div>
+        <MetricCard
+          title="Win Rate Global"
+          value={formatPercent(globalWinRatePct, 1)}
+          subtext="Taxa de acerto em apostas liquidadas"
+          icon={TrendingUp}
+          iconColorClass="text-purple-400"
+          iconBgClass="bg-purple-500/10 border-purple-500/20"
+        />
       </div>
+
 
       {/* SUB-TABS NAVIGATION */}
       <div className="flex items-center gap-2 border-b border-[#1E2638] pb-1 overflow-x-auto">
