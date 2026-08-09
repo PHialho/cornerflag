@@ -47,3 +47,22 @@ export interface Bet {
   settled_at?: string;
   created_at: string;
 }
+
+export type GoalType = 'RECOVERY' | 'CHALLENGE' | 'PROFIT_TARGET';
+export type GoalStatus = 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
+
+export interface BettingGoal {
+  id: string;
+  bankroll_id?: string;
+  title: string;
+  type: GoalType;
+  initial_amount: number;
+  target_amount: number;
+  current_amount: number;
+  deadline?: string;
+  status: GoalStatus;
+  notes?: string;
+  strategy_name?: string;
+  created_at: string;
+}
+

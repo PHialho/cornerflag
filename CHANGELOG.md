@@ -12,7 +12,31 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ## [Unreleased]
 
+## [v0.010] - 2026-08-09 *(Branch originária: `strategies_and_goals` ➔ `develop`)*
+
+
+### Added
+- **Módulo Dedicado de Gestão de Estratégias, Sugestões & Objetivos/Challenges (`StrategiesView.tsx`)** em [src/components/strategies/StrategiesView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/strategies/StrategiesView.tsx): Vista para gestão de estratégias de apostas, sugestões inteligentes automatizadas, acompanhamento de recuperação de investimento e desafios de banca.
+- **Motor de Estatísticas de Estratégia e Progresso de Objetivos (`strategiesCalculator.ts`)** em [src/lib/math/strategiesCalculator.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/strategiesCalculator.ts): Algoritmos para cálculo de rendimento por estratégia (Win Rate, Stake Total, Lucro/Prejuízo, ROI %, Yield %, Odd Média) e percentagem de progresso de metas e desafios.
+- **Sugestões Automatizadas de Apostas (+EV & Risk Alerts)**: Motor automatizado de recomendações que identifica estratégias +EV lucrativas, emite alertas de drawdown e sugere dimensionamentos de risco.
+- **Navegação Lateral no Menu**: Item de menu *"Estratégias & Objetivos"* com o ícone `Target` posicionado entre *"Bancas"* e *"Relatórios"* em [src/components/layout/Sidebar.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/layout/Sidebar.tsx).
+- **Suite de Testes Unitários de Estratégias**: Testes automatizados em [src/lib/math/strategiesCalculator.test.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/strategiesCalculator.test.ts) utilizando Vitest (total de 29 testes a passar).
+
+---
+
+## [v0.009] - 2026-08-09 *(Branch originária: `feature/settings-menu` ➔ `develop`)*
+
+### Added
+- **Módulo Dedicado de Configurações (`SettingsView.tsx`)** em [src/components/settings/SettingsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/settings/SettingsView.tsx): Módulo de personalização do sistema para gestão de idioma da plataforma, formatos regionais de separadores de vírgulas e pontos, temas visuais, preferências de apostas e gestão de perfil/dados.
+- **Sistema de Internacionalização (i18n)** em [src/lib/i18n.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/i18n.ts): Suporte multi-idioma (Português e Inglês) em toda a interface do Corner Flag Pro.
+- **Formatadores Regionais de Números e Moedas** em [src/lib/formatters.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/formatters.ts): Suporte a separadores numéricos (Europeu `1.234,56 €`, Anglo-saxónico `1,234.56 $`, Espaçado `1 234,56 €` e Personalizado).
+- **Gestão de Temas e Preferências no Zustand** em [src/store/useSettingsStore.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/store/useSettingsStore.ts): Persistência em local storage para tema visual (Dark, Light, System), formato de odds (Decimal, Fracionário, Americano), moeda padrão e percentual base de unidade.
+
+---
+
 ## [v0.008] - 2026-07-29 *(Branch originária: `calculator` ➔ `develop`)*
+
+
 
 ### Added
 - **Suite Profissional de 10 Calculadoras de Apostas (`CalculatorView.tsx`)** em [src/components/calculator/CalculatorView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/calculator/CalculatorView.tsx): Módulo completo integrando 10 ferramentas quantitativas para apostadores profissionais (+EV Expected Value, Critério de Kelly & Stake Sizing, Conversor de Odds & Probabilidade Implícita, Surebet / Arbitragem 2 e 3 saídas, Dutching, Hedging / Cash Out, Matched Betting SNR/SR, Handicaps Asiáticos, Múltiplas / Parlay e Modelo Poisson xG).
