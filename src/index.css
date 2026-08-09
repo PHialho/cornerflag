@@ -25,7 +25,7 @@
 }
 
 /* ==========================================================================
-   LIGHT MODE COMPLETE OVERRIDES (Dark -> Crisp Light | Green -> Vivid Orange)
+   LIGHT MODE: ULTRA-LIGHT, AIRY & HIGH-CONTRAST THEME (Orange Accents)
    ========================================================================== */
 [data-theme='light'] {
   --bg-main: #f8fafc;
@@ -45,39 +45,50 @@
   color: #0f172a !important;
 }
 
-/* Dark Backgrounds -> Light Cards & Surfaces */
+/* 1. All Dark Container Backgrounds -> Light Insets & Clean White Surfaces */
 [data-theme='light'] .bg-\[\#0B0E14\],
 [data-theme='light'] .bg-\[\#0b0e14\],
-[data-theme='light'] .bg-\[\#080A0F\] {
-  background-color: #f1f5f9 !important;
+[data-theme='light'] .bg-\[\#080A0F\],
+[data-theme='light'] .bg-\[\#07090D\] {
+  background-color: #f1f5f9 !important; /* Soft light gray inset */
   color: #0f172a !important;
 }
 
-[data-theme='light'] .bg-\[\#121721\] {
-  background-color: #ffffff !important;
+[data-theme='light'] .bg-\[\#121721\],
+[data-theme='light'] .bg-\[\#121720\] {
+  background-color: #ffffff !important; /* Pure white cards */
   color: #0f172a !important;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
 }
 
 [data-theme='light'] .bg-\[\#19202e\],
-[data-theme='light'] .bg-\[\#1A212E\] {
-  background-color: #f8fafc !important;
+[data-theme='light'] .bg-\[\#1A212E\],
+[data-theme='light'] .hover\:bg-\[\#19202e\]:hover,
+[data-theme='light'] .hover\:bg-\[\#1A212E\]:hover {
+  background-color: #f8fafc !important; /* Light hover */
 }
 
-/* Dark Borders -> Light Crisp Borders */
+/* 2. All Dark Borders & Dividers -> Subtle Light Borders */
 [data-theme='light'] .border-\[\#1E2638\],
-[data-theme='light'] .border-\[\#1e2638\] {
+[data-theme='light'] .border-\[\#1e2638\],
+[data-theme='light'] .border-\[\#2A344B\] {
   border-color: #e2e8f0 !important;
 }
 
-/* Header & Sidebar Light Theme */
+[data-theme='light'] .divide-\[\#1E2638\] > :not([hidden]) ~ :not([hidden]),
+[data-theme='light'] .divide-\[\#1e2638\] > :not([hidden]) ~ :not([hidden]) {
+  border-color: #e2e8f0 !important;
+}
+
+/* 3. Header & Sidebar */
 [data-theme='light'] header,
 [data-theme='light'] aside {
   background-color: #ffffff !important;
   border-color: #e2e8f0 !important;
+  box-shadow: 1px 0 3px 0 rgba(0, 0, 0, 0.02);
 }
 
-/* Typography Overrides for Dark Text on Light Surface */
+/* 4. Typography Overrides for High Contrast & Crisp Readability */
 [data-theme='light'] .text-white {
   color: #0f172a !important;
 }
@@ -89,20 +100,75 @@
 
 [data-theme='light'] .text-gray-300,
 [data-theme='light'] .text-gray-400 {
-  color: #475569 !important;
+  color: #334155 !important; /* Slate 700 - crisp legibility */
 }
 
-[data-theme='light'] .text-gray-500 {
-  color: #64748b !important;
+[data-theme='light'] .text-gray-500,
+[data-theme='light'] .text-gray-600 {
+  color: #64748b !important; /* Slate 500 */
 }
 
-/* Form Controls (Inputs, Selects, Textareas) */
+/* 5. Form Controls (Inputs, Selects, Textareas) */
 [data-theme='light'] input,
 [data-theme='light'] select,
 [data-theme='light'] textarea {
-  background-color: #f8fafc !important;
+  background-color: #ffffff !important;
   color: #0f172a !important;
   border-color: #cbd5e1 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+}
+
+[data-theme='light'] option {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* 6. Modals & Overlay Backdrops */
+[data-theme='light'] .fixed.inset-0.bg-black\/70,
+[data-theme='light'] .fixed.inset-0.bg-black\/60,
+[data-theme='light'] .fixed.inset-0.bg-black\/50 {
+  background-color: rgba(15, 23, 42, 0.35) !important;
+  backdrop-filter: blur(4px);
+}
+
+/* 7. Tables */
+[data-theme='light'] thead,
+[data-theme='light'] thead.bg-\[\#0B0E14\] {
+  background-color: #f1f5f9 !important;
+  color: #475569 !important;
+}
+
+[data-theme='light'] th {
+  color: #475569 !important;
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme='light'] td {
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme='light'] tr:hover {
+  background-color: #f8fafc !important;
+}
+
+/* 8. Recharts Charts Grid & Tooltips */
+[data-theme='light'] .recharts-cartesian-grid line {
+  stroke: #e2e8f0 !important;
+}
+
+[data-theme='light'] .recharts-default-tooltip {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #0f172a !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme='light'] .recharts-tooltip-item {
+  color: #0f172a !important;
+}
+
+[data-theme='light'] .recharts-text {
+  fill: #64748b !important;
 }
 
 /* ==========================================================================
@@ -127,7 +193,7 @@
 [data-theme='light'] [class*="bg-emerald-500/"],
 [data-theme='light'] [class*="bg-emerald-400/"],
 [data-theme='light'] [class*="bg-emerald-600/"] {
-  background-color: rgba(249, 115, 22, 0.15) !important;
+  background-color: rgba(249, 115, 22, 0.12) !important;
 }
 
 /* 4. All Emerald Border Variants (Solid & Opacity) */
@@ -146,7 +212,7 @@
 
 /* 6. All Emerald Shadows & Rings */
 [data-theme='light'] [class*="shadow-emerald-"] {
-  box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.22) !important;
+  box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.18) !important;
 }
 
 [data-theme='light'] [class*="ring-emerald-"] {
@@ -187,7 +253,19 @@
   stop-color: #ea580c !important;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar for Light Mode */
+[data-theme='light'] ::-webkit-scrollbar-track {
+  background: #f8fafc;
+}
+[data-theme='light'] ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+[data-theme='light'] ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Custom Scrollbar Default */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -200,5 +278,5 @@
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #374151;
 }
