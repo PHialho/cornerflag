@@ -12,7 +12,8 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ## [Unreleased]
 
-## [v0.010] - 2026-08-09 *(Branch originária: `strategies_and_goal` ➔ `develop`)*
+## [v0.010] - 2026-08-09 *(Branch originária: `strategies_and_goals` ➔ `develop`)*
+
 
 ### Added
 - **Módulo Dedicado de Gestão de Estratégias, Sugestões & Objetivos/Challenges (`StrategiesView.tsx`)** em [src/components/strategies/StrategiesView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/strategies/StrategiesView.tsx): Vista para gestão de estratégias de apostas, sugestões inteligentes automatizadas, acompanhamento de recuperação de investimento e desafios de banca.
