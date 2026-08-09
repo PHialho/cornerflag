@@ -89,20 +89,12 @@ export const SettingsView: React.FC = () => {
   return (
     <div className="space-y-8 animate-fade-in max-w-6xl">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-[#121721] border border-[#1E2638] p-6 rounded-3xl shadow-xl">
-        <div className="flex items-center gap-4">
-          <div className="bg-emerald-500/10 p-3.5 rounded-2xl border border-emerald-500/30 text-emerald-400">
-            <SlidersHorizontal className="w-8 h-8" />
-          </div>
-          <div>
-            <h2 className="text-2xl font-black text-white flex items-center gap-2">
-              {t.settingsTitle}
-              <span className="text-[10px] bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full border border-emerald-500/30 font-semibold tracking-wider uppercase">
-                {language.toUpperCase()}
-              </span>
-            </h2>
-            <p className="text-xs text-gray-400 mt-1 max-w-xl">{t.settingsSubtitle}</p>
-          </div>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 className="text-2xl font-black text-white tracking-tight uppercase flex items-center gap-2.5">
+            <SlidersHorizontal className="w-6 h-6 text-emerald-400" /> {t.settingsTitle}
+          </h2>
+          <p className="text-xs text-gray-400 mt-1">{t.settingsSubtitle}</p>
         </div>
 
         {notification && (
@@ -177,11 +169,10 @@ export const SettingsView: React.FC = () => {
               <p className="text-xs text-gray-400 mt-0.5">{t.languageDesc}</p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
               {[
                 { code: 'pt', label: 'Português', flag: '🇵🇹' },
                 { code: 'en', label: 'English', flag: '🇬🇧' },
-                { code: 'es', label: 'Español', flag: '🇪🇸' },
               ].map((item) => (
                 <button
                   key={item.code}

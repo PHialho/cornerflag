@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type Language = 'pt' | 'en' | 'es';
+export type Language = 'pt' | 'en';
 export type Theme = 'dark' | 'light' | 'system';
 export type Currency = 'EUR' | 'USD' | 'GBP' | 'BRL';
 export type OddsFormat = 'decimal' | 'fractional' | 'american';
