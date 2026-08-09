@@ -24,7 +24,9 @@ import { Sidebar, type NavTab } from './components/layout/Sidebar';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { BankrollsView } from './components/bankrolls/BankrollsView';
 import { BetsView } from './components/bets/BetsView';
+import { MovementsView } from './components/movements/MovementsView';
 import { StrategiesView } from './components/strategies/StrategiesView';
+
 import { ReportsView } from './components/reports/ReportsView';
 import { CalculatorView } from './components/calculator/CalculatorView';
 import { SettingsView } from './components/settings/SettingsView';
@@ -122,8 +124,9 @@ export function App() {
             </div>
             <div>
               <h1 className="text-2xl font-extrabold tracking-tight text-white flex items-center gap-2">
-                CORNER FLAG <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Pro v0.010</span>
+                CORNER FLAG <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">Pro v0.011</span>
               </h1>
+
 
 
               <p className="text-xs text-gray-400">Plataforma Profissional de Gestão de Banca & Precificação (+EV)</p>
@@ -353,8 +356,9 @@ export function App() {
 
         {/* Footer */}
         <footer className="border-t border-[#1E2638] text-center text-xs text-gray-500 py-6">
-          Corner Flag Pro v0.010 — Gestão de Banca, Risco & Precificação (+EV) © {new Date().getFullYear()}
+          Corner Flag Pro v0.011 — Gestão de Banca, Risco & Precificação (+EV) © {new Date().getFullYear()}
         </footer>
+
 
 
       </div>
@@ -401,10 +405,12 @@ export function App() {
           {activeTab === 'dashboard' && <Dashboard />}
           {activeTab === 'bets' && <BetsView />}
           {activeTab === 'bankrolls' && <BankrollsView />}
+          {activeTab === 'movements' && <MovementsView />}
           {activeTab === 'strategies' && <StrategiesView />}
           {activeTab === 'reports' && <ReportsView />}
           {activeTab === 'calculator' && <CalculatorView />}
           {activeTab === 'settings' && <SettingsView />}
+
 
         </main>
       </div>

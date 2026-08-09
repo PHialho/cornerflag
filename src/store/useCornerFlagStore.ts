@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { settleBet, type BetResult } from '../lib/math/calculator';
-import type { Bankroll, Bet, BettingGoal } from '../types';
+import type { Bankroll, Bet, BankrollMovement, BettingGoal } from '../types';
+import { calculateNetMovementsBalance } from '../lib/math/movementsCalculator';
 
 export const DEFAULT_SPORTS = [
   'Futebol',
@@ -28,6 +29,7 @@ interface CornerFlagState {
   bets: Bet[];
   sports: string[];
   strategies: string[];
+  movements: BankrollMovement[];
   goals: BettingGoal[];
   isLoading: boolean;
 
@@ -48,11 +50,14 @@ interface CornerFlagState {
   deleteBet: (betId: string) => Promise<void>;
   addSport: (sportName: string) => void;
   addStrategy: (strategyName: string) => void;
+  addMovement: (movementData: Omit<BankrollMovement, 'id' | 'created_at'>) => Promise<void>;
+  deleteMovement: (id: string) => Promise<void>;
   addGoal: (goalData: Omit<BettingGoal, 'id' | 'created_at'>) => Promise<void>;
   updateGoal: (id: string, updates: Partial<BettingGoal>) => Promise<void>;
   deleteGoal: (id: string) => Promise<void>;
   updateGoalProgress: (id: string, newAmount: number) => Promise<void>;
 }
+
 
 const DEFAULT_BANKROLL: Bankroll = {
   id: '00000000-0000-0000-0000-000000000001',
@@ -63,6 +68,27 @@ const DEFAULT_BANKROLL: Bankroll = {
   is_default: true,
   created_at: new Date().toISOString(),
 };
+
+const DEFAULT_MOVEMENTS: BankrollMovement[] = [
+  {
+    id: 'mov-001',
+    bankroll_id: '00000000-0000-0000-0000-000000000001',
+    type: 'DEPOSIT',
+    amount: 500,
+    payment_method: 'MB WAY',
+    notes: 'Depósito inicial para alavancagem de banca.',
+    created_at: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'mov-002',
+    bankroll_id: '00000000-0000-0000-0000-000000000001',
+    type: 'WITHDRAWAL',
+    amount: 150,
+    payment_method: 'Transferência Bancária',
+    notes: 'Levantamento parcial de lucros.',
+    created_at: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+];
 
 const DEFAULT_GOALS: BettingGoal[] = [
   {
@@ -90,6 +116,25 @@ const DEFAULT_GOALS: BettingGoal[] = [
   },
 ];
 
+function getSavedMovements(): BankrollMovement[] {
+
+  try {
+    const saved = localStorage.getItem('corner_flag_movements');
+    if (saved) return JSON.parse(saved);
+  } catch {
+    // Ignore fallback
+  }
+  return DEFAULT_MOVEMENTS;
+}
+
+function saveMovementsToLocalStorage(movements: BankrollMovement[]) {
+  try {
+    localStorage.setItem('corner_flag_movements', JSON.stringify(movements));
+  } catch {
+    // Ignore fallback
+  }
+}
+
 function getSavedGoals(): BettingGoal[] {
   try {
     const saved = localStorage.getItem('corner_flag_goals');
@@ -108,20 +153,27 @@ function saveGoalsToLocalStorage(goals: BettingGoal[]) {
   }
 }
 
+function recalculateBankrollBalances(
+  bankrolls: Bankroll[],
+  bets: Bet[],
+  movements: BankrollMovement[] = []
+): Bankroll[] {
 
-function recalculateBankrollBalances(bankrolls: Bankroll[], bets: Bet[]): Bankroll[] {
   return bankrolls.map((b) => {
     const bankrollBets = bets.filter((bet) => bet.bankroll_id === b.id);
     const totalProfit = bankrollBets.reduce((acc, bet) => {
       return acc + (bet.result !== 'PENDING' ? bet.profit : 0);
     }, 0);
 
+    const netMovements = calculateNetMovementsBalance(movements, b.id);
+
     return {
       ...b,
-      current_balance: settleBetRound(b.initial_balance + totalProfit, 2),
+      current_balance: settleBetRound(b.initial_balance + totalProfit + netMovements, 2),
     };
   });
 }
+
 
 function settleBetRound(value: number, decimals: number = 2): number {
   const factor = Math.pow(10, decimals);
@@ -134,8 +186,10 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
   bets: [],
   sports: DEFAULT_SPORTS,
   strategies: DEFAULT_STRATEGIES,
+  movements: getSavedMovements(),
   goals: getSavedGoals(),
   isLoading: false,
+
 
 
   loadInitialData: async () => {
@@ -431,6 +485,34 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
     });
   },
 
+  addMovement: async (movementData) => {
+    const newMovement: BankrollMovement = {
+      ...movementData,
+      id: crypto.randomUUID(),
+      created_at: new Date().toISOString(),
+    };
+
+    set((state) => {
+      const updatedMovements = [newMovement, ...state.movements];
+      saveMovementsToLocalStorage(updatedMovements);
+      return {
+        movements: updatedMovements,
+        bankrolls: recalculateBankrollBalances(state.bankrolls, state.bets, updatedMovements),
+      };
+    });
+  },
+
+  deleteMovement: async (id: string) => {
+    set((state) => {
+      const updatedMovements = state.movements.filter((m) => m.id !== id);
+      saveMovementsToLocalStorage(updatedMovements);
+      return {
+        movements: updatedMovements,
+        bankrolls: recalculateBankrollBalances(state.bankrolls, state.bets, updatedMovements),
+      };
+    });
+  },
+
   addGoal: async (goalData) => {
     const newGoal: BettingGoal = {
       ...goalData,
@@ -489,4 +571,5 @@ export const useCornerFlagStore = create<CornerFlagState>((set, get) => ({
     });
   },
 }));
+
 

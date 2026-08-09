@@ -11,6 +11,7 @@ import {
   ChevronDown,
   X,
   BarChart3,
+  ArrowDownUp,
   Target,
 } from 'lucide-react';
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
@@ -24,6 +25,7 @@ export type NavTab =
   | 'dashboard'
   | 'bets'
   | 'bankrolls'
+  | 'movements'
   | 'strategies'
   | 'reports'
   | 'calculator'
@@ -51,11 +53,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
     { id: 'dashboard', label: t.dashboard, icon: LayoutDashboard },
     { id: 'bets', label: t.bets, icon: Receipt },
     { id: 'bankrolls', label: t.bankrolls, icon: Wallet },
+    { id: 'movements', label: t.movements, icon: ArrowDownUp },
     { id: 'strategies', label: t.strategies, icon: Target },
     { id: 'reports', label: t.reports, icon: BarChart3 },
     { id: 'calculator', label: t.calculator, icon: Calculator },
     { id: 'settings', label: t.settings, icon: Settings },
   ];
+
 
 
   return (

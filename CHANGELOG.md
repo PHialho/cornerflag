@@ -12,7 +12,18 @@ e este projeto adere ao esquema de versionamento do **Corner Flag**:
 
 ## [Unreleased]
 
+## [v0.011] - 2026-08-09 *(Branch originária: `movements` ➔ `develop`)*
+
+### Added
+- **Módulo Dedicado de Movimentos & Cashflow de Bancas (`MovementsView.tsx`)** em [src/components/movements/MovementsView.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/movements/MovementsView.tsx): Módulo de registo e gestão financeira para depósitos, levantamentos, bónus e ajustes manuais de saldo.
+- **Motor Matemático de Cashflow e Reconciliação (`movementsCalculator.ts`)** em [src/lib/math/movementsCalculator.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/movementsCalculator.ts): Algoritmos para apurar Total Depositado, Total Levantado, Cashflow Líquido e atualização determinística do saldo da banca no Zustand e Supabase.
+- **Navegação Lateral no Menu**: Item *"Movimentos & Cashflow"* (ícone `ArrowDownUp`) posicionado no menu lateral exatamente entre *"Bancas"* e *"Estratégias & Objetivos"* em [src/components/layout/Sidebar.tsx](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/components/layout/Sidebar.tsx).
+- **Suite de Testes Unitários de Cashflow**: Testes automatizados em [src/lib/math/movementsCalculator.test.ts](file:///c:/Users/paulo/Documents/GitHub/CornerFlag/cornerflag/src/lib/math/movementsCalculator.test.ts) utilizando Vitest (total de 31 testes a passar no projeto).
+
+---
+
 ## [v0.010] - 2026-08-09 *(Branch originária: `strategies_and_goals` ➔ `develop`)*
+
 
 
 ### Added

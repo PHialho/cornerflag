@@ -48,6 +48,18 @@ export interface Bet {
   created_at: string;
 }
 
+export type MovementType = 'DEPOSIT' | 'WITHDRAWAL' | 'BONUS' | 'ADJUSTMENT';
+
+export interface BankrollMovement {
+  id: string;
+  bankroll_id: string;
+  type: MovementType;
+  amount: number;
+  payment_method?: string;
+  notes?: string;
+  created_at: string;
+}
+
 export type GoalType = 'RECOVERY' | 'CHALLENGE' | 'PROFIT_TARGET';
 export type GoalStatus = 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
 
@@ -65,4 +77,5 @@ export interface BettingGoal {
   strategy_name?: string;
   created_at: string;
 }
+
 

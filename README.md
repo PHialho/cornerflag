@@ -3,7 +3,8 @@
 Plataforma profissional de apoio a apostadores desportivos focada em **Gestão de Banca**, **Controlo de Risco** e **Precificação de Valor Esperado (+EV)**.
 
 [![Continuous Integration](https://github.com/PHialho/cornerflag/actions/workflows/ci.yml/badge.svg)](https://github.com/PHialho/cornerflag/actions/workflows/ci.yml)
-![Versão](https://img.shields.io/badge/vers%C3%A3o-v0.010-emerald)
+![Versão](https://img.shields.io/badge/vers%C3%A3o-v0.011-emerald)
+
 
 ![License](https://img.shields.io/badge/licen%C3%A7a-MIT-blue)
 
@@ -11,27 +12,16 @@ Plataforma profissional de apoio a apostadores desportivos focada em **Gestão d
 
 ## 🌟 Funcionalidades Principais
 
-- **Estética *Trading Dark Mode***: Interface inspirada em software quantitativo e financeiro de alto desempenho.
-- **Gestão de Estratégias, Sugestões & Objetivos (`StrategiesView.tsx`)**:
-  - Acompanhamento de rendimento por estratégia (Win Rate, ROI, Yield, Odd Média).
-  - **Sugestões Automatizadas**: Diagnósticos inteligentes baseados no histórico real (+EV e Alertas de Drawdown).
-  - **Recuperação de Investimento**: Gestão de metas de recuperação de capital com estimativas de apostas necessárias.
-  - **Desafios / Challenges**: Desafios predefinidos (ex: *100€ ➔ 1000€*, *50 Apostas Flat Stake*) e desafios personalizados com acompanhamento visual de progresso.
-- **Suite Completa de 10 Calculadoras de Apostas (`CalculatorView.tsx`)**:
+- **Gestão de Apostas & Registo (`BetsView.tsx`)**: Registo e acompanhamento de apostas simples e múltiplas com liquidação rigorosa de resultados e cálculo automático de CLV.
+- **Gestão de Bancas & Risco (`BankrollsView.tsx`)**: Gestão de múltiplas bancas com dimensionamento automático de unidades e recomendações do Critério de Kelly Fracionado.
+- **Movimentos & Cashflow de Bancas (`MovementsView.tsx`)**: Registo e controlo financeiro de depósitos, levantamentos, bónus e reconciliação de saldos em tempo real.
+- **Gestão de Estratégias & Objetivos (`StrategiesView.tsx`)**: Análise de desempenho por estratégia com sugestões automatizadas +EV, metas de recuperação de capital e desafios de banca.
+- **Relatórios & Analíticas Avançadas (`ReportsView.tsx`)**: Análise estatística multidimensional com métricas de Profit Factor, Max Drawdown, ROI, Yield e agrupamentos por desporto, mercado e faixas de odds.
+- **Suite de 10 Calculadoras de Apostas (`CalculatorView.tsx`)**: Conjunto de ferramentas quantitativas para precificação +EV, arbitragem sem risco, Kelly, Dutching, Hedging, Handicaps Asiáticos e Modelo de Poisson.
+- **Configurações, Temas & Internacionalização (`SettingsView.tsx`)**: Personalização da plataforma com suporte multi-idioma (Português/Inglês), formatos numéricos regionais e temas visuais.
+- **Estética *Trading Dark Mode***: Interface inspirada em software quantitativo e financeiro de alto desempenho otimizada para sessões prolongadas de análise.
 
-  - Ferramentas quantitativas: **Precificação +EV**, **Critério de Kelly & Stake Sizing**, **Conversor de Odds**, **Surebet / Arbitragem (2 e 3 Saídas)**, **Dutching**, **Hedging / Cash Out**, **Matched Betting (Bónus SNR/SR)**, **Handicap Asiático**, **Múltiplas / Parlay** e **Modelo Poisson (xG)**.
-- **Relatórios & Analíticas Avançadas (`ReportsView.tsx`)**:
-  - Analíticas inspiradas no **StakeToys** e **BetDiary** com métricas de **Profit Factor**, **Max Drawdown (€/%)**, **Win Rate %**, **ROI / Yield %** e **Odds/Stakes Médias**.
-  - Agrupamentos por **Desporto**, **Estratégia/Mercado**, **Faixas de Odds** (`< 1.50`, `1.50-1.80`, `1.81-2.20`, `2.21-3.00`, `> 3.00`), **Dia da Semana** e **Mensal**.
-  - Comparativo de rentabilidade entre apostas **Simples vs. Múltiplas**.
-- **Gestão de Bancas & Risco (`BankrollsView.tsx`)**:
-  - Suporte a múltiplas bancas, calibragem de saldo e dimensionamento automático de unidades (0.25u, 0.50u, 1.00u, 2.00u) pelo Critério de Kelly Fracionado.
-- **Motor Financeiro de Precisão**:
-  - Liquidação rigorosa de apostas (*Win*, *Half Win*, *Void / Push*, *Half Loss*, *Loss*, *Cashout*).
-  - Cálculo automático de **ROI (%)**, **Yield (%)** e **CLV (Closing Line Value %)**.
-  - Calculadora em tempo real de **Valor Esperado (+EV %)** e **Critério de Kelly Fracionado (1/4 Kelly)**.
-- **Persistência de Dados**: Sincronização cloud com **Supabase** (PostgreSQL) com Row Level Security (RLS) e migrações DDL.
-- **Gráficos Analytics Interativos**: Curva de crescimento de banca e variação de património com **Recharts**.
+
 
 ---
 
