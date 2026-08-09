@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
 import { useAuthStore } from '../../store/useAuthStore';
+import { useSettingsStore } from '../../store/useSettingsStore';
+import { getTranslation } from '../../lib/i18n';
 
 export type NavTab = 'dashboard' | 'bets' | 'bankrolls' | 'reports' | 'calculator' | 'settings';
 
@@ -32,14 +34,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const { bankrolls, activeBankrollId, setActiveBankroll } = useCornerFlagStore();
   const { user, signOut } = useAuthStore();
+  const { language } = useSettingsStore();
+  const t = getTranslation(language);
 
   const navItems: { id: NavTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'bets', label: 'Apostas', icon: Receipt },
-    { id: 'bankrolls', label: 'Bancas', icon: Wallet },
-    { id: 'reports', label: 'Relatórios', icon: BarChart3 },
-    { id: 'calculator', label: 'Calculadora +EV', icon: Calculator },
-    { id: 'settings', label: 'Configurações', icon: Settings },
+    { id: 'dashboard', label: t.dashboard, icon: LayoutDashboard },
+    { id: 'bets', label: t.bets, icon: Receipt },
+    { id: 'bankrolls', label: t.bankrolls, icon: Wallet },
+    { id: 'reports', label: t.reports, icon: BarChart3 },
+    { id: 'calculator', label: t.calculator, icon: Calculator },
+    { id: 'settings', label: t.settings, icon: Settings },
   ];
 
   return (
@@ -87,7 +91,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Bankroll Switcher */}
           <div className="p-4 mx-3 my-4 bg-[#0B0E14] border border-[#1E2638] rounded-xl">
             <label className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">
-              Banca Ativa
+              {t.activeBankroll}
             </label>
             <div className="relative">
               <select
@@ -108,7 +112,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* Navigation Items */}
           <nav className="px-3 space-y-1">
             <p className="px-3 text-[10px] font-semibold text-gray-500 uppercase tracking-wider mb-2">
-              Navegação
+              {t.navigation}
             </p>
             {navItems.map((item) => {
               const Icon = item.icon;
@@ -154,7 +158,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             <button
               onClick={() => signOut()}
-              title="Terminar Sessão"
+              title={t.signOut}
               className="p-2 text-gray-400 hover:text-rose-400 hover:bg-[#1E2638] rounded-lg transition-colors shrink-0"
             >
               <LogOut className="w-4 h-4" />

@@ -13,6 +13,19 @@
     --text-secondary: #9ca3af;
   }
 
+  /* Light Theme Variables Overrides */
+  [data-theme='light'] {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f1f5f9;
+    --border-card: #e2e8f0;
+    --color-accent: #059669;
+    --color-danger: #dc2626;
+    --color-warning: #d97706;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+  }
+
   body {
     background-color: var(--bg-main);
     color: var(--text-primary);
@@ -20,19 +33,20 @@
     margin: 0;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
-/* Custom scrollbar for Trading Dark Mode */
+/* Custom scrollbar for Trading Mode */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0e14;
+  background: var(--bg-main);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e2638;
+  background: var(--border-card);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
