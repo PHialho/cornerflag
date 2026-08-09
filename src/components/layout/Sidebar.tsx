@@ -15,7 +15,9 @@ import {
 import { useCornerFlagStore } from '../../store/useCornerFlagStore';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useSettingsStore } from '../../store/useSettingsStore';
+import type { Currency } from '../../store/useSettingsStore';
 import { getTranslation } from '../../lib/i18n';
+import { formatCurrency } from '../../lib/formatters';
 
 export type NavTab = 'dashboard' | 'bets' | 'bankrolls' | 'reports' | 'calculator' | 'settings';
 
@@ -34,7 +36,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const { bankrolls, activeBankrollId, setActiveBankroll } = useCornerFlagStore();
   const { user, signOut } = useAuthStore();
-  const { language } = useSettingsStore();
+  const { language, currency, numberFormat } = useSettingsStore();
   const t = getTranslation(language);
 
   const navItems: { id: NavTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
@@ -101,7 +103,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
               >
                 {bankrolls.map((b) => (
                   <option key={b.id} value={b.id}>
-                    {b.name} (€ {b.current_balance.toFixed(2)})
+                    {b.name} (
+                    {formatCurrency(
+                      b.current_balance,
+                      (b.currency as Currency) || currency,
+                      {
+                        decimalSeparator: numberFormat.decimalSeparator,
+                        thousandsSeparator: numberFormat.thousandsSeparator,
+                      }
+                    )}
+                    )
                   </option>
                 ))}
               </select>
