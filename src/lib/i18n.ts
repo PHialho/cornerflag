@@ -14,7 +14,7 @@ export const translations = {
     navigation: 'Navegação',
 
     // Settings General
-    settingsTitle: 'Definições do Sistema',
+    settingsTitle: 'Configurações',
     settingsSubtitle: 'Personalize o idioma, separadores regionais de vírgula e ponto, temas visuais e preferências de gestão.',
     tabGeneral: 'Geral & Idioma',
     tabAppearance: 'Aparência & Tema',

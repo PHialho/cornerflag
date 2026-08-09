@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Globe,
   Palette,
+  Settings,
   SlidersHorizontal,
   UserCheck,
   Check,
@@ -92,7 +93,7 @@ export const SettingsView: React.FC = () => {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-black text-white tracking-tight uppercase flex items-center gap-2.5">
-            <SlidersHorizontal className="w-6 h-6 text-emerald-400" /> {t.settingsTitle}
+            <Settings className="w-6 h-6 text-emerald-400" /> {t.settingsTitle}
           </h2>
           <p className="text-xs text-gray-400 mt-1">{t.settingsSubtitle}</p>
         </div>
